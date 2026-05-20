@@ -1592,8 +1592,461 @@
   .nav-tab.active { color: var(--text); background: rgba(140,110,75,0.14); }
 
   /* ===================== NEWS VIEW ===================== */
-  #player-view { display: block; }
-  #news-view   { display: none; padding-top: 48px; min-height: 100vh; position: relative; z-index: 5; }
+  #player-view { display: none; }
+  #news-view { display: none; padding-top: 48px; min-height: 100vh; position: relative; z-index: 5; }
+  #kazakh-view { display: block; padding-top: 48px; min-height: 100vh; position: relative; z-index: 5; }
+
+  .welcome-hero {
+    min-height: calc(100vh - 48px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 28px;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    padding: 58px 28px 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 76% 58% at 50% 54%, rgba(122,92,56,0.1) 0%, transparent 68%);
+    pointer-events: none;
+  }
+  .welcome-kicker {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2.8px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .welcome-title {
+    max-width: 980px;
+    font-size: clamp(46px, 9vw, 112px);
+    line-height: 0.94;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: var(--text);
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease 0.15s, transform 1s ease 0.15s;
+  }
+  .welcome-quote-box {
+    max-width: 980px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
+  }
+  .welcome-quote {
+    border-left: 2px solid rgba(122, 92, 56, 0.5);
+    padding: 14px 18px;
+    background: rgba(250, 243, 232, 0.56);
+    color: var(--text-dim);
+    font-size: clamp(16px, 2vw, 24px);
+    line-height: 1.55;
+  }
+  .welcome-cta {
+    width: fit-content;
+    border: 1px solid rgba(26, 15, 5, 0.28);
+    border-radius: 6px;
+    background: var(--text);
+    color: var(--bg);
+    padding: 13px 22px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease 0.45s, transform 0.9s ease 0.45s, background 0.18s ease;
+  }
+  .welcome-cta:hover {
+    transform: translateY(-1px);
+    background: var(--accent-2);
+  }
+  .welcome-hero.revealed .welcome-kicker,
+  .welcome-hero.revealed .welcome-title,
+  .welcome-hero.revealed .welcome-quote-box,
+  .welcome-hero.revealed .welcome-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .welcome-hero.revealed .welcome-cta {
+    transition: transform 0.18s ease, background 0.18s ease;
+  }
+  .world-journey {
+    display: none;
+    width: 100%;
+    min-height: calc(100vh - 48px);
+    padding: 30px 28px 84px;
+    opacity: 0;
+    transform: translateY(34px) scale(0.985);
+  }
+  .world-journey.visible {
+    display: block;
+    animation: journeyReveal 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes journeyReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+  .journey-head {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    margin-bottom: 22px;
+    text-align: center;
+  }
+  .journey-kicker {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+  .journey-title {
+    font-size: clamp(28px, 5vw, 56px);
+    line-height: 1;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+  .journey-sub {
+    max-width: 760px;
+    margin: 12px auto 0;
+    color: var(--text-faint);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .journey-grid {
+    width: min(1480px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1.32fr) minmax(340px, 0.68fr);
+    gap: 18px;
+    align-items: stretch;
+  }
+  .world-map {
+    position: relative;
+    min-height: calc(100vh - 230px);
+    overflow: hidden;
+    border: 1px solid rgba(88, 61, 31, 0.28);
+    border-radius: 8px;
+    background:
+      linear-gradient(180deg, rgba(250,243,232,0.9), rgba(245,237,222,0.96)),
+      #f7efe3;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,0.62), 0 18px 44px rgba(61, 38, 16, 0.12);
+  }
+  .world-map-img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(98%, 1260px);
+    height: auto;
+    transform: translate(-50%, -50%);
+    filter: sepia(0.52) saturate(0.82) contrast(1.12) brightness(0.94);
+    opacity: 0.88;
+  }
+  .map-particle {
+    position: absolute;
+    z-index: 1;
+    color: rgba(122, 92, 56, 0.22);
+    font-size: 26px;
+    pointer-events: none;
+    animation: floatNote 7s ease-in-out infinite;
+  }
+  .map-particle:nth-of-type(1) { left: 9%; top: 16%; animation-delay: 0s; }
+  .map-particle:nth-of-type(2) { right: 12%; top: 18%; animation-delay: 1.8s; }
+  .map-particle:nth-of-type(3) { left: 47%; bottom: 14%; animation-delay: 3.2s; }
+  @keyframes floatNote {
+    0%, 100% { transform: translateY(0) rotate(-4deg); opacity: 0.2; }
+    50% { transform: translateY(-16px) rotate(5deg); opacity: 0.42; }
+  }
+  .map-marker {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(26, 15, 5, 0.24);
+    border-radius: 999px;
+    background: #fff8eb;
+    color: var(--text);
+    padding: 8px 11px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: 0 10px 24px rgba(61, 38, 16, 0.18);
+    transition: transform 0.18s ease, background 0.18s ease;
+    animation: markerPulse 2.8s ease-in-out infinite;
+  }
+  .map-marker::before {
+    content: '';
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: var(--danger);
+    box-shadow: 0 0 0 5px rgba(139, 58, 26, 0.14);
+    vertical-align: 1px;
+  }
+  .map-marker:hover,
+  .map-marker.active {
+    transform: translate(-50%, -50%) translateY(-2px);
+    background: var(--text);
+    color: var(--bg);
+  }
+  .map-marker.main-focus {
+    border-color: rgba(139, 58, 26, 0.56);
+    box-shadow: 0 12px 28px rgba(139, 58, 26, 0.22), 0 0 0 8px rgba(139, 58, 26, 0.08);
+  }
+  @keyframes markerPulse {
+    0%, 100% { box-shadow: 0 10px 24px rgba(61, 38, 16, 0.18), 0 0 0 0 rgba(139, 58, 26, 0.18); }
+    50% { box-shadow: 0 12px 28px rgba(61, 38, 16, 0.22), 0 0 0 9px rgba(139, 58, 26, 0); }
+  }
+  .map-tooltip {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    top: 50%;
+    min-width: 180px;
+    max-width: 230px;
+    border: 1px solid rgba(140,110,75,0.22);
+    border-radius: 8px;
+    background: rgba(255, 250, 240, 0.94);
+    padding: 11px 12px;
+    box-shadow: 0 14px 32px rgba(61, 38, 16, 0.16);
+    opacity: 0;
+    transform: translate(-50%, -116%) scale(0.96);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+  .map-tooltip.visible {
+    opacity: 1;
+    transform: translate(-50%, -124%) scale(1);
+  }
+  .map-tooltip-title {
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--text);
+  }
+  .map-tooltip-text {
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.45;
+    color: var(--text-faint);
+  }
+  .country-panel {
+    border: 1px solid rgba(140,110,75,0.18);
+    border-radius: 8px;
+    background: rgba(250, 243, 232, 0.72);
+    width: 100%;
+    margin: 0;
+    padding: clamp(20px, 3vw, 34px);
+    min-height: calc(100vh - 230px);
+    opacity: 0;
+    transform: translateY(26px);
+    box-shadow: 0 16px 38px rgba(61, 38, 16, 0.1);
+  }
+  .country-panel.visible {
+    animation: countryPanelReveal 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes countryPanelReveal {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .country-name {
+    font-size: clamp(32px, 4vw, 58px);
+    line-height: 1;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .country-summary {
+    margin-top: 12px;
+    color: var(--text-dim);
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.65;
+    max-width: 920px;
+  }
+  .country-region {
+    display: inline-flex;
+    margin-top: 12px;
+    border: 1px solid rgba(140,110,75,0.24);
+    border-radius: 999px;
+    padding: 7px 10px;
+    color: var(--text-dim);
+    font-size: 11px;
+    font-weight: 700;
+    background: rgba(255, 250, 240, 0.58);
+  }
+  .country-block {
+    margin-top: 24px;
+  }
+  .country-block h3 {
+    margin-bottom: 8px;
+    font-size: 10px;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+  .tag-list span {
+    border: 1px solid rgba(140,110,75,0.2);
+    border-radius: 999px;
+    padding: 6px 9px;
+    background: rgba(245,237,222,0.72);
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .country-text-list {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--text-dim);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .listen-btn,
+  .atmosphere-play {
+    border: 1px solid rgba(26, 15, 5, 0.24);
+    border-radius: 6px;
+    background: var(--text);
+    color: var(--bg);
+    padding: 10px 14px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease;
+  }
+  .listen-btn {
+    margin-top: 22px;
+  }
+  .listen-btn:hover,
+  .atmosphere-play:hover {
+    transform: translateY(-1px);
+    background: var(--accent-2);
+  }
+  .journey-explain,
+  .atmosphere-section {
+    width: min(1180px, 100%);
+    margin: 34px auto 0;
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .world-journey.visible .atmosphere-section {
+    animation: countryPanelReveal 0.72s cubic-bezier(0.2, 0.8, 0.2, 1) 0.34s forwards;
+  }
+  .journey-explain {
+    border-left: 2px solid rgba(122, 92, 56, 0.48);
+    padding: 16px 20px;
+    background: rgba(250, 243, 232, 0.62);
+    color: var(--text-dim);
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.7;
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  .world-journey.visible .journey-explain {
+    animation: countryPanelReveal 0.72s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+  }
+  .atmosphere-head {
+    margin-bottom: 16px;
+  }
+  .atmosphere-kicker {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+  }
+  .atmosphere-title {
+    font-size: clamp(28px, 4vw, 48px);
+    line-height: 1;
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+  .atmosphere-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .atmosphere-card {
+    overflow: hidden;
+    border: 1px solid rgba(140,110,75,0.18);
+    border-radius: 8px;
+    background: rgba(250, 243, 232, 0.74);
+    box-shadow: 0 12px 30px rgba(61, 38, 16, 0.09);
+    transition: transform 0.24s ease, box-shadow 0.24s ease;
+  }
+  .atmosphere-card:hover {
+    transform: translateY(-5px) scale(1.012);
+    box-shadow: 0 18px 42px rgba(61, 38, 16, 0.14);
+  }
+  .atmosphere-image {
+    height: 112px;
+    border-bottom: 1px solid rgba(140,110,75,0.16);
+    background:
+      linear-gradient(135deg, var(--tone-a), var(--tone-b)),
+      url('assets/bg-ornament.png');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .atmosphere-image::after {
+    content: '♪';
+    position: absolute;
+    right: 14px;
+    bottom: 8px;
+    color: rgba(255, 250, 240, 0.72);
+    font-size: 38px;
+  }
+  .atmosphere-body {
+    padding: 14px;
+  }
+  .atmosphere-card h3 {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .atmosphere-card p {
+    min-height: 58px;
+    color: var(--text-faint);
+    font-size: 12px;
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+  @media (max-width: 760px) {
+    .welcome-hero { padding: 38px 18px 56px; }
+    .world-journey { padding: 22px 12px 56px; }
+    .journey-grid { grid-template-columns: 1fr; }
+    .world-map { min-height: 62vh; }
+    .world-map-img { width: 138%; }
+    .map-marker { padding: 7px 9px; font-size: 9px; }
+    .country-panel { width: 100%; min-height: auto; }
+    .atmosphere-grid { grid-template-columns: 1fr; }
+  }
 
   .news-wrap {
     max-width: 1140px;
@@ -2442,8 +2895,9 @@
     MOODWAVE
   </div>
   <div class="nav-links">
-    <button class="nav-tab" data-view="home">Басты бет</button>
-    <button class="nav-tab active" data-view="player">Ойнатқыш</button>
+    <button class="nav-tab active" data-view="kazakh">Басты бет</button>
+    <button class="nav-tab" data-view="home">Қазақ музыкасы</button>
+    <button class="nav-tab" data-view="player">Ойнатқыш</button>
     <button class="nav-tab" data-view="news">Жаңалықтар</button>
     <button class="nav-tab" data-view="create">Жасау</button>
   </div>
@@ -2675,6 +3129,95 @@
   </div>
 </div>
 
+<!-- ===================== KAZAKH MUSIC VIEW ===================== -->
+<div id="kazakh-view">
+  <section class="welcome-hero" id="welcomeHero">
+    <div class="welcome-kicker">MOODWAVE · Музыка әлемі</div>
+    <h1 class="welcome-title">Музыка әлеміне қош келдіңіз!</h1>
+    <div class="welcome-quote-box" aria-label="Музыка туралы дәйексөз">
+      <div class="welcome-quote" id="welcomeQuote">Музыка - жүректің тілі, жанның үні.</div>
+    </div>
+    <button class="welcome-cta" id="startJourneyBtn" type="button">Саяхатты бастау</button>
+  </section>
+  <section class="world-journey" id="worldJourney" aria-label="Әлемдік музыка картасы">
+    <div class="journey-head">
+      <div class="journey-kicker">Музыка индустриясы · Әлем картасы</div>
+      <h2 class="journey-title">Әлем елдерінің музыкасы</h2>
+      <p class="journey-sub">Картадағы елді таңдаңыз: ұлттық аспаптар, музыканың даму тарихы, негізгі жанрлар және танымал орындаушылар туралы қысқаша ақпарат ашылады.</p>
+    </div>
+    <div class="journey-grid">
+      <div class="world-map">
+        <img class="world-map-img" src="assets/world-map.svg" alt="Әлем картасы">
+        <span class="map-particle">♪</span>
+        <span class="map-particle">♬</span>
+        <span class="map-particle">♩</span>
+        <button class="map-marker main-focus" type="button" data-country="kazakhstan" style="left:62.4%; top:38.2%;">Қазақстан</button>
+        <button class="map-marker" type="button" data-country="usa" style="left:23.8%; top:34.5%;">АҚШ</button>
+        <button class="map-marker" type="button" data-country="turkey" style="left:54.3%; top:40.4%;">Түркия</button>
+        <button class="map-marker" type="button" data-country="korea" style="left:79.5%; top:39.4%;">Корея</button>
+        <button class="map-marker" type="button" data-country="japan" style="left:84.2%; top:39.2%;">Жапония</button>
+        <button class="map-marker" type="button" data-country="france" style="left:49.2%; top:34.8%;">Франция</button>
+        <div class="map-tooltip" id="mapTooltip" aria-hidden="true">
+          <div class="map-tooltip-title" id="mapTooltipTitle"></div>
+          <div class="map-tooltip-text" id="mapTooltipText"></div>
+        </div>
+      </div>
+      <article class="country-panel visible" id="countryPanel" aria-live="polite"></article>
+    </div>
+    <div class="journey-explain">
+      Бұл бет әлем елдерінің музыкасын, ұлттық аспаптарын, жанрларын және мәдениетін зерттеуге арналған.
+    </div>
+    <section class="atmosphere-section" aria-label="Музыкалық атмосфера">
+      <div class="atmosphere-head">
+        <div class="atmosphere-kicker">Көңіл күй карталары</div>
+        <h2 class="atmosphere-title">Музыкалық атмосфера</h2>
+      </div>
+      <div class="atmosphere-grid">
+        <article class="atmosphere-card" style="--tone-a: rgba(116, 82, 43, 0.78); --tone-b: rgba(232, 203, 151, 0.62);">
+          <div class="atmosphere-image"></div>
+          <div class="atmosphere-body">
+            <h3>Алматы түні</h3>
+            <p>Жылы шамдар, тау самалы және баяу қалалық ырғақ.</p>
+            <button class="atmosphere-play" type="button">Ойнату</button>
+          </div>
+        </article>
+        <article class="atmosphere-card" style="--tone-a: rgba(102, 121, 130, 0.68); --tone-b: rgba(227, 215, 192, 0.78);">
+          <div class="atmosphere-image"></div>
+          <div class="atmosphere-body">
+            <h3>Токио жаңбыры</h3>
+            <p>Жаңбыр дыбысы, неон шағылысы және нәзік электрон әуен.</p>
+            <button class="atmosphere-play" type="button">Ойнату</button>
+          </div>
+        </article>
+        <article class="atmosphere-card" style="--tone-a: rgba(142, 78, 42, 0.7); --tone-b: rgba(238, 206, 158, 0.72);">
+          <div class="atmosphere-image"></div>
+          <div class="atmosphere-body">
+            <h3>Түрік кеші</h3>
+            <p>Саз үні, теңіз жағасы және шығысқа жақын жылы ырғақ.</p>
+            <button class="atmosphere-play" type="button">Ойнату</button>
+          </div>
+        </article>
+        <article class="atmosphere-card" style="--tone-a: rgba(128, 95, 133, 0.58); --tone-b: rgba(236, 216, 190, 0.76);">
+          <div class="atmosphere-image"></div>
+          <div class="atmosphere-body">
+            <h3>Сеул неоны</h3>
+            <p>Заманауи поп, би энергиясы және түнгі қала жарығы.</p>
+            <button class="atmosphere-play" type="button">Ойнату</button>
+          </div>
+        </article>
+        <article class="atmosphere-card" style="--tone-a: rgba(92, 82, 66, 0.74); --tone-b: rgba(238, 221, 184, 0.78);">
+          <div class="atmosphere-image"></div>
+          <div class="atmosphere-body">
+            <h3>Париж джазы</h3>
+            <p>Көше кафесі, саксофон үні және жұмсақ кешкі импровизация.</p>
+            <button class="atmosphere-play" type="button">Ойнату</button>
+          </div>
+        </article>
+      </div>
+    </section>
+  </section>
+</div>
+
 <div id="player-view">
 <div class="app">
 
@@ -2700,13 +3243,13 @@
         </div>
         <div class="track-artist" id="trackArtist">AI-дан кейіпіңізге музыка ұсынуды сұраңыз</div>
         <div class="controls">
-          <button class="ctrl-btn" id="prevBtn" title="Previous" disabled>
+          <button class="ctrl-btn" id="prevBtn" title="Алдыңғы трек" disabled>
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
           </button>
-          <button class="ctrl-btn play" id="playBtn" title="Play" disabled>
+          <button class="ctrl-btn play" id="playBtn" title="Ойнату" disabled>
             <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           </button>
-          <button class="ctrl-btn" id="nextBtn" title="Next" disabled>
+          <button class="ctrl-btn" id="nextBtn" title="Келесі трек" disabled>
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zm-9.5 6l8.5 6V6z"/></svg>
           </button>
           <button class="save-btn" id="saveBtn" disabled>
@@ -2755,10 +3298,10 @@
       <div class="msg ai">
         Сәлем. Мен сіздің DJ-іңізбін. Маған кейіп сипаттаңыз — "кешкі жол", "жаңбырлы жексенбі", "күнді ас үй" — мен сізге бес трек таңдаймын.
         <div class="chips">
-          <button class="chip" data-prompt="late night drive on an empty highway">кешкі жол</button>
-          <button class="chip" data-prompt="sad and rainy afternoon">мұңды жаңбыр</button>
-          <button class="chip" data-prompt="focused deep work">терең шоғырлану</button>
-          <button class="chip" data-prompt="golden hour walk in the city">алтын сағат</button>
+          <button class="chip" data-prompt="бос тасжолдағы кешкі сапарға арналған музыка">кешкі жол</button>
+          <button class="chip" data-prompt="мұңды жаңбырлы түске арналған музыка">мұңды жаңбыр</button>
+          <button class="chip" data-prompt="терең шоғырлануға арналған музыка">терең шоғырлану</button>
+          <button class="chip" data-prompt="қаладағы алтын сағат серуеніне арналған музыка">алтын сағат</button>
         </div>
       </div>
     </div>
@@ -3195,16 +3738,16 @@
 
 <script>
   // ============== STATE ==============
-  const SYSTEM_PROMPT = `You are MOODWAVE, an AI music DJ. When a user describes a mood or vibe, reply in 1-2 warm sentences, then immediately output exactly 5 track recommendations as a plain JSON array — no markdown, no code fences, no backticks, nothing after the array.
+  const SYSTEM_PROMPT = `Сен MOODWAVE атты AI DJ-сің. Пайдаланушы көңіл күйін немесе атмосфераны сипаттаса, қазақ тілінде 1-2 жылы сөйлеммен жауап бер, содан кейін бірден дәл 5 трек ұсынысын plain JSON array түрінде шығар. Markdown, code fence, backtick қолданба және JSON-нан кейін ештеңе жазба.
 
-Format (output this literally, no wrapping):
-[{"title":"Song Name","artist":"Artist Name"},{"title":"...","artist":"..."}]
+Формат:
+[{"title":"Ән атауы","artist":"Орындаушы"},{"title":"...","artist":"..."}]
 
-Rules:
-- Prefer well-known, mainstream tracks people actually know
-- Match the mood precisely
-- No niche underground tracks — stick to recognisable artists
-- Output the JSON array directly after your sentence, nothing else`;
+Ережелер:
+- Адамдар танитын кең таралған тректерді таңда
+- Көңіл күйге дәл келтір
+- Тым белгісіз underground тректерді таңдама
+- JSON массивті сөйлемнен кейін бірден шығар`;
 
   const LS_KEY_API   = 'moodwave.apiKey';
   const LS_KEY_SAVED = 'moodwave.saved';
@@ -3615,7 +4158,7 @@ Rules:
   }
 
   function updateNowPlayingUI(track) {
-    trackTitle.textContent  = track.title  || 'Unknown';
+    trackTitle.textContent  = track.title  || 'Белгісіз';
     trackArtist.textContent = track.artist || '';
     if (track.spotifyImage) {
       thumb.style.backgroundImage = `url(${track.spotifyImage})`;
@@ -3777,7 +4320,7 @@ Rules:
   function renderQueue() {
     queueCount.textContent = queue.length;
     if (!queue.length) {
-      queueList.innerHTML = '<div class="empty">Your AI-curated queue will appear here.<br>Describe a vibe in chat →</div>';
+      queueList.innerHTML = '<div class="empty">AI таңдаған кезек осында пайда болады.<br>Чатта көңіл күйіңізді сипаттаңыз →</div>';
       return;
     }
     queueList.innerHTML = '';
@@ -3814,7 +4357,7 @@ Rules:
           <div class="track-row-title"></div>
           <div class="track-row-artist"></div>
         </div>
-        <button class="track-row-action" title="Remove">
+        <button class="track-row-action" title="Жою">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
         </button>
       `;
@@ -3904,7 +4447,7 @@ Rules:
   async function sendChat(userText) {
     const apiKey = localStorage.getItem(LS_KEY_API);
     if (!apiKey) {
-      appendSystem('Add your OpenAI API key in Settings to chat.');
+      appendSystem('Чатпен жұмыс істеу үшін баптауларға OpenAI API кілтін енгізіңіз.');
       settingsPop.classList.add('open');
       apiKeyInput.focus();
       return;
@@ -3939,7 +4482,7 @@ Rules:
 
       if (!res.ok) {
         const errText = await res.text();
-        let errMsg = 'API error';
+        let errMsg = 'API қатесі';
         try { errMsg = JSON.parse(errText)?.error?.message || errMsg; } catch {}
         appendSystem(`OpenAI: ${errMsg}`);
         sendBtn.disabled = false;
@@ -3950,7 +4493,7 @@ Rules:
       const reply = data.choices?.[0]?.message?.content || '';
 
       const tracks = extractTracks(reply);
-      const cleanText = stripJson(reply) || (tracks ? 'Here you go.' : reply);
+      const cleanText = stripJson(reply) || (tracks ? 'Міне, сізге лайық тректер.' : reply);
 
       appendMessage('ai', cleanText);
       chatHistory.push({ role: 'assistant', content: reply });
@@ -3961,7 +4504,7 @@ Rules:
       }
     } catch (err) {
       typingEl.remove();
-      appendSystem('Network error: ' + (err?.message || 'unknown'));
+      appendSystem('Желі қатесі: ' + (err?.message || 'белгісіз'));
     } finally {
       sendBtn.disabled = false;
       chatInput.focus();
@@ -4028,10 +4571,10 @@ Rules:
   function refreshApiStatus() {
     const v = (localStorage.getItem(LS_KEY_API) || '').trim();
     if (!v) {
-      apiStatus.textContent = 'No key set.';
+      apiStatus.textContent = 'Кілт енгізілмеген.';
       apiStatus.className = 'status warn';
     } else {
-      apiStatus.textContent = '✓ Key saved locally.';
+      apiStatus.textContent = '✓ Кілт браузерде сақталды.';
       apiStatus.className = 'status ok';
     }
   }
@@ -4045,7 +4588,7 @@ Rules:
   function setChatCollapsed(collapsed) {
     appEl.classList.toggle('chat-collapsed', collapsed);
     chatReopen.classList.toggle('show', collapsed);
-    chatToggle.title = collapsed ? 'Open chat' : 'Collapse chat';
+    chatToggle.title = collapsed ? 'Чатты ашу' : 'Чатты жасыру';
     localStorage.setItem(LS_KEY_COLLAPSE, collapsed ? '1' : '0');
   }
 
@@ -4159,7 +4702,7 @@ Rules:
 
   // If no key on first load, hint via chat
   if (!localStorage.getItem(LS_KEY_API)) {
-    appendSystem('Add your OpenAI API key in Settings to start chatting.');
+    appendSystem('Чатты бастау үшін баптауларға OpenAI API кілтін енгізіңіз.');
   }
 </script>
 
@@ -4176,7 +4719,172 @@ Rules:
   const newsView   = document.getElementById('news-view');
   const createView = document.getElementById('create-view');
   const homeView   = document.getElementById('home-view');
+  const kazakhView = document.getElementById('kazakh-view');
+  const welcomeHero = document.getElementById('welcomeHero');
+  const welcomeQuote = document.getElementById('welcomeQuote');
+  const startJourneyBtn = document.getElementById('startJourneyBtn');
+  const worldJourney = document.getElementById('worldJourney');
+  const countryPanel = document.getElementById('countryPanel');
+  const countryMarkers = document.querySelectorAll('.map-marker');
+  const mapTooltip = document.getElementById('mapTooltip');
+  const mapTooltipTitle = document.getElementById('mapTooltipTitle');
+  const mapTooltipText = document.getElementById('mapTooltipText');
   const navTabs    = document.querySelectorAll('.nav-tab');
+  const welcomeQuotes = [
+    'Музыка - жүректің тілі, жанның үні.',
+    'Ән адамды жақындастырады, күй ойды тереңдетеді.',
+    'Домбыраның үні - даланың тынысы.',
+    'Музыка айтылмаған сезімді жеткізеді.',
+    'Жақсы әуен көңілге жарық береді.',
+    'Күй - халықтың тарихы мен мінезі.',
+    'Әр халықтың жаны оның музыкасында сақталады.',
+    'Музыка бар жерде шабыт та, естелік те бар.'
+  ];
+
+  if (welcomeQuote) {
+    welcomeQuote.textContent = welcomeQuotes[Math.floor(Math.random() * welcomeQuotes.length)];
+  }
+  requestAnimationFrame(() => {
+    welcomeHero?.classList.add('revealed');
+  });
+
+  const countryMusicData = {
+    kazakhstan: {
+      name: 'Қазақстан',
+      region: 'Орталық Азия',
+      summary: 'Қазақ музыкасы ауызша дәстүрден, жыраулар поэзиясынан, домбыра күйлерінен және қазіргі q-pop, поп, электрон музыкадан тұрады. Оның басты ерекшелігі - әуен арқылы тарихты, мінезді және дала кеңістігін жеткізу.',
+      instruments: ['Домбыра', 'Қобыз', 'Жетіген', 'Сыбызғы', 'Дауылпаз'],
+      history: [
+        'Ежелгі кезеңде жыраулар батырлар жырын, аңыздарды және толғауларды орындады.',
+        'XIX ғасырда Құрманғазы, Дәулеткерей, Тәттімбет сияқты күйшілер аспаптық музыканы биік деңгейге көтерді.',
+        'Тәуелсіздік кезеңінен кейін эстрада, q-pop және электрон музыка ұлттық әуенмен араласа бастады.'
+      ],
+      genres: ['Күй', 'Жыр', 'Айтыс', 'Халық әні', 'Q-pop', 'Поп', 'Электрон'],
+      artists: ['Құрманғазы', 'Абай', 'Роза Рымбаева', 'Dimash', 'Ninety One', 'Imanbek']
+    },
+    usa: {
+      name: 'АҚШ',
+      region: 'Солтүстік Америка',
+      summary: 'АҚШ музыка индустриясы әлемдегі ең ықпалды бағыттардың бірі. Бұл елде джаз, блюз, рок-н-ролл, хип-хоп, кантри, поп және R&B жаһандық деңгейге шықты.',
+      instruments: ['Гитара', 'Банджо', 'Саксофон', 'Барабан', 'Синтезатор'],
+      history: [
+        'Блюз бен джаз афроамерикалық музыкалық дәстүрден өсіп шығып, әлемдік музыкаға үлкен әсер етті.',
+        'XX ғасырдың ортасында рок-н-ролл мен кантри бұқаралық мәдениеттің маңызды бөлігіне айналды.',
+        'XX ғасырдың соңынан бастап хип-хоп, поп және R&B АҚШ музыка индустриясының басты экспорттық бағыттарына айналды.'
+      ],
+      genres: ['Джаз', 'Блюз', 'Рок', 'Хип-хоп', 'Кантри', 'Поп', 'R&B'],
+      artists: ['Louis Armstrong', 'Elvis Presley', 'Michael Jackson', 'Madonna', 'Beyonce', 'Taylor Swift']
+    },
+    turkey: {
+      name: 'Түркия',
+      region: 'Батыс Азия және Анадолы',
+      summary: 'Түркия музыкасы Осман дәуірінің мұрасын, Анадолы халық әуендерін, арабеск, поп, рок және электрон бағыттарын біріктіреді.',
+      instruments: ['Саз', 'Бағлама', 'Уд', 'Ней', 'Дарбука'],
+      history: [
+        'Осман классикалық музыкасы сарай мәдениетінде дамып, күрделі мақам жүйесіне сүйенді.',
+        'Анадолы халық музыкасы аймақтық ырғақтарды және саз аспабындағы орындау дәстүрін сақтады.',
+        'XX ғасырдың екінші жартысында арабеск, түрік попы, рок және заманауи клубтық музыка кең таралды.'
+      ],
+      genres: ['Түрік халық музыкасы', 'Арабеск', 'Поп', 'Рок', 'Анадолы рок', 'Электрон'],
+      artists: ['Baris Manco', 'Sezen Aksu', 'Tarkan', 'Sertab Erener', 'Mabel Matiz', 'Gulsen']
+    },
+    korea: {
+      name: 'Корея',
+      region: 'Шығыс Азия',
+      summary: 'Корея музыкасы пансори, самульнори сияқты дәстүрлі формаларды және әлемге танылған заманауи K-pop индустриясын біріктіреді.',
+      instruments: ['Гаягым', 'Хэгым', 'Чангу', 'Пук', 'Тэгым'],
+      history: [
+        'Дәстүрлі корей музыкасы сарай, халықтық және театрлық орындау түрлері арқылы дамыды.',
+        'XX ғасырда батыс сахнасынан әсер алған заманауи поп форматтар пайда болды.',
+        '2000-жылдардан бастап K-pop визуалдық мәдениеті, хореографиясы және фан-қоғамдастықтары мықты халықаралық индустрияға айналды.'
+      ],
+      genres: ['K-pop', 'Пансори', 'Самульнори', 'Баллада', 'K-hip-hop', 'K-R&B'],
+      artists: ['BTS', 'BLACKPINK', 'IU', 'EXO', 'NewJeans', 'Stray Kids']
+    },
+    japan: {
+      name: 'Жапония',
+      region: 'Шығыс Азия',
+      summary: 'Жапония музыкасы көне сарайлық гагаку дәстүрінен, халық әндерінен, театрлық музыкадан және J-pop, сити-поп, аниме саундтрек мәдениетінен құралған.',
+      instruments: ['Кото', 'Сямисэн', 'Сякухати', 'Тайко', 'Бива'],
+      history: [
+        'Ежелгі гагаку музыкасы сарай мәдениетінде орындалып, жапон музыкалық эстетикасының негізін қалады.',
+        'Кабуки және но театрлары музыка, дауыс және сахналық қозғалысты бір жүйеге біріктірді.',
+        'XX ғасырдың соңында J-pop, сити-поп және аниме музыкасы Жапонияны әлемдік поп мәдениетпен байланыстырды.'
+      ],
+      genres: ['J-pop', 'Сити-поп', 'Аниме музыкасы', 'Рок', 'Электрон', 'Гагаку'],
+      artists: ['Hikaru Utada', 'Ryuichi Sakamoto', 'YOASOBI', 'Joe Hisaishi', 'ONE OK ROCK', 'Ado']
+    },
+    france: {
+      name: 'Франция',
+      region: 'Батыс Еуропа',
+      summary: 'Франция музыкасы шансон, классикалық мектеп, джаз, электрон музыка және заманауи поп мәдениеті арқылы танылған. Париж джазы мен француз электроникасы әлемдік сахнада ерекше орын алады.',
+      instruments: ['Аккордеон', 'Скрипка', 'Фортепиано', 'Кларнет', 'Контрабас'],
+      history: [
+        'Классикалық дәуірде француз композиторлары опера, балет және камералық музыканы дамытты.',
+        'XX ғасырда шансон Париж мәдениетінің символына айналды.',
+        '1990-жылдардан бастап француз электроникасы Daft Punk, Air сияқты жобалар арқылы әлемге таралды.'
+      ],
+      genres: ['Шансон', 'Джаз', 'Классика', 'Француз электроникасы', 'Поп', 'Электрон'],
+      artists: ['Edith Piaf', 'Charles Aznavour', 'Daft Punk', 'Stromae', 'Christine and the Queens', 'Aya Nakamura']
+    }
+  };
+
+  function renderCountry(countryKey, shouldScroll = true) {
+    const data = countryMusicData[countryKey];
+    if (!data || !countryPanel) return;
+    countryMarkers.forEach(marker => marker.classList.toggle('active', marker.dataset.country === countryKey));
+    countryPanel.classList.remove('visible');
+    countryPanel.innerHTML = `
+      <div class="country-name">${data.name}</div>
+      <div class="country-region">${data.region}</div>
+      <p class="country-summary">${data.summary}</p>
+      <div class="country-block">
+        <h3>Ұлттық аспаптар</h3>
+        <div class="tag-list">${data.instruments.map(item => `<span>${item}</span>`).join('')}</div>
+      </div>
+      <div class="country-block">
+        <h3>Даму тарихы</h3>
+        <ul class="country-text-list">${data.history.map(item => `<li>${item}</li>`).join('')}</ul>
+      </div>
+      <div class="country-block">
+        <h3>Негізгі жанрлар</h3>
+        <div class="tag-list">${data.genres.map(item => `<span>${item}</span>`).join('')}</div>
+      </div>
+      <div class="country-block">
+        <h3>Танымал орындаушылар</h3>
+        <div class="tag-list">${data.artists.map(item => `<span>${item}</span>`).join('')}</div>
+      </div>
+      <button class="listen-btn" type="button">Тыңдау</button>
+    `;
+    requestAnimationFrame(() => {
+      countryPanel.classList.add('visible');
+      if (shouldScroll && window.innerWidth <= 760) {
+        countryPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
+
+  startJourneyBtn?.addEventListener('click', () => {
+    worldJourney?.classList.add('visible');
+    renderCountry('kazakhstan', false);
+    worldJourney?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  countryMarkers.forEach(marker => {
+    marker.addEventListener('click', () => renderCountry(marker.dataset.country));
+    marker.addEventListener('mouseenter', () => {
+      const data = countryMusicData[marker.dataset.country];
+      if (!data || !mapTooltip || !mapTooltipTitle || !mapTooltipText) return;
+      mapTooltipTitle.textContent = data.name;
+      mapTooltipText.textContent = `${data.region} · ${data.genres.slice(0, 3).join(', ')}`;
+      mapTooltip.style.left = marker.style.left;
+      mapTooltip.style.top = marker.style.top;
+      mapTooltip.classList.add('visible');
+    });
+    marker.addEventListener('mouseleave', () => {
+      mapTooltip?.classList.remove('visible');
+    });
+  });
 
   function switchView(view) {
     navTabs.forEach(t => t.classList.toggle('active', t.dataset.view === view));
@@ -4184,6 +4892,7 @@ Rules:
     newsView.style.display   = view === 'news'   ? 'block' : 'none';
     createView.style.display = view === 'create' ? 'block' : 'none';
     homeView.style.display   = view === 'home'   ? 'block' : 'none';
+    kazakhView.style.display = view === 'kazakh' ? 'block' : 'none';
     if (view === 'news' && !newsLoaded) loadNews();
     if (view === 'home') initHomeAnimations();
   }
