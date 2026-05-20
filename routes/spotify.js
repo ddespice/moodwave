@@ -41,6 +41,8 @@ router.get('/lookup', async (req, res) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const tracks = data.tracks.items.map(t => ({
+      id:          t.id,
+      uri:         t.uri,
       name:        t.name,
       artist:      t.artists.map(a => a.name).join(', '),
       image:       t.album.images[1]?.url ?? t.album.images[0]?.url ?? null,

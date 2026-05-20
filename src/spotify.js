@@ -1,7 +1,7 @@
 // src/spotify.js — хелперы для работы со Spotify через наш бэкенд
 // Подключи в index.html: <script src="/src/spotify.js"></script>
 
-const Spotify = (() => {
+window.SpotifyAPI = (() => {
 
   // ---------- Auth ----------
 
@@ -74,8 +74,8 @@ const Spotify = (() => {
 
     return new Promise((resolve, reject) => {
       // SDK вызывает этот коллбэк, когда готов
-      window.onSpotifyWebPlaybackSDKReady = () => {
-        player = new Spotify.Player({
+      const startInit = () => {
+        player = new window.Spotify.Player({
           name:               playerName,
           volume:             0.8,
           // SDK сам запрашивает свежий токен через этот коллбэк
@@ -114,6 +114,14 @@ const Spotify = (() => {
 
         player.connect();
       };
+
+      // SDK мог уже загрузиться (window.Spotify готов) — тогда запускаем сразу,
+      // иначе ждём официальный коллбэк
+      if (window.Spotify && window.Spotify.Player) {
+        startInit();
+      } else {
+        window.onSpotifyWebPlaybackSDKReady = startInit;
+      }
     });
   }
 

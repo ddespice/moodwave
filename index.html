@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MOODWAVE — AI DJ Assistant</title>
+<title>MOODWAVE — AI DJ Көмекшісі</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -10,17 +10,17 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg: #000000;
-    --bg-elev: #0a0a0a;
-    --bg-elev-2: #141414;
-    --border: #ffffff22;
-    --border-strong: #ffffff44;
-    --text: #ffffff;
-    --text-dim: #b8b8b8;
-    --text-faint: #6a6a6a;
-    --accent: #ffffff;
-    --accent-2: #ffffff;
-    --danger: #ffffff;
+    --bg: #f5ede0;
+    --bg-elev: rgba(250,243,232,0.82);
+    --bg-elev-2: rgba(240,231,216,0.88);
+    --border: rgba(140,110,75,0.18);
+    --border-strong: rgba(140,110,75,0.38);
+    --text: #1a0f05;
+    --text-dim: #3d2610;
+    --text-faint: #6b4a28;
+    --accent: #2c1a08;
+    --accent-2: #7a5c38;
+    --danger: #8b3a1a;
   }
 
   html, body {
@@ -37,154 +37,25 @@
     position: relative;
   }
 
-  /* Animated background — pure black with subtle radial breathing */
-  .bg-anim {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse 70% 60% at 20% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
-      radial-gradient(ellipse 60% 50% at 80% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 60%),
-      var(--bg);
-    animation: bgDrift 22s ease-in-out infinite alternate;
+  /* Ornament background */
+  body {
+    background-color: #f5ede0;
+    background-image: url('assets/bg-ornament.png');
+    background-size: cover;
+    background-position: center bottom;
+    background-attachment: fixed;
+    color: var(--text);
   }
 
-  @keyframes bgDrift {
-    0%   { transform: scale(1); }
-    100% { transform: scale(1.08); }
-  }
-
-  /* Floating particles */
-  .particle {
+  /* Floating music notes */
+  .music-note {
     position: fixed;
-    width: 2px;
-    height: 2px;
-    background: #ffffff;
-    border-radius: 50%;
-    opacity: 0;
     pointer-events: none;
-    z-index: 1;
-    box-shadow: 0 0 6px rgba(255, 255, 255, 0.5);
-    animation: float 14s linear infinite;
-  }
-  @keyframes float {
-    0%   { transform: translateY(110vh) translateX(0); opacity: 0; }
-    10%  { opacity: 0.7; }
-    90%  { opacity: 0.5; }
-    100% { transform: translateY(-10vh) translateX(40px); opacity: 0; }
-  }
-
-  /* UNVEIL-inspired ambient object */
-  .unveil-object {
-    --mx: 0px;
-    --my: 0px;
-    position: fixed;
-    inset: 0;
-    z-index: 1;
-    overflow: hidden;
-    pointer-events: none;
-    opacity: 0.88;
-    mix-blend-mode: screen;
-  }
-  .unveil-core {
-    position: absolute;
-    left: 30%;
-    top: 48%;
-    width: min(30vw, 430px);
-    aspect-ratio: 1.45;
-    transform: translate(-50%, -50%) translate(var(--mx), var(--my));
-    border: 1px solid rgba(255, 255, 255, 0.72);
-    border-radius: 50%;
-    background:
-      radial-gradient(ellipse at center, rgba(255, 255, 255, 0.55) 0 4%, transparent 5%),
-      radial-gradient(ellipse at center, rgba(255, 255, 255, 0.16) 0 22%, transparent 23%),
-      repeating-linear-gradient(90deg, rgba(255,255,255,0.22) 0 1px, transparent 1px 18px);
-    box-shadow:
-      0 0 70px rgba(255, 255, 255, 0.22),
-      inset 0 0 55px rgba(255, 255, 255, 0.12);
-    animation: unveilBreath 7s ease-in-out infinite;
-  }
-  .unveil-core::before,
-  .unveil-core::after {
-    content: '';
-    position: absolute;
-    inset: 15%;
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 50%;
-  }
-  .unveil-core::after {
-    inset: 34% 42%;
-    background: #fff;
-    box-shadow: 0 0 36px rgba(255, 255, 255, 0.7);
-  }
-  .unveil-grid {
-    position: absolute;
-    inset: -8%;
-    transform: translate(calc(var(--mx) * -0.35), calc(var(--my) * -0.35));
-    animation: unveilDrift 26s linear infinite;
-  }
-  .unveil-tile {
-    --x: 50%;
-    --y: 50%;
-    --s: 92px;
-    --r: 0deg;
-    --d: 0s;
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    width: var(--s);
-    height: calc(var(--s) * 0.72);
-    transform: translate(-50%, -50%) rotate(var(--r));
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 6px;
-    background:
-      linear-gradient(135deg, rgba(255,255,255,0.28), transparent 34%),
-      repeating-linear-gradient(0deg, rgba(255,255,255,0.16) 0 1px, transparent 1px 10px),
-      rgba(255,255,255,0.03);
-    box-shadow:
-      0 18px 44px rgba(0, 0, 0, 0.8),
-      0 0 30px rgba(255, 255, 255, 0.12);
-    filter: contrast(1.15);
-    animation: tileFloat 12s ease-in-out infinite;
-    animation-delay: var(--d);
-  }
-  .unveil-tile::before {
-    content: '';
-    position: absolute;
-    inset: 8px;
-    border: 1px solid rgba(255,255,255,0.24);
-  }
-  .unveil-tile::after {
-    content: '';
-    position: absolute;
-    left: 10px;
-    right: 10px;
-    bottom: 9px;
-    height: 2px;
-    background: rgba(255,255,255,0.5);
-    box-shadow: 0 -10px 0 rgba(255,255,255,0.26), 0 -20px 0 rgba(255,255,255,0.15);
-  }
-  .unveil-tile:nth-child(1) { --x: 8%; --y: 18%; --s: 120px; --r: -8deg; --d: -1s; }
-  .unveil-tile:nth-child(2) { --x: 24%; --y: 13%; --s: 74px; --r: 7deg; --d: -4s; }
-  .unveil-tile:nth-child(3) { --x: 49%; --y: 18%; --s: 104px; --r: -2deg; --d: -7s; }
-  .unveil-tile:nth-child(4) { --x: 68%; --y: 26%; --s: 84px; --r: 10deg; --d: -2s; }
-  .unveil-tile:nth-child(5) { --x: 88%; --y: 16%; --s: 138px; --r: -5deg; --d: -8s; }
-  .unveil-tile:nth-child(6) { --x: 14%; --y: 74%; --s: 92px; --r: 12deg; --d: -5s; }
-  .unveil-tile:nth-child(7) { --x: 43%; --y: 83%; --s: 128px; --r: -11deg; --d: -9s; }
-  .unveil-tile:nth-child(8) { --x: 71%; --y: 76%; --s: 78px; --r: 5deg; --d: -3s; }
-  .unveil-tile:nth-child(9) { --x: 93%; --y: 66%; --s: 108px; --r: -13deg; --d: -6s; }
-  @keyframes unveilBreath {
-    0%, 100% { opacity: 0.58; filter: blur(0); }
-    50% { opacity: 1; filter: blur(0.2px); }
-  }
-  @keyframes unveilDrift {
-    from { transform: translate(calc(var(--mx) * -0.35), calc(var(--my) * -0.35)) rotate(0deg); }
-    to { transform: translate(calc(var(--mx) * -0.35), calc(var(--my) * -0.35)) rotate(360deg); }
-  }
-  @keyframes tileFloat {
-    0%, 100% { margin-top: 0; opacity: 0.24; }
-    50% { margin-top: -18px; opacity: 0.62; }
+    z-index: 350;
+    user-select: none;
+    color: #7a5c38;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(122,92,56,0.3);
   }
 
   /* App shell */
@@ -214,7 +85,7 @@
     background:
       radial-gradient(ellipse 70% 60% at 20% 30%, rgba(255, 255, 255, 0.04) 0%, transparent 60%),
       radial-gradient(ellipse 60% 50% at 80% 70%, rgba(255, 255, 255, 0.03) 0%, transparent 60%),
-      rgba(0, 0, 0, 0.78);
+      rgba(245,237,222,0.78);
   }
   .genre-carousel-pin {
     min-height: 100vh;
@@ -251,7 +122,7 @@
     line-height: 1.6;
     letter-spacing: 1px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.54);
+    color: var(--text-dim);
   }
   .genre-carousel-title {
     margin-top: 12px;
@@ -260,7 +131,7 @@
     line-height: 1.1;
     letter-spacing: 0;
     text-transform: uppercase;
-    color: #fff;
+    color: var(--text);
     text-shadow: 0 0 38px rgba(255, 255, 255, 0.35);
   }
   .genre-carousel-progress {
@@ -271,7 +142,7 @@
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 9px;
     text-align: center;
-    color: #fff;
+    color: var(--text);
     box-shadow: 0 0 28px rgba(255, 255, 255, 0.14);
   }
   .genre-carousel-stage {
@@ -387,7 +258,7 @@
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 10px;
     letter-spacing: 1px;
-    color: rgba(255,255,255,0.66);
+    color: var(--text-dim);
     text-transform: uppercase;
   }
   .genre-carousel-hint {
@@ -398,7 +269,7 @@
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 8px;
     letter-spacing: 1px;
-    color: rgba(255,255,255,0.42);
+    color: var(--text-faint);
     text-transform: uppercase;
   }
   .genre-ring-floor {
@@ -540,9 +411,9 @@
     transform-style: preserve-3d;
     will-change: transform, opacity;
     contain: layout paint;
-    background: #0b0b0b;
+    background: rgba(248,241,228,0.88);
     box-shadow:
-      0 26px 80px rgba(0,0,0,0.86),
+      0 10px 40px rgba(100,70,30,0.14),
       0 0 28px rgba(255,255,255,0.08);
   }
   .genre-carousel-section:not(.in-view) .stack-card {
@@ -604,7 +475,7 @@
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 14px;
     letter-spacing: 1px;
-    color: rgba(255,255,255,0.68);
+    color: var(--text-dim);
   }
   .stack-gallery-hint {
     position: absolute;
@@ -614,7 +485,7 @@
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 8px;
     letter-spacing: 1px;
-    color: rgba(255,255,255,0.42);
+    color: var(--text-faint);
     text-transform: uppercase;
     white-space: nowrap;
   }
@@ -654,7 +525,7 @@
     display: none;
     place-items: center;
     padding: 28px;
-    background: rgba(0,0,0,0.78);
+    background: rgba(240,230,210,0.88);
     backdrop-filter: blur(18px);
   }
   .stack-modal.open { display: grid; }
@@ -664,9 +535,9 @@
     border: 1px solid rgba(255,255,255,0.65);
     border-radius: 10px;
     overflow: hidden;
-    background: #050505;
+    background: rgba(248,241,228,0.97);
     box-shadow:
-      0 40px 120px rgba(0,0,0,0.95),
+      0 20px 60px rgba(100,70,30,0.18),
       0 0 90px rgba(255,255,255,0.22);
     animation: modalIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
@@ -686,7 +557,7 @@
     border-radius: 50%;
     border: 1px solid rgba(255,255,255,0.7);
     background: #000;
-    color: #fff;
+    color: var(--text);
     font-family: 'Inter', system-ui, sans-serif;
     cursor: pointer;
   }
@@ -708,8 +579,8 @@
   .panel-right {
     flex: 0 0 40%;
     border-left: 1px solid var(--border);
-    background: rgba(10, 10, 10, 0.6);
-    backdrop-filter: blur(12px);
+    background: rgba(220,208,186,0.82);
+    backdrop-filter: blur(16px);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -732,7 +603,7 @@
     font-size: 30px;
     letter-spacing: 1px;
     line-height: 1;
-    color: #ffffff;
+    color: var(--text);
     text-transform: uppercase;
     cursor: default;
     transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -802,18 +673,16 @@
     position: absolute;
     top: 110px;
     right: 32px;
-    background: #000;
-    border: 1px solid #fff;
+    background: rgba(222,210,190,0.98);
+    border: 1px solid var(--border-strong);
     border-radius: 20px;
     padding: 20px;
     width: 380px;
-    box-shadow:
-      0 30px 80px rgba(0, 0, 0, 0.9),
-      0 10px 24px rgba(0, 0, 0, 0.6),
-      0 0 50px rgba(255, 255, 255, 0.08);
+    box-shadow: 0 16px 50px rgba(100,70,30,0.18), 0 4px 16px rgba(100,70,30,0.1);
     z-index: 50;
     display: none;
     animation: popIn 0.3s ease;
+    backdrop-filter: blur(12px);
   }
   .settings-pop.open { display: block; }
   @keyframes popIn {
@@ -832,9 +701,9 @@
   }
   .settings-pop input {
     width: 100%;
-    background: #000;
-    border: 1px solid #fff;
-    color: #fff;
+    background: rgba(250,243,230,0.8);
+    border: 1px solid var(--border-strong);
+    color: var(--text);
     padding: 12px 14px;
     border-radius: 12px;
     font-family: 'Inter', system-ui, sans-serif;
@@ -844,8 +713,8 @@
   }
   .settings-pop input:focus {
     outline: none;
-    border-color: #fff;
-    box-shadow: 0 0 0 2px #fff inset;
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 2px rgba(122,92,56,0.2) inset;
   }
   .settings-pop .hint {
     font-family: 'Inter', system-ui, sans-serif;
@@ -860,12 +729,12 @@
     margin-top: 10px;
     letter-spacing: 0.3px;
   }
-  .status.ok { color: #fff; }
+  .status.ok { color: #3a6b2a; }
   .status.warn { color: #b8b8b8; }
 
   /* Player card */
   .player-card {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+    background: rgba(225,212,192,0.92);
     border: 1px solid var(--border-strong);
     border-radius: 24px;
     padding: 28px;
@@ -874,12 +743,11 @@
     align-items: center;
     transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-shadow:
-      0 30px 60px rgba(0, 0, 0, 0.9),
-      0 0 80px rgba(255, 255, 255, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+      0 12px 40px rgba(100,70,30,0.12),
+      inset 0 1px 0 rgba(255,255,255,0.6);
   }
   .player-card:hover {
-    border-color: rgba(255, 255, 255, 0.6);
+    border-color: var(--text-dim);
     transform: translateY(-4px);
     box-shadow:
       0 40px 80px rgba(0, 0, 0, 0.95),
@@ -900,11 +768,11 @@
     width: 150px;
     height: 150px;
     border-radius: 18px;
-    background: #141414 center/cover no-repeat;
+    background: rgba(200,185,162,0.6) center/cover no-repeat;
     overflow: hidden;
     position: relative;
-    border: 1px solid #fff;
-    filter: grayscale(100%) contrast(1.1);
+    border: 1px solid var(--border-strong);
+    filter: grayscale(30%) contrast(1.05);
     transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     cursor: pointer;
     box-shadow:
@@ -924,7 +792,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.2);
+    background: rgba(100,70,30,0.1);
     opacity: 0;
     transition: opacity 0.3s ease;
   }
@@ -973,7 +841,7 @@
     display: block;
     width: 3px;
     height: 4px;
-    background: #ffffff;
+    background: var(--accent);
     border-radius: 2px;
     animation: bar 1s ease-in-out infinite;
   }
@@ -994,9 +862,9 @@
     align-items: center;
   }
   .ctrl-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid #fff;
-    color: #fff;
+    background: rgba(250,243,230,0.6);
+    border: 1px solid var(--border-strong);
+    color: var(--text);
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -1012,25 +880,20 @@
     position: absolute;
     inset: -4px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(255,255,255,0.4), transparent 70%);
+    background: radial-gradient(circle, rgba(140,110,75,0.2), transparent 70%);
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: -1;
   }
   .ctrl-btn:hover::before { opacity: 1; }
   .ctrl-btn {
-    box-shadow:
-      0 8px 18px rgba(0, 0, 0, 0.7),
-      0 0 20px rgba(255, 255, 255, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: 0 4px 14px rgba(100,70,30,0.12), inset 0 1px 0 rgba(255,255,255,0.6);
   }
   .ctrl-btn:hover {
-    background: #fff;
-    color: #000;
+    background: var(--accent);
+    color: #f5ede0;
     transform: translateY(-3px) scale(1.08);
-    box-shadow:
-      0 16px 32px rgba(0, 0, 0, 0.85),
-      0 0 50px rgba(255, 255, 255, 0.7);
+    box-shadow: 0 10px 28px rgba(100,70,30,0.22);
   }
   .ctrl-btn:active {
     transform: translateY(-1px) scale(1.02);
@@ -1044,42 +907,26 @@
   }
   .ctrl-btn:disabled:hover {
     background: transparent;
-    color: #fff;
+    color: var(--text);
   }
   .ctrl-btn.play {
     width: 56px; height: 56px;
-    background: #fff;
-    border: 1px solid #fff;
-    color: #000;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #f5ede0;
     animation: playPulse 2.5s ease-in-out infinite;
-    box-shadow:
-      0 12px 32px rgba(0, 0, 0, 0.8),
-      0 0 50px rgba(255, 255, 255, 0.5),
-      0 0 100px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 28px rgba(44,26,8,0.28), 0 0 40px rgba(122,92,56,0.2);
   }
   @keyframes playPulse {
-    0%, 100% {
-      box-shadow:
-        0 12px 32px rgba(0, 0, 0, 0.8),
-        0 0 50px rgba(255, 255, 255, 0.5),
-        0 0 100px rgba(255, 255, 255, 0.2);
-    }
-    50% {
-      box-shadow:
-        0 12px 32px rgba(0, 0, 0, 0.8),
-        0 0 70px rgba(255, 255, 255, 0.7),
-        0 0 120px rgba(255, 255, 255, 0.3);
-    }
+    0%, 100% { box-shadow: 0 8px 28px rgba(44,26,8,0.28), 0 0 40px rgba(122,92,56,0.2); }
+    50%       { box-shadow: 0 8px 28px rgba(44,26,8,0.36), 0 0 60px rgba(122,92,56,0.35); }
   }
   .ctrl-btn.play:hover {
-    background: #000;
-    color: #fff;
+    background: #f5ede0;
+    color: var(--accent);
     transform: translateY(-3px) scale(1.1);
     animation: none;
-    box-shadow:
-      0 18px 40px rgba(0, 0, 0, 0.9),
-      0 0 80px rgba(255, 255, 255, 0.85),
-      0 0 140px rgba(255, 255, 255, 0.4);
+    box-shadow: 0 14px 36px rgba(44,26,8,0.32);
   }
   .ctrl-btn svg { width: 18px; height: 18px; }
   .ctrl-btn.play svg { width: 20px; height: 20px; }
@@ -1087,8 +934,8 @@
   .save-btn {
     margin-left: auto;
     background: transparent;
-    border: 1px solid #fff;
-    color: #fff;
+    border: 1px solid var(--border-strong);
+    color: var(--text-dim);
     padding: 12px 22px;
     border-radius: 999px;
     cursor: pointer;
@@ -1107,24 +954,22 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.12);
   }
   .save-btn:hover {
-    color: #000;
-    background: #fff;
+    color: #f5ede0;
+    background: var(--accent);
+    border-color: var(--accent);
     transform: translateY(-3px) scale(1.04);
     letter-spacing: 1.5px;
-    box-shadow:
-      0 16px 32px rgba(0, 0, 0, 0.85),
-      0 0 45px rgba(255, 255, 255, 0.65);
+    box-shadow: 0 10px 28px rgba(44,26,8,0.22);
   }
   .save-btn:active {
     transform: translateY(-1px) scale(1);
     transition-duration: 0.1s;
   }
   .save-btn.saved {
-    color: #000;
-    background: #fff;
-    box-shadow:
-      0 10px 22px rgba(0, 0, 0, 0.7),
-      0 0 30px rgba(255, 255, 255, 0.4);
+    color: #f5ede0;
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 6px 18px rgba(44,26,8,0.2);
   }
 
   /* Queue / playlist */
@@ -1136,7 +981,7 @@
   }
   .list-col {
     flex: 1;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    background: rgba(225,212,192,0.88);
     border: 1px solid var(--border);
     border-radius: 22px;
     padding: 18px;
@@ -1144,18 +989,12 @@
     flex-direction: column;
     min-height: 0;
     transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow:
-      0 24px 50px rgba(0, 0, 0, 0.85),
-      0 0 60px rgba(255, 255, 255, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 30px rgba(100,70,30,0.08), inset 0 1px 0 rgba(255,255,255,0.55);
   }
   .list-col:hover {
-    border-color: rgba(255, 255, 255, 0.4);
+    border-color: rgba(140,110,75,0.35);
     transform: translateY(-3px);
-    box-shadow:
-      0 32px 60px rgba(0, 0, 0, 0.9),
-      0 0 80px rgba(255, 255, 255, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    box-shadow: 0 16px 40px rgba(100,70,30,0.14), inset 0 1px 0 rgba(255,255,255,0.65);
   }
   .list-head {
     display: flex;
@@ -1170,25 +1009,20 @@
     font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #ffffff;
+    color: var(--text);
     font-weight: 400;
     line-height: 1;
     transition: all 0.3s ease;
   }
-  .list-col:hover .list-title {
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-  }
-  .list-col:hover .list-count {
-    background: #fff;
-    color: #000;
-  }
+  .list-col:hover .list-title { color: var(--accent); }
+  .list-col:hover .list-count { background: var(--accent); color: #f5ede0; border-color: var(--accent); }
   .list-count { transition: all 0.3s ease; }
   .list-count {
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 10px;
-    color: #ffffff;
+    color: var(--text-dim);
     background: transparent;
-    border: 1px solid #fff;
+    border: 1px solid var(--border-strong);
     padding: 5px 11px;
     border-radius: 999px;
     font-weight: 400;
@@ -1201,8 +1035,8 @@
   }
   .list-body::-webkit-scrollbar { width: 6px; }
   .list-body::-webkit-scrollbar-track { background: transparent; }
-  .list-body::-webkit-scrollbar-thumb { background: #ffffff44; border-radius: 3px; }
-  .list-body::-webkit-scrollbar-thumb:hover { background: #ffffff; }
+  .list-body::-webkit-scrollbar-thumb { background: rgba(140,110,75,0.3); border-radius: 3px; }
+  .list-body::-webkit-scrollbar-thumb:hover { background: rgba(140,110,75,0.6); }
 
   .track-row {
     display: flex;
@@ -1217,22 +1051,20 @@
     border: 1px solid transparent;
   }
   .track-row:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(140,110,75,0.1);
     transform: translateX(4px);
-    border-color: rgba(255, 255, 255, 0.25);
-    box-shadow:
-      0 6px 20px rgba(0, 0, 0, 0.6),
-      0 0 24px rgba(255, 255, 255, 0.12);
+    border-color: rgba(140,110,75,0.25);
+    box-shadow: 0 4px 16px rgba(100,70,30,0.1);
   }
-  .track-row:hover .track-row-title { color: #fff; }
+  .track-row:hover .track-row-title { color: var(--accent); }
   .track-row.active {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(140,110,75,0.15);
     box-shadow:
       inset 0 0 0 1px #ffffff88,
       0 0 30px rgba(255, 255, 255, 0.18);
   }
   .track-row.active .track-row-title {
-    color: #ffffff;
+    color: var(--text);
     font-weight: 700;
   }
   .track-row-num {
@@ -1280,7 +1112,7 @@
   }
   .track-row:hover .track-row-action { opacity: 1; }
   .track-row-action:hover {
-    color: #fff;
+    color: var(--text);
     background: rgba(255, 255, 255, 0.2);
     transform: scale(1.15);
     box-shadow: 0 0 18px rgba(255, 255, 255, 0.3);
@@ -1311,7 +1143,7 @@
   .chat-toggle {
     background: transparent;
     border: 1px solid var(--border-strong);
-    color: #fff;
+    color: var(--text);
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -1377,7 +1209,7 @@
   .chat-reopen:hover {
     transform: translateY(-50%) translateX(-4px) scale(1.04);
     background: #000;
-    color: #fff;
+    color: var(--text);
     box-shadow:
       0 18px 36px rgba(0, 0, 0, 0.9),
       0 0 60px rgba(255, 255, 255, 0.7);
@@ -1410,7 +1242,7 @@
     font-size: 22px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #ffffff;
+    color: var(--text);
     font-weight: 400;
     display: flex;
     align-items: center;
@@ -1471,8 +1303,8 @@
   }
   .msg.user {
     align-self: flex-end;
-    background: #ffffff;
-    color: #000000;
+    background: var(--accent);
+    color: #f5ede0;
     font-weight: 600;
     border: 1px solid #ffffff;
     border-bottom-right-radius: 6px;
@@ -1485,7 +1317,7 @@
     background: rgba(255, 255, 255, 0.04);
     border-bottom-left-radius: 6px;
     border: 1px solid #ffffff;
-    color: #ffffff;
+    color: var(--text);
     box-shadow:
       0 14px 28px rgba(0, 0, 0, 0.7),
       0 0 30px rgba(255, 255, 255, 0.08),
@@ -1506,8 +1338,8 @@
 
   .typing {
     align-self: flex-start;
-    background: transparent;
-    border: 1px solid #ffffff;
+    background: rgba(222,210,190,0.9);
+    border: 1px solid var(--border);
     border-radius: 18px;
     border-bottom-left-radius: 6px;
     padding: 14px 18px;
@@ -1533,8 +1365,8 @@
   .chat-input-row {
     display: flex;
     gap: 10px;
-    background: transparent;
-    border: 1px solid #ffffff;
+    background: rgba(222,210,190,0.9);
+    border: 1px solid var(--border-strong);
     border-radius: 999px;
     padding: 6px 6px 6px 22px;
     transition: border-color 0.3s ease;
@@ -1547,7 +1379,7 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   .chat-input-row:focus-within {
-    border-color: #ffffff;
+    border-color: var(--accent-2);
     box-shadow:
       0 0 0 1px #fff,
       0 16px 36px rgba(0, 0, 0, 0.85),
@@ -1569,9 +1401,9 @@
   .chat-input:focus { outline: none; }
   .chat-input::placeholder { color: var(--text-faint); }
   .send-btn {
-    background: #ffffff;
-    border: 1px solid #ffffff;
-    color: #000000;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #f5ede0;
     width: 42px; height: 42px;
     border-radius: 50%;
     cursor: pointer;
@@ -1585,8 +1417,8 @@
       0 0 35px rgba(255, 255, 255, 0.4);
   }
   .send-btn:hover {
-    background: #000000;
-    color: #ffffff;
+    background: #f5ede0;
+    color: var(--accent);
     transform: scale(1.12) rotate(15deg);
     box-shadow:
       0 16px 36px rgba(0, 0, 0, 0.95),
@@ -1599,8 +1431,8 @@
   .send-btn:disabled {
     opacity: 0.3;
     cursor: not-allowed;
-    background: #ffffff;
-    color: #000000;
+    background: var(--accent);
+    color: #f5ede0;
   }
   .send-btn svg { width: 16px; height: 16px; }
 
@@ -1623,8 +1455,8 @@
   }
   .chip {
     background: transparent;
-    border: 1px solid #ffffff;
-    color: #ffffff;
+    border: 1px solid var(--border-strong);
+    color: var(--text-dim);
     padding: 9px 16px;
     border-radius: 999px;
     font-family: 'Inter', system-ui, sans-serif;
@@ -1642,8 +1474,9 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
   .chip:hover {
-    color: #000;
-    background: #ffffff;
+    color: #f5ede0;
+    background: var(--accent);
+    border-color: var(--accent);
     transform: translateY(-3px) scale(1.06);
     letter-spacing: 1.5px;
     box-shadow:
@@ -1656,13 +1489,6 @@
   }
 
   @media (max-width: 900px) {
-    .unveil-object { opacity: 0.44; }
-    .unveil-core {
-      left: 50%;
-      top: 32%;
-      width: min(74vw, 330px);
-    }
-    .unveil-tile:nth-child(n+6) { display: none; }
     .genre-carousel-pin {
       padding: 34px 18px 48px;
     }
@@ -1724,10 +1550,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    background: rgba(0, 0, 0, 0.92);
+    background: rgba(245,237,222,0.88);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    border-bottom: 1px solid rgba(140,110,75,0.18);
   }
   .nav-logo {
     display: flex;
@@ -1737,21 +1563,21 @@
     font-size: 12px;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: #fff;
+    color: var(--text);
     cursor: pointer;
     user-select: none;
     transition: opacity 0.15s;
   }
-  .nav-logo:hover { opacity: 0.7; }
+  .nav-logo:hover { opacity: 0.6; }
   .nav-logo-dot {
     width: 7px; height: 7px; border-radius: 50%;
-    background: #fff; flex-shrink: 0;
+    background: var(--accent-2); flex-shrink: 0;
   }
   .nav-links { display: flex; gap: 2px; }
   .nav-tab {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.32);
+    color: var(--text-faint);
     font-family: 'Inter', sans-serif;
     font-size: 10px;
     font-weight: 600;
@@ -1762,12 +1588,12 @@
     cursor: pointer;
     transition: color 0.15s, background 0.15s;
   }
-  .nav-tab:hover { color: rgba(255, 255, 255, 0.72); }
-  .nav-tab.active { color: #fff; background: rgba(255, 255, 255, 0.1); }
+  .nav-tab:hover { color: var(--text-dim); }
+  .nav-tab.active { color: var(--text); background: rgba(140,110,75,0.14); }
 
   /* ===================== NEWS VIEW ===================== */
   #player-view { display: block; }
-  #news-view   { display: none; padding-top: 48px; min-height: 100vh; }
+  #news-view   { display: none; padding-top: 48px; min-height: 100vh; position: relative; z-index: 5; }
 
   .news-wrap {
     max-width: 1140px;
@@ -1786,27 +1612,27 @@
     font-weight: 700;
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-faint);
     margin-bottom: 10px;
   }
   .news-section-title {
     font-size: clamp(30px, 5vw, 54px);
     font-weight: 800;
     letter-spacing: -1px;
-    color: #fff;
+    color: var(--text);
     line-height: 1;
   }
   .news-section-sub {
     margin-top: 12px;
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.28);
+    color: var(--text-faint);
     letter-spacing: 0.3px;
   }
   .news-refresh-btn {
     flex-shrink: 0;
     background: none;
     border: 1px solid rgba(255, 255, 255, 0.16);
-    color: rgba(255, 255, 255, 0.42);
+    color: var(--text-faint);
     font-family: 'Inter', sans-serif;
     font-size: 9px;
     font-weight: 700;
@@ -1817,33 +1643,33 @@
     cursor: pointer;
     transition: all 0.18s;
   }
-  .news-refresh-btn:hover { border-color: rgba(255, 255, 255, 0.45); color: #fff; }
+  .news-refresh-btn:hover { border-color: var(--text-faint); color: #fff; }
 
   /* Featured article */
   .news-featured {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-strong);
     border-radius: 10px;
     overflow: hidden;
     height: 340px;
     margin-bottom: 18px;
     cursor: pointer;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
     text-decoration: none;
   }
-  .news-featured:hover { border-color: rgba(255, 255, 255, 0.32); }
+  .news-featured:hover { border-color: var(--accent-2); box-shadow: 0 8px 32px rgba(100,70,30,0.12); }
   .news-featured-img {
     width: 100%; height: 100%;
     object-fit: cover;
-    background: #0f0f0f;
+    background: rgba(200,185,162,0.5);
     display: block;
     transition: transform 0.4s;
   }
   .news-featured:hover .news-featured-img { transform: scale(1.03); }
   .news-featured-img-wrap { overflow: hidden; }
   .news-featured-body {
-    background: #080808;
+    background: rgba(222,210,190,0.97);
     padding: 28px 30px;
     display: flex;
     flex-direction: column;
@@ -1857,23 +1683,23 @@
     font-weight: 700;
     letter-spacing: 1.8px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.32);
+    color: var(--text-faint);
   }
   .news-featured-badge::before {
     content: '';
     width: 5px; height: 5px; border-radius: 50%;
-    background: rgba(255, 255, 255, 0.25);
+    background: var(--accent-2);
   }
   .news-featured-title {
     font-size: clamp(15px, 1.8vw, 21px);
     font-weight: 700;
     line-height: 1.38;
-    color: #fff;
+    color: var(--text);
     margin: 14px 0 10px;
   }
   .news-featured-excerpt {
     font-size: 12px;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-faint);
     line-height: 1.65;
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -1887,19 +1713,19 @@
     justify-content: space-between;
     margin-top: 20px;
     padding-top: 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-top: 1px solid var(--border);
   }
-  .news-featured-date { font-size: 9px; color: rgba(255, 255, 255, 0.2); letter-spacing: 0.5px; }
+  .news-featured-date { font-size: 9px; color: var(--text-faint); letter-spacing: 0.5px; }
   .news-read-link {
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.2px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--text-faint);
     text-decoration: none;
     transition: color 0.15s;
   }
-  .news-read-link:hover { color: #fff; }
+  .news-read-link:hover { color: var(--accent); }
 
   /* News grid */
   .news-grid {
@@ -1908,25 +1734,27 @@
     gap: 14px;
   }
   .news-card {
-    border: 1px solid rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
-    background: #070707;
+    background: rgba(222,210,190,0.95);
     cursor: pointer;
-    transition: border-color 0.2s, transform 0.2s;
+    transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
     text-decoration: none;
+    backdrop-filter: blur(8px);
   }
   .news-card:hover {
-    border-color: rgba(255, 255, 255, 0.22);
+    border-color: var(--accent-2);
     transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(100,70,30,0.12);
   }
   .news-card-img-wrap {
     width: 100%;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    background: #101010;
+    background: rgba(200,185,162,0.5);
     flex-shrink: 0;
   }
   .news-card-img {
@@ -1948,17 +1776,17 @@
     font-weight: 700;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.28);
+    color: var(--text-faint);
   }
   .news-card-title {
     font-size: 13px;
     font-weight: 600;
     line-height: 1.45;
-    color: #fff;
+    color: var(--text);
   }
   .news-card-excerpt {
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--text-faint);
     line-height: 1.58;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -1974,7 +1802,7 @@
     padding-top: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
   }
-  .news-card-date { font-size: 9px; color: rgba(255, 255, 255, 0.18); letter-spacing: 0.3px; }
+  .news-card-date { font-size: 9px; color: var(--text-faint); letter-spacing: 0.3px; }
 
   /* Skeleton loader */
   @keyframes shimmer {
@@ -1982,10 +1810,10 @@
     100% { background-position: -200% 0; }
   }
   .skel-card {
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
-    background: #070707;
+    background: rgba(215,200,178,0.85);
   }
   .skel-img {
     width: 100%;
@@ -2010,7 +1838,7 @@
     grid-column: 1 / -1;
     text-align: center;
     padding: 60px 20px;
-    color: rgba(255, 255, 255, 0.28);
+    color: var(--text-faint);
     font-size: 13px;
   }
 
@@ -2024,6 +1852,586 @@
     .news-grid { grid-template-columns: 1fr; }
     .news-wrap { padding: 20px 16px 48px; }
   }
+
+  /* ===================== HOME VIEW ===================== */
+  #home-view {
+    display: block;
+    padding-top: 48px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 5;
+  }
+
+  /* Hero */
+  .home-hero {
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 48px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .home-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 60%, rgba(122,92,56,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .home-hero-kicker {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 28px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .home-hero-title {
+    font-size: clamp(48px, 10vw, 110px);
+    font-weight: 800;
+    letter-spacing: -3px;
+    line-height: 1;
+    color: var(--text);
+    text-transform: uppercase;
+    text-shadow: 0 0 80px rgba(160,120,255,0.35), 0 0 160px rgba(120,80,255,0.15);
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 1s ease 0.15s, transform 1s ease 0.15s;
+  }
+  .home-hero-sub {
+    max-width: 560px;
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--text-faint);
+    font-weight: 300;
+    margin-bottom: 52px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
+  }
+  .home-hero.revealed .home-hero-kicker,
+  .home-hero.revealed .home-hero-title,
+  .home-hero.revealed .home-hero-sub {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Section tabs */
+  .home-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.8s ease 0.45s, transform 0.8s ease 0.45s;
+  }
+  .home-hero.revealed .home-tabs { opacity: 1; transform: translateY(0); }
+  .home-tab-btn {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.22);
+    color: var(--text-dim);
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 12px 28px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .home-tab-btn:hover {
+    color: var(--text);
+    border-color: var(--text-faint);
+    background: rgba(255,255,255,0.05);
+  }
+  .home-tab-btn.active {
+    background: var(--accent);
+    color: #f5ede0;
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px rgba(44,26,8,0.2);
+  }
+
+  /* Scroll hint */
+  .home-scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .home-scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(122,92,56,0.4), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* Content section */
+  .home-content {
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .home-section {
+    display: none;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 72px 28px 100px;
+  }
+  .home-section.active { display: block; }
+
+  /* Reveal animation for items */
+  .reveal-item {
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-item.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Section heading */
+  .home-section-head {
+    margin-bottom: 56px;
+  }
+  .home-section-kicker {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 14px;
+  }
+  .home-section-title {
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.05;
+    color: var(--text);
+  }
+  .home-section-desc {
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-faint);
+    max-width: 540px;
+    font-weight: 300;
+  }
+
+  /* ── TIMELINE (Тарих) ── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 110px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15) 8%, rgba(255,255,255,0.15) 92%, transparent);
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 0 36px;
+    padding: 32px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    position: relative;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .timeline-year {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--text-faint);
+    text-align: right;
+    padding-top: 4px;
+    padding-right: 28px;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: 106px;
+    top: 38px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 14px rgba(200,160,255,0.8);
+  }
+  .timeline-body {}
+  .timeline-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.3px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+  .timeline-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-faint);
+    font-weight: 300;
+  }
+  .timeline-tag {
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border: 1px solid rgba(255,255,255,0.14);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+
+  /* ── GENRE CARDS ── */
+  .genre-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .genre-card-kz {
+    border: 1px solid rgba(140,110,75,0.28);
+    border-radius: 20px;
+    padding: 32px 28px;
+    background: rgba(230,218,198,0.9);
+    box-shadow: 0 4px 20px rgba(100,70,30,0.1), inset 0 1px 0 rgba(255,255,255,0.5);
+    transition: all 0.35s ease;
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .genre-card-kz:hover {
+    border-color: var(--text-faint);
+    background: rgba(255,255,255,0.055);
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(100,70,30,0.18);
+  }
+  .genre-card-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text-faint);
+  }
+  .genre-card-title {
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--text);
+    text-transform: uppercase;
+  }
+  .genre-card-kz-sub {
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .genre-card-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text-faint);
+    font-weight: 300;
+    flex: 1;
+  }
+  .genre-card-era {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border-top: 1px solid rgba(255,255,255,0.07);
+    padding-top: 14px;
+  }
+
+  /* ── INSTRUMENT CARDS ── */
+  .instrument-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .instrument-card {
+    border: 1px solid rgba(140,110,75,0.28);
+    border-radius: 20px;
+    padding: 36px 32px;
+    background: rgba(230,218,198,0.9);
+    box-shadow: 0 4px 20px rgba(100,70,30,0.1), inset 0 1px 0 rgba(255,255,255,0.5);
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 24px;
+    align-items: start;
+    transition: all 0.35s ease;
+    cursor: default;
+  }
+  .instrument-card:hover {
+    border-color: var(--text-faint);
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(100,70,30,0.18);
+  }
+  .instrument-icon {
+    width: 64px;
+    height: 64px;
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    background: rgba(255,255,255,0.04);
+    flex-shrink: 0;
+  }
+  .instrument-body {}
+  .instrument-name {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: var(--text);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .instrument-kz {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+  .instrument-desc {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text-faint);
+    font-weight: 300;
+  }
+  .instrument-fact {
+    margin-top: 14px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: var(--text-faint);
+    border-left: 2px solid rgba(255,255,255,0.14);
+    padding-left: 12px;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .timeline::before { left: 70px; }
+    .timeline-item { grid-template-columns: 70px 1fr; gap: 0 20px; }
+    .timeline-dot { left: 66px; }
+    .genre-grid { grid-template-columns: 1fr; }
+    .instrument-grid { grid-template-columns: 1fr; }
+    .home-tabs { flex-wrap: wrap; justify-content: center; }
+    .home-section { padding: 48px 16px 72px; }
+  }
+
+  /* ===================== CREATE VIEW ===================== */
+  #create-view {
+    display: none;
+    padding-top: 48px;
+    min-height: 100vh;
+    position: relative;
+    z-index: 5;
+  }
+
+  .create-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 64px 28px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+  }
+
+  /* Hero */
+  .create-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+  }
+  .create-hero-badge {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border: 1px solid rgba(255,255,255,0.16);
+    padding: 7px 18px;
+    border-radius: 999px;
+  }
+  .create-hero-title {
+    font-size: clamp(64px, 14vw, 130px);
+    font-weight: 800;
+    letter-spacing: -4px;
+    line-height: 1;
+    color: var(--text);
+    text-shadow:
+      0 0 60px rgba(180,140,255,0.4),
+      0 0 120px rgba(140,100,255,0.2);
+  }
+  .create-hero-sub {
+    max-width: 520px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-dim);
+    font-weight: 300;
+  }
+  .create-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+    padding: 16px 40px;
+    background: var(--accent);
+    color: #f5ede0;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 999px;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 0 50px rgba(255,255,255,0.25), 0 16px 40px rgba(0,0,0,0.7);
+  }
+  .create-cta-btn:hover {
+    background: #f5ede0;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 0 80px rgba(255,255,255,0.5), 0 24px 50px rgba(0,0,0,0.9);
+    letter-spacing: 2.5px;
+  }
+  .create-cta-arrow {
+    font-size: 18px;
+    transition: transform 0.3s ease;
+  }
+  .create-cta-btn:hover .create-cta-arrow {
+    transform: translateX(5px);
+  }
+
+  /* Features */
+  .create-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .create-feature {
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(255,255,255,0.03);
+    transition: all 0.35s ease;
+  }
+  .create-feature:hover {
+    border-color: var(--text-faint);
+    background: rgba(255,255,255,0.06);
+    transform: translateY(-4px);
+    box-shadow: 0 0 40px rgba(180,140,255,0.1);
+  }
+  .create-feature-icon {
+    font-size: 26px;
+    line-height: 1;
+  }
+  .create-feature-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .create-feature-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-faint);
+  }
+
+  /* Example prompts */
+  .create-section-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 20px;
+  }
+  .create-examples-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  .create-example-card {
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    padding: 22px 22px;
+    background: rgba(255,255,255,0.02);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .create-example-card:hover {
+    border-color: var(--text-faint);
+    background: rgba(255,255,255,0.05);
+    transform: translateY(-3px);
+  }
+  .create-example-genre {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .create-example-prompt {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-dim);
+    font-style: italic;
+  }
+
+  /* Divider */
+  .create-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  @media (max-width: 700px) {
+    .create-features { grid-template-columns: 1fr; }
+    .create-examples-grid { grid-template-columns: 1fr; }
+    .create-hero-title { letter-spacing: -2px; }
+    .create-wrap { padding: 40px 16px 72px; gap: 48px; }
+  }
 </style>
 </head>
 <body>
@@ -2034,25 +2442,237 @@
     MOODWAVE
   </div>
   <div class="nav-links">
-    <button class="nav-tab active" data-view="player">Player</button>
-    <button class="nav-tab" data-view="news">News</button>
+    <button class="nav-tab" data-view="home">Басты бет</button>
+    <button class="nav-tab active" data-view="player">Ойнатқыш</button>
+    <button class="nav-tab" data-view="news">Жаңалықтар</button>
+    <button class="nav-tab" data-view="create">Жасау</button>
   </div>
 </nav>
 
-<div class="bg-anim"></div>
-<div class="unveil-object" id="unveilObject" aria-hidden="true">
-  <div class="unveil-grid">
-    <span class="unveil-tile"></span>
-    <span class="unveil-tile"></span>
-    <span class="unveil-tile"></span>
-    <span class="unveil-tile"></span>
-    <span class="unveil-tile"></span>
-    <span class="unveil-tile"></span>
-    <span class="unveil-tile"></span>
-    <span class="unveil-tile"></span>
-    <span class="unveil-tile"></span>
+
+<!-- ===================== HOME VIEW ===================== -->
+<div id="home-view">
+
+  <!-- Hero -->
+  <div class="home-hero" id="homeHero">
+    <div class="home-hero-kicker">Мәдени мұра · Музыкалық тарих</div>
+    <h1 class="home-hero-title">Қазақ<br>Музыкасы</h1>
+    <p class="home-hero-sub">Ежелгі дәуірден бүгінгі күнге дейін — қазақ музыкасының бай тарихын, жанрларын және ұлттық аспаптарын тани отырыңыз.</p>
+    <div class="home-tabs">
+      <button class="home-tab-btn active" data-section="history">Тарих</button>
+      <button class="home-tab-btn" data-section="genres">Жанрлар</button>
+      <button class="home-tab-btn" data-section="instruments">Аспаптар</button>
+    </div>
+    <div class="home-scroll-hint">
+      <div class="home-scroll-line"></div>
+      Төмен жылжыңыз
+    </div>
   </div>
-  <div class="unveil-core"></div>
+
+  <div class="home-content">
+
+    <!-- ТАРИХ -->
+    <div class="home-section active" id="section-history">
+      <div class="home-section-head reveal-item">
+        <div class="home-section-kicker">01 — Тарих</div>
+        <h2 class="home-section-title">Музыкалық<br>Тарих</h2>
+        <p class="home-section-desc">Қазақ музыкасы мыңдаған жылдық тарихқа ие. Ауызша дәстүрден заманауи сахнаға дейінгі жол.</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item reveal-item">
+          <div class="timeline-year">V–VIII ғ.</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-name">Жырау дәстүрінің бастауы</div>
+            <div class="timeline-text">Ежелгі түркі тайпаларының музыкалық мәдениеті қалыптасты. Жыраулар — халық ақыны мен музыканты ретінде батырлар жырын, аңыз-ертегілерді орындады. Домбыра мен қобыз осы дәуірде кең таралды.</div>
+            <span class="timeline-tag">Ауызша дәстүр</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal-item">
+          <div class="timeline-year">XVIII ғ.</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-name">Бұқар Жырау Қалқаманұлы (1693–1787)</div>
+            <div class="timeline-text">Қазақ жырауларының ең ірі өкілі. Абылай хан кезеңінің бас кеңесшісі болды. Оның толғаулары халық даналығының шыңы болып табылады және бүгінге дейін сақталған.</div>
+            <span class="timeline-tag">Жырау · Толғау</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal-item">
+          <div class="timeline-year">XIX ғ.</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-name">Құрманғазы Сағырбайұлы (1823–1896)</div>
+            <div class="timeline-text">Қазақтың ұлы домбырашысы. «Сарыарқа», «Балбырауын», «Адай» сияқты шедевр күйлерін жасады. Оның шығармалары халық музыкасының алтын қорына енді.</div>
+            <span class="timeline-tag">Домбыра · Күй</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal-item">
+          <div class="timeline-year">1845–1904</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-name">Абай Құнанбайұлы</div>
+            <div class="timeline-text">Қазақтың ұлы ақыны, жазушысы, композиторы және философы. «Көзімнің қарасы», «Желсіз түнде жарық ай» сияқты ән-жырлар қазақ музыкасын жаңа биікке көтерді. Еуропалық музыка дәстүрін қазақ поэзиясымен ұштастырды.</div>
+            <span class="timeline-tag">Ән · Поэзия</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal-item">
+          <div class="timeline-year">1920–40-жж.</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-name">Кеңес дәуірі және опера театры</div>
+            <div class="timeline-text">1934 жылы Қазақ мемлекеттік опера және балет театры ашылды. Еуропалық классикалық музыка формалары қазақ мазмұнымен байыды. Ахмет Жұбанов, Латиф Хамиди сияқты композиторлар ұлттық операларды дүниеге келтірді.</div>
+            <span class="timeline-tag">Опера · Классика</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal-item">
+          <div class="timeline-year">1960–80-жж.</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-name">Қазақ эстрадасының алтын дәуірі</div>
+            <div class="timeline-text">Роза Рымбаева, Бибігүл Төлегенова сияқты жұлдыздар бүкіл КСРО-ға танылды. Ұлттық эстрада музыкасы жаңа деңгейге көтерілді. Ән жарыстары мен фестивальдер жиі өткізілді.</div>
+            <span class="timeline-tag">Эстрада · Поп</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal-item">
+          <div class="timeline-year">1991–2000-жж.</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-name">Тәуелсіздік және жаңа толқын</div>
+            <div class="timeline-text">Қазақстан тәуелсіздік алғаннан кейін ұлттық музыка мәдениеті жаңаша дамыды. Қазақ рок-тобтары, Дос-Мұқасан, A'Studio сияқты топтар заманауи қазақ музыкасының іргетасын қалады.</div>
+            <span class="timeline-tag">Рок · Заманауи</span>
+          </div>
+        </div>
+        <div class="timeline-item reveal-item">
+          <div class="timeline-year">Бүгін</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-name">Әлемдік аренадағы Қазақ музыкасы</div>
+            <div class="timeline-text">Димаш Құдайберген халықаралық сахнада Қазақстанды дүниежүзіне таныстырды. Imanbek грэмми иегері атанды. Жас суретшілер ұлттық дәстүр мен заманауи трендтерді ұштастырып, жаңа беттер ашуда.</div>
+            <span class="timeline-tag">Халықаралық · Бүгін</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ЖАНРЛАР -->
+    <div class="home-section" id="section-genres">
+      <div class="home-section-head reveal-item">
+        <div class="home-section-kicker">02 — Жанрлар</div>
+        <h2 class="home-section-title">Музыкалық<br>Жанрлар</h2>
+        <p class="home-section-desc">Қазақ музыкасы алуан түрлі жанрларға бай. Ежелгі дәстүрлі формалардан бастап заманауи стильдерге дейін.</p>
+      </div>
+      <div class="genre-grid">
+        <div class="genre-card-kz reveal-item">
+          <div class="genre-card-num">01</div>
+          <div class="genre-card-title">Жыр</div>
+          <div class="genre-card-kz-sub">Эпикалық поэзия</div>
+          <div class="genre-card-desc">Ауызша дәстүрдің негізі. Жыраулар батырлар туралы ұзақ эпикалық жырларды орындады. «Алпамыс», «Қобыланды батыр» сияқты эпостар жыр жанрының шедеврлері.</div>
+          <div class="genre-card-era">V ғасырдан бастап</div>
+        </div>
+        <div class="genre-card-kz reveal-item">
+          <div class="genre-card-num">02</div>
+          <div class="genre-card-title">Толғау</div>
+          <div class="genre-card-kz-sub">Философиялық лирика</div>
+          <div class="genre-card-desc">Жыраудың өмір, тағдыр, халық мүддесі туралы терең ойларын білдіретін поэтикалық монолог. Музыкамен немесе а капелла орындалады.</div>
+          <div class="genre-card-era">XVIII ғасыр</div>
+        </div>
+        <div class="genre-card-kz reveal-item">
+          <div class="genre-card-num">03</div>
+          <div class="genre-card-title">Айтыс</div>
+          <div class="genre-card-kz-sub">Ақындар жарысы</div>
+          <div class="genre-card-desc">Екі ақынның (айтыскер) домбыра сүйемелдеуімен жүргізетін импровизациялық поэтикалық жарысы. Тапқырлық, білім, шешендік шеберлігі бағаланады.</div>
+          <div class="genre-card-era">Ежелгі дәстүр</div>
+        </div>
+        <div class="genre-card-kz reveal-item">
+          <div class="genre-card-num">04</div>
+          <div class="genre-card-title">Күй</div>
+          <div class="genre-card-kz-sub">Аспаптық музыка</div>
+          <div class="genre-card-desc">Домбырада орындалатын аспаптық шығарма. Табиғат суреттерін, тарихи оқиғаларды, сезімдерді бейнелейді. Құрманғазының күйлері — жанрдың шыңы.</div>
+          <div class="genre-card-era">XIX ғасыр</div>
+        </div>
+        <div class="genre-card-kz reveal-item">
+          <div class="genre-card-num">05</div>
+          <div class="genre-card-title">Ән</div>
+          <div class="genre-card-kz-sub">Классикалық ән</div>
+          <div class="genre-card-desc">Лирикалық және эпикалық мазмұндағы халық әндері. Абайдың ән-жырлары классикалық форманы ұлттық рухпен байланыстырды. Ән — қазақ музыкасының жүрегі.</div>
+          <div class="genre-card-era">XIX–XX ғасыр</div>
+        </div>
+        <div class="genre-card-kz reveal-item">
+          <div class="genre-card-num">06</div>
+          <div class="genre-card-title">Заманауи</div>
+          <div class="genre-card-kz-sub">Поп · Рок · Электрон</div>
+          <div class="genre-card-desc">Бүгінгі қазақ музыканттары ұлттық дәстүрді жаңа стильдермен ұштастырады. Dimash, Imanbek, Ninety One — халықаралық танымалдылыққа жеткен заманауи суретшілер.</div>
+          <div class="genre-card-era">XXI ғасыр</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- АСПАПТАР -->
+    <div class="home-section" id="section-instruments">
+      <div class="home-section-head reveal-item">
+        <div class="home-section-kicker">03 — Аспаптар</div>
+        <h2 class="home-section-title">Музыкалық<br>Аспаптар</h2>
+        <p class="home-section-desc">Қазақтың ұлттық аспаптары халықтың рухын, тарихын және дүниетанымын бейнелейді.</p>
+      </div>
+      <div class="instrument-grid">
+        <div class="instrument-card reveal-item">
+          <div class="instrument-icon">🎸</div>
+          <div class="instrument-body">
+            <div class="instrument-name">Домбыра</div>
+            <div class="instrument-kz">Ұлттық аспап · 2 ішек</div>
+            <div class="instrument-desc">Қазақтың ең танымал және киелі аспабы. Екі ішекті шертпелі аспап. Домбырасыз қазақ музыкасы жоқ десе де болады — ол халықтың жанын, сағынышын, қуанышын жеткізеді.</div>
+            <div class="instrument-fact">«Домбыра — қазақтың жаны» — халық сөзі</div>
+          </div>
+        </div>
+        <div class="instrument-card reveal-item">
+          <div class="instrument-icon">🎻</div>
+          <div class="instrument-body">
+            <div class="instrument-name">Қобыз</div>
+            <div class="instrument-kz">Смычковый аспап · 2 ішек</div>
+            <div class="instrument-desc">Бақсылар мен шамандар пайдаланған киелі аспап. Жылқы қылынан жасалған смычокпен орындалады. Дыбысы адам даусына өте ұқсас, тылсым және терең.</div>
+            <div class="instrument-fact">Легенда бойынша оны Қорқыт ата ойлап тапқан</div>
+          </div>
+        </div>
+        <div class="instrument-card reveal-item">
+          <div class="instrument-icon">🪗</div>
+          <div class="instrument-body">
+            <div class="instrument-name">Жетіген</div>
+            <div class="instrument-kz">Жіп ішекті · 7 ішек</div>
+            <div class="instrument-desc">Жеті ішекті кесте аспап. «Жеті» деген сөз қазақшада «жеті» дегенді білдіреді. Аспаптың дыбысы нәзік және медитативті. Ертеде тек билер мен сарай музыканттары орындаған.</div>
+            <div class="instrument-fact">Жетіген аспабы жеті планетаны бейнелейді</div>
+          </div>
+        </div>
+        <div class="instrument-card reveal-item">
+          <div class="instrument-icon">🪈</div>
+          <div class="instrument-body">
+            <div class="instrument-name">Сыбызғы</div>
+            <div class="instrument-kz">Үрмелі аспап · Флейта</div>
+            <div class="instrument-desc">Қамыстан немесе ағаштан жасалған ұлттық флейта. Ашық далада, табиғат аясында орындалуға арналған. Дыбысы жел мен жазира даланың үнін еске түсіреді.</div>
+            <div class="instrument-fact">Сыбызғы дыбысы кейбір жануарларды тартатыны аңыз</div>
+          </div>
+        </div>
+        <div class="instrument-card reveal-item">
+          <div class="instrument-icon">🥁</div>
+          <div class="instrument-body">
+            <div class="instrument-name">Дауылпаз</div>
+            <div class="instrument-kz">Соқпалы аспап · Барабан</div>
+            <div class="instrument-desc">Дәстүрлі қазақ барабаны. Жорықтарда, мерекелерде және діни рәсімдерде қолданылған. Дауылпаздың дыбысы жауынгерлерді шайқасқа шақырған.</div>
+            <div class="instrument-fact">Дауылпаз — жеңіс пен қуат символы</div>
+          </div>
+        </div>
+        <div class="instrument-card reveal-item">
+          <div class="instrument-icon">🎵</div>
+          <div class="instrument-body">
+            <div class="instrument-name">Шертер</div>
+            <div class="instrument-kz">Шертпелі аспап · 3 ішек</div>
+            <div class="instrument-desc">Домбырадан ерте пайда болған үш ішекті аспап. Негізінен Оңтүстік Қазақстанда кең тараған. Орындалу техникасы домбырадан өзгеше — саусақпен шертіледі.</div>
+            <div class="instrument-fact">Шертер — домбыраның бабасы деп есептеледі</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
 <div id="player-view">
@@ -2067,7 +2687,7 @@
       </div>
       <button class="settings-btn" id="settingsBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-        Settings
+        Баптаулар
       </button>
     </div>
 
@@ -2075,10 +2695,10 @@
       <div class="thumb" id="thumb"></div>
       <div class="track-info">
         <div class="track-title">
-          <span id="trackTitle">No track loaded</span>
+          <span id="trackTitle">Трек жүктелмеген</span>
           <span class="wave" id="wave"><span></span><span></span><span></span><span></span><span></span></span>
         </div>
-        <div class="track-artist" id="trackArtist">Ask the AI to recommend music for your mood</div>
+        <div class="track-artist" id="trackArtist">AI-дан кейіпіңізге музыка ұсынуды сұраңыз</div>
         <div class="controls">
           <button class="ctrl-btn" id="prevBtn" title="Previous" disabled>
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
@@ -2091,7 +2711,7 @@
           </button>
           <button class="save-btn" id="saveBtn" disabled>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-            <span id="saveBtnText">Save</span>
+            <span id="saveBtnText">Сақтау</span>
           </button>
         </div>
       </div>
@@ -2100,20 +2720,20 @@
     <div class="lists">
       <div class="list-col">
         <div class="list-head">
-          <span class="list-title">Now Queue</span>
+          <span class="list-title">Кезек</span>
           <span class="list-count" id="queueCount">0</span>
         </div>
         <div class="list-body" id="queueList">
-          <div class="empty">Your AI-curated queue will appear here.<br>Describe a vibe in chat →</div>
+          <div class="empty">AI таңдаған кезек осында пайда болады.<br>Чатта кейіп сипаттаңыз →</div>
         </div>
       </div>
       <div class="list-col">
         <div class="list-head">
-          <span class="list-title">Saved Playlist</span>
+          <span class="list-title">Сақталған</span>
           <span class="list-count" id="savedCount">0</span>
         </div>
         <div class="list-body" id="savedList">
-          <div class="empty">No saved tracks yet.<br>Hit Save on a track you like.</div>
+          <div class="empty">Сақталған трек жоқ.<br>Ұнаған тректі сақтаңыз.</div>
         </div>
       </div>
     </div>
@@ -2124,29 +2744,29 @@
     <div class="chat-head">
       <div class="chat-head-text">
         <div class="chat-head-title">AI DJ</div>
-        <div class="chat-head-sub">Tell me a mood, a moment, a memory.</div>
+        <div class="chat-head-sub">Кейіпіңізді, сәтіңізді, естелігіңізді айтыңыз.</div>
       </div>
-      <button class="chat-toggle" id="chatToggle" title="Collapse chat">
+      <button class="chat-toggle" id="chatToggle" title="Чатты жасыру">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
 
     <div class="chat-body" id="chatBody">
       <div class="msg ai">
-        Hey. I'm your DJ. Drop me a mood — "late night drive", "rainy Sunday", "sunlit kitchen" — and I'll spin five tracks for you.
+        Сәлем. Мен сіздің DJ-іңізбін. Маған кейіп сипаттаңыз — "кешкі жол", "жаңбырлы жексенбі", "күнді ас үй" — мен сізге бес трек таңдаймын.
         <div class="chips">
-          <button class="chip" data-prompt="late night drive on an empty highway">late night drive</button>
-          <button class="chip" data-prompt="sad and rainy afternoon">sad &amp; rainy</button>
-          <button class="chip" data-prompt="focused deep work">deep focus</button>
-          <button class="chip" data-prompt="golden hour walk in the city">golden hour</button>
+          <button class="chip" data-prompt="late night drive on an empty highway">кешкі жол</button>
+          <button class="chip" data-prompt="sad and rainy afternoon">мұңды жаңбыр</button>
+          <button class="chip" data-prompt="focused deep work">терең шоғырлану</button>
+          <button class="chip" data-prompt="golden hour walk in the city">алтын сағат</button>
         </div>
       </div>
     </div>
 
     <div class="chat-input-wrap">
       <div class="chat-input-row">
-        <textarea class="chat-input" id="chatInput" rows="1" placeholder="Describe a mood..."></textarea>
-        <button class="send-btn" id="sendBtn" title="Send">
+        <textarea class="chat-input" id="chatInput" rows="1" placeholder="Кейіпті сипаттаңыз..."></textarea>
+        <button class="send-btn" id="sendBtn" title="Жіберу">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="currentColor" stroke="none"/></svg>
         </button>
       </div>
@@ -2172,15 +2792,15 @@
   <div class="genre-carousel-pin">
     <div class="genre-carousel-header">
       <div>
-        <div class="genre-carousel-kicker">Interactive selector / 3D panel stack</div>
-        <h2 class="genre-carousel-title">Index</h2>
+        <div class="genre-carousel-kicker">Интерактивті таңдау / 3D панель</div>
+        <h2 class="genre-carousel-title">Индекс</h2>
       </div>
       <div class="genre-carousel-progress" id="genreCarouselProgress">01 / 06</div>
     </div>
 
     <div class="stack-gallery-stage">
       <div class="stack-gallery" id="stackGallery"></div>
-      <div class="stack-gallery-hint">Move / hover / click</div>
+      <div class="stack-gallery-hint">Жылжыт / Үстіне кел / Бас</div>
     </div>
   </div>
 </section>
@@ -2190,13 +2810,13 @@
 <div id="news-view">
   <div class="news-wrap">
     <div class="news-section-head">
-      <div class="news-kicker">Music Industry</div>
+      <div class="news-kicker">Музыка индустриясы</div>
       <div class="news-head-row">
         <div>
-          <h1 class="news-section-title">Latest News</h1>
-          <div class="news-section-sub">Live updates from The Guardian &amp; NME</div>
+          <h1 class="news-section-title">Соңғы жаңалықтар</h1>
+          <div class="news-section-sub">The Guardian &amp; NME тікелей жаңартулары</div>
         </div>
-        <button class="news-refresh-btn" id="newsRefreshBtn">↻ Refresh</button>
+        <button class="news-refresh-btn" id="newsRefreshBtn">↻ Жаңарту</button>
       </div>
     </div>
 
@@ -2208,61 +2828,143 @@
   </div>
 </div>
 
+<!-- ===================== CREATE VIEW ===================== -->
+<div id="create-view">
+  <div class="create-wrap">
+
+    <!-- Hero -->
+    <div class="create-hero">
+      <div class="create-hero-badge">AI Музыка генераторы</div>
+      <h1 class="create-hero-title">Suno</h1>
+      <p class="create-hero-sub">
+        Сөзбен музыка жасаңыз. Жанр, кейіп, мәтін — Suno AI секундтар ішінде толыққанды трек жасайды.
+      </p>
+      <a class="create-cta-btn" href="https://suno.com" target="_blank" rel="noopener noreferrer">
+        Suno-да жасау
+        <span class="create-cta-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="create-divider"></div>
+
+    <!-- Features -->
+    <div>
+      <div class="create-section-label">Мүмкіндіктер</div>
+      <div class="create-features">
+        <div class="create-feature">
+          <div class="create-feature-icon">♫</div>
+          <div class="create-feature-title">Кез келген жанр</div>
+          <div class="create-feature-desc">Поп, рок, джаз, электроника, классика — қалағаныңызды жазыңыз, Suno жасайды.</div>
+        </div>
+        <div class="create-feature">
+          <div class="create-feature-icon">⚡</div>
+          <div class="create-feature-title">Жылдам нәтиже</div>
+          <div class="create-feature-desc">30 секундтан аз уақытта дайын, жоғары сапалы трек.</div>
+        </div>
+        <div class="create-feature">
+          <div class="create-feature-icon">🎤</div>
+          <div class="create-feature-title">Вокал + аспап</div>
+          <div class="create-feature-desc">Ән мәтінімен немесе таза инструментал — таңдау сізде.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="create-divider"></div>
+
+    <!-- Example prompts -->
+    <div>
+      <div class="create-section-label">Промпт мысалдары</div>
+      <div class="create-examples-grid">
+        <div class="create-example-card">
+          <div class="create-example-genre">Lo-fi Hip Hop</div>
+          <div class="create-example-prompt">"chill lo-fi beat for studying, rainy day vibes, soft piano and drums"</div>
+        </div>
+        <div class="create-example-card">
+          <div class="create-example-genre">Қазақ поп</div>
+          <div class="create-example-prompt">"upbeat Kazakh pop song, female vocals, modern production, happy mood"</div>
+        </div>
+        <div class="create-example-card">
+          <div class="create-example-genre">Cinematic</div>
+          <div class="create-example-prompt">"epic orchestral soundtrack, emotional, rising strings, cinematic tension"</div>
+        </div>
+        <div class="create-example-card">
+          <div class="create-example-genre">Dark Electronic</div>
+          <div class="create-example-prompt">"dark techno, midnight club, heavy bass, industrial percussion, no vocals"</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <div class="stack-modal" id="stackModal" aria-hidden="true">
   <button class="stack-modal-close" id="stackModalClose" type="button">X</button>
   <div class="stack-modal-card" id="stackModalCard"></div>
 </div>
 
 <!-- Floating reopen-chat button (visible when collapsed) -->
-<button class="chat-reopen" id="chatReopen" title="Open chat">
+<button class="chat-reopen" id="chatReopen" title="Чатты ашу">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
   <span>AI DJ</span>
 </button>
 
 <!-- Settings popover -->
 <div class="settings-pop" id="settingsPop">
-  <label for="apiKeyInput">OpenAI API Key</label>
+  <label for="apiKeyInput">OpenAI API Кілті</label>
   <input type="password" id="apiKeyInput" placeholder="sk-..." autocomplete="off">
-  <div class="hint">Stored locally in your browser. Never sent anywhere except OpenAI.</div>
+  <div class="hint">Браузерде жергілікті сақталады. OpenAI-дан басқа ешқайда жіберілмейді.</div>
   <div class="status" id="apiStatus"></div>
+  <hr style="border:none; border-top:1px solid var(--border); margin:14px 0 12px;">
+  <label>Spotify</label>
+  <div class="status" id="spotifyStatus">Тексеру…</div>
+  <button id="spotifyLoginBtn" type="button" style="margin-top:8px; width:100%; padding:10px 12px; border-radius:10px; border:none; background:#1DB954; color:#fff; font-weight:600; cursor:pointer;">Spotify-ке кіру</button>
+  <button id="spotifyLogoutBtn" type="button" style="display:none; margin-top:8px; width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--border); background:transparent; color:var(--text); font-weight:600; cursor:pointer;">Шығу</button>
+  <div class="hint">Premium қажет — толық трек ойнатылады. Premium жоқ болса YouTube/iTunes қолданылады.</div>
 </div>
 
 <!-- Hidden YouTube player host -->
 <div id="yt-player-host"><div id="yt-player"></div></div>
-<!-- Hidden HTML5 audio for Spotify previews -->
+<!-- Hidden HTML5 audio for iTunes 30-sec previews -->
 <audio id="preview-audio" preload="none"></audio>
 
-<!-- Floating particles -->
+<!-- Floating music notes -->
 <script>
-  // Particle layer
   (function() {
-    const N = 18;
+    const NOTES = ['♩', '♪', '♫', '♬', '♭', '♮', '♯'];
+    const N = 28;
     for (let i = 0; i < N; i++) {
-      const p = document.createElement('div');
-      p.className = 'particle';
-      p.style.left = Math.random() * 100 + 'vw';
-      p.style.animationDelay = (Math.random() * 14) + 's';
-      p.style.animationDuration = (10 + Math.random() * 10) + 's';
-      p.style.background = 'rgba(255, 255, 255, 0.8)';
-      p.style.boxShadow = '0 0 6px rgba(255, 255, 255, 0.5)';
-      document.body.appendChild(p);
+      const el = document.createElement('span');
+      el.className = 'music-note';
+      const size = 80 + Math.random() * 120;
+      const opacity = 0.55 + Math.random() * 0.35;
+      const dur = (18 + Math.random() * 20) * 1000;
+      const drift = (Math.random() - 0.5) * 160;
+      const spin = (Math.random() - 0.5) * 80;
+      el.textContent = NOTES[Math.floor(Math.random() * NOTES.length)];
+      el.style.left = (Math.random() * 100) + 'vw';
+      el.style.fontSize = size + 'px';
+      document.body.appendChild(el);
+      el.animate([
+        { transform: 'translateY(110vh) translateX(0px) rotate(0deg)',         opacity: 0 },
+        { transform: 'translateY(95vh)  translateX(' + (drift*0.1) + 'px) rotate(' + (spin*0.1) + 'deg)', opacity: opacity, offset: 0.08 },
+        { transform: 'translateY(10vh)  translateX(' + (drift*0.9) + 'px) rotate(' + (spin*0.9) + 'deg)', opacity: opacity, offset: 0.88 },
+        { transform: 'translateY(-12vh) translateX(' + drift + 'px) rotate(' + spin + 'deg)', opacity: 0 }
+      ], {
+        duration: dur,
+        delay: -(Math.random() * dur),
+        iterations: Infinity,
+        easing: 'linear',
+        fill: 'both'
+      });
     }
-  })();
-
-  // Ambient object parallax
-  (function() {
-    const obj = document.getElementById('unveilObject');
-    if (!obj) return;
-    window.addEventListener('pointermove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 28;
-      const y = (e.clientY / window.innerHeight - 0.5) * 24;
-      obj.style.setProperty('--mx', x.toFixed(2) + 'px');
-      obj.style.setProperty('--my', y.toFixed(2) + 'px');
-    }, { passive: true });
   })();
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<!-- Spotify Web Playback SDK + frontend wrapper -->
+<script src="https://sdk.scdn.co/spotify-player.js"></script>
+<script src="/src/spotify.js"></script>
 
 <script>
   // Pointer-driven 3D panel stack
@@ -2637,13 +3339,25 @@ Rules:
   };
 
   function trackKey(title = '', artist = '') {
-    return `${title}|${artist}`
-      .toLowerCase()
-      .replace(/&/g, 'and')
-      .replace(/\b(feat|ft)\.?.*$/g, '')
-      .replace(/[^a-z0-9| ]+/g, '')
-      .replace(/\s+/g, ' ')
-      .trim();
+    function norm(s) {
+      return s.toLowerCase()
+        .replace(/&/g, 'and')
+        .replace(/\s*\(feat[^)]*\)/g, '')
+        .replace(/\b(feat|ft)\.?\s.*$/, '')
+        .replace(/[^a-z0-9 ]+/g, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+    return `${norm(title)}|${norm(artist)}`;
+  }
+
+  // Build normalized lookup so accented/variant keys still match
+  const NORMALIZED_YOUTUBE_IDS = {};
+  for (const [k, v] of Object.entries(VERIFIED_YOUTUBE_IDS)) {
+    const sep = k.indexOf('|');
+    const t = sep >= 0 ? k.slice(0, sep) : k;
+    const a = sep >= 0 ? k.slice(sep + 1) : '';
+    NORMALIZED_YOUTUBE_IDS[trackKey(t, a)] = v;
   }
 
   function normalizeTrack(track) {
@@ -2651,7 +3365,8 @@ Rules:
     const key = trackKey(track.title, track.artist);
     return {
       ...track,
-      youtubeId:    VERIFIED_YOUTUBE_IDS[key] || String(track.youtubeId || '').trim(),
+      youtubeId:    NORMALIZED_YOUTUBE_IDS[key] || String(track.youtubeId || '').trim(),
+      spotifyUri:   track.spotifyUri   || null,
       previewUrl:   track.previewUrl   || null,
       spotifyImage: track.spotifyImage || null,
       _enriched:    false,
@@ -2662,32 +3377,60 @@ Rules:
   const enrichCache = {};
 
   async function enrichTrack(track) {
-    if (track.youtubeId || track._enriched) return track;
+    if (track._enriched) return track;
+    // Если Spotify не включён и youtubeId уже есть — обогащение не нужно
+    if (!spotifyEnabled && track.youtubeId) return track;
     track._enriched = true;
     const cacheKey = `${track.title}|${track.artist}`.toLowerCase();
     if (enrichCache[cacheKey]) {
       Object.assign(track, enrichCache[cacheKey]);
       return track;
     }
-    try {
-      const q = encodeURIComponent(`${track.title} ${track.artist}`);
-      const res = await fetch(
-        `https://itunes.apple.com/search?term=${q}&media=music&entity=song&limit=5`
-      );
-      if (!res.ok) return track;
-      const data = await res.json();
-      const best = data.results?.find(t => t.previewUrl) || data.results?.[0];
-      if (best) {
-        const enrichment = {
-          previewUrl:   best.previewUrl || null,
-          spotifyImage: best.artworkUrl100
-            ? best.artworkUrl100.replace('100x100bb', '400x400bb')
-            : null,
-        };
-        enrichCache[cacheKey] = enrichment;
-        Object.assign(track, enrichment);
-      }
-    } catch (e) {}
+    const enrichment = {};
+
+    // 1) Spotify lookup (если SDK включён) — даёт uri, обложку, иногда preview_url
+    if (spotifyEnabled && !track.spotifyUri) {
+      try {
+        const q = encodeURIComponent(`${track.title} ${track.artist}`);
+        const res = await fetch(`/api/lookup?q=${q}`);
+        if (res.ok) {
+          const data = await res.json();
+          const best = data.tracks?.find(t => t.uri) || data.tracks?.[0];
+          if (best) {
+            enrichment.spotifyUri   = best.uri || null;
+            enrichment.spotifyImage = best.image || null;
+            if (best.preview_url) enrichment.previewUrl = best.preview_url;
+          }
+        }
+      } catch (e) {}
+    }
+
+    // 2) iTunes fallback — нужен только если до сих пор нет ни preview, ни обложки
+    const needsITunes = !track.youtubeId && !track.spotifyUri && !track.previewUrl
+                     && !enrichment.spotifyUri && !enrichment.previewUrl;
+    if (needsITunes) {
+      try {
+        const q = encodeURIComponent(`${track.title} ${track.artist}`);
+        const res = await fetch(
+          `https://itunes.apple.com/search?term=${q}&media=music&entity=song&limit=5`
+        );
+        if (res.ok) {
+          const data = await res.json();
+          const best = data.results?.find(t => t.previewUrl) || data.results?.[0];
+          if (best) {
+            enrichment.previewUrl = enrichment.previewUrl || best.previewUrl || null;
+            enrichment.spotifyImage = enrichment.spotifyImage || (best.artworkUrl100
+              ? best.artworkUrl100.replace('100x100bb', '400x400bb')
+              : null);
+          }
+        }
+      } catch (e) {}
+    }
+
+    if (Object.keys(enrichment).length) {
+      enrichCache[cacheKey] = enrichment;
+      Object.assign(track, enrichment);
+    }
     return track;
   }
 
@@ -2700,8 +3443,17 @@ Rules:
   let chatHistory = loadHistory();
   let pendingTrack = null;
   let playerInitStarted = false;
-  let currentSource = 'none'; // 'youtube' | 'preview'
+  let currentSource = 'none'; // 'spotify' | 'youtube' | 'preview'
   let audioEl = null;
+
+  // ============== SPOTIFY STATE ==============
+  let spotifyPlayer    = null;
+  let spotifyDeviceId  = null;
+  let spotifyAuthed    = false;
+  let spotifyEnabled   = false; // true только если есть Premium и SDK инициализирован
+  let spotifyInitTried = false;
+  let spotifyLastUri   = null;
+  let spotifyEndedFired = false;
 
   // ============== DOM ==============
   const $ = (id) => document.getElementById(id);
@@ -2752,7 +3504,7 @@ Rules:
           else if (e.data === YT.PlayerState.ENDED) playNext();
         },
         'onError': () => {
-          appendSystem('Track unavailable, skipping…');
+          appendSystem('Трек қолжетімсіз, өткізіліп жатыр…');
           playNext();
         }
       }
@@ -2760,31 +3512,74 @@ Rules:
   }
   window.onYouTubeIframeAPIReady = initYouTubePlayer;
 
+  function stopPreviewAudio() {
+    if (!audioEl) return;
+    if (!audioEl.src && !audioEl.currentSrc) return;
+    try { audioEl.pause(); } catch (e) {}
+    audioEl.removeAttribute('src');
+    try { audioEl.load(); } catch (e) {}
+  }
+
   function loadVideoIntoPlayer(track) {
     loadedVideoId = track.youtubeId;
-    if (audioEl) { audioEl.pause(); audioEl.src = ''; }
+    stopPreviewAudio();
     currentSource = 'youtube';
     player.loadVideoById(track.youtubeId);
   }
 
+  function stopYouTube() {
+    if (player && playerReady && player.stopVideo) {
+      try { player.stopVideo(); } catch (e) {}
+    }
+    loadedVideoId = null;
+  }
+
+  async function startSpotify(track) {
+    try {
+      await window.SpotifyAPI.playTrack(track.spotifyUri, spotifyDeviceId);
+      spotifyLastUri = track.spotifyUri;
+      spotifyEndedFired = false;
+    } catch (e) {
+      console.warn('[MOODWAVE] Spotify play error, fallback:', e);
+      spotifyEnabled = false;
+      currentSource = 'none';
+      // Фолбэк: пробуем YouTube/preview этого же трека
+      loadAndPlay(track);
+    }
+  }
+
+  function stopSpotify() {
+    if (spotifyPlayer) {
+      try { spotifyPlayer.pause(); } catch (e) {}
+    }
+    spotifyLastUri = null;
+  }
+
   function loadAndPlay(track) {
     if (!track) return;
+    const hasSpotify = !!(track.spotifyUri && spotifyEnabled && spotifyDeviceId);
     const hasYT      = !!track.youtubeId;
     const hasPreview = !!track.previewUrl;
 
-    if (!hasYT && !hasPreview) {
+    if (!hasSpotify && !hasYT && !hasPreview) {
       // Нет источника — показываем трек в UI и пропускаем
       updateNowPlayingUI(track);
-      appendSystem(`No audio available for "${track.title}" — skipping…`);
+      appendSystem(`"${track.title}" үшін аудио жоқ — өткізіліп жатыр…`);
       setTimeout(playNext, 1500);
       return;
     }
 
     updateNowPlayingUI(track);
 
-    if (hasYT) {
+    if (hasSpotify) {
+      currentSource = 'spotify';
+      stopPreviewAudio();
+      stopYouTube();
+      startSpotify(track);
+    } else if (hasYT) {
       currentSource = 'youtube';
-      if (audioEl) { audioEl.pause(); audioEl.src = ''; }
+      stopPreviewAudio();
+      stopSpotify();
       if (!playerReady || !player || !player.loadVideoById) {
         pendingTrack = track;
         return;
@@ -2792,15 +3587,13 @@ Rules:
       pendingTrack = null;
       loadVideoIntoPlayer(track);
     } else {
-      // Spotify preview (30 сек)
+      // iTunes preview (30 сек)
       currentSource = 'preview';
-      if (player && playerReady && player.stopVideo) {
-        try { player.stopVideo(); } catch (e) {}
-      }
-      loadedVideoId = null;
+      stopYouTube();
+      stopSpotify();
       audioEl.src = track.previewUrl;
       audioEl.play().catch(() => {
-        appendSystem('Preview playback blocked by browser — click ▶ to start.');
+        appendSystem('Браузер алдын ала тыңдауды бұғаттады — бастау үшін ▶ басыңыз.');
       });
     }
   }
@@ -2842,16 +3635,23 @@ Rules:
     const key = trackKey(track.title, track.artist);
     const isSaved = saved.some(t => trackKey(t.title, t.artist) === key);
     saveBtn.classList.toggle('saved', isSaved);
-    saveBtnText.textContent = isSaved ? 'Saved' : 'Save';
+    saveBtnText.textContent = isSaved ? 'Сақталды' : 'Сақтау';
   }
 
   // ============== CONTROLS ==============
   playBtn.addEventListener('click', () => {
     if (queueIndex < 0 || !queue[queueIndex]) {
-      appendSystem('No tracks loaded yet. Describe a mood in the chat first.');
+      appendSystem('Трек жүктелмеген. Алдымен чатта кейіп сипаттаңыз.');
       return;
     }
     const track = queue[queueIndex];
+
+    if (currentSource === 'spotify') {
+      if (spotifyPlayer) {
+        spotifyPlayer.togglePlay().catch(() => {});
+      }
+      return;
+    }
 
     if (currentSource === 'preview') {
       if (isPlaying) {
@@ -2863,7 +3663,7 @@ Rules:
     }
 
     if (!playerReady || !player) {
-      appendSystem('Player is not ready. Try refreshing the page (YouTube may be blocked).');
+      appendSystem('Ойнатқыш дайын емес. Бетті жаңартып көріңіз (YouTube бұғатталған болуы мүмкін).');
       return;
     }
     if (isPlaying) {
@@ -2884,9 +3684,13 @@ Rules:
 
   nextBtn.addEventListener('click', playNext);
 
-  function playNext() {
+  async function playNext() {
     if (queueIndex < queue.length - 1) {
       queueIndex++;
+      const track = queue[queueIndex];
+      renderQueue();
+      await enrichTrack(track);
+      renderQueue();
       loadAndPlay(queue[queueIndex]);
     } else {
       setPlayingUI(false);
@@ -2905,6 +3709,7 @@ Rules:
         title:        t.title,
         artist:       t.artist,
         youtubeId:    t.youtubeId    || '',
+        spotifyUri:   t.spotifyUri   || '',
         previewUrl:   t.previewUrl   || '',
         spotifyImage: t.spotifyImage || '',
       });
@@ -2939,7 +3744,7 @@ Rules:
     queueIndex = idx;
     renderQueue();
 
-    if (!track.youtubeId && !track.previewUrl && !track._enriched) {
+    if (!track._enriched) {
       updateNowPlayingUI(track);
       await enrichTrack(track);
       renderQueue();
@@ -2950,12 +3755,12 @@ Rules:
   }
 
   async function playFromSaved(idx) {
-    queue = saved.map(t => ({ previewUrl: null, spotifyImage: null, _enriched: false, ...t }));
+    queue = saved.map(t => ({ spotifyUri: null, previewUrl: null, spotifyImage: null, _enriched: false, ...t }));
     queueIndex = idx;
     renderQueue();
     const track = queue[idx];
 
-    if (!track.youtubeId && !track.previewUrl && !track._enriched) {
+    if (!track._enriched) {
       await enrichTrack(track);
       renderQueue();
     }
@@ -2996,7 +3801,7 @@ Rules:
   function renderSaved() {
     savedCount.textContent = saved.length;
     if (!saved.length) {
-      savedList.innerHTML = '<div class="empty">No saved tracks yet.<br>Hit Save on a track you like.</div>';
+      savedList.innerHTML = '<div class="empty">Сақталған трек жоқ.<br>Ұнаған тректі сақтаңыз.</div>';
       return;
     }
     savedList.innerHTML = '';
@@ -3260,10 +4065,97 @@ Rules:
 
   // ============== PREVIEW AUDIO INIT ==============
   audioEl = document.getElementById('preview-audio');
-  audioEl.addEventListener('playing', () => setPlayingUI(true));
-  audioEl.addEventListener('pause',   () => setPlayingUI(false));
-  audioEl.addEventListener('ended',   () => { setPlayingUI(false); playNext(); });
-  audioEl.addEventListener('error',   () => { appendSystem('Preview unavailable, skipping…'); playNext(); });
+  audioEl.addEventListener('playing', () => {
+    if (currentSource !== 'preview') return;
+    setPlayingUI(true);
+  });
+  audioEl.addEventListener('pause', () => {
+    if (currentSource !== 'preview') return;
+    setPlayingUI(false);
+  });
+  audioEl.addEventListener('ended', () => {
+    if (currentSource !== 'preview') return;
+    setPlayingUI(false);
+    playNext();
+  });
+  audioEl.addEventListener('error', () => {
+    if (currentSource !== 'preview') return;
+    if (!audioEl.src && !audioEl.currentSrc) return;
+    appendSystem('Preview unavailable, skipping…');
+    playNext();
+  });
+
+  // ============== SPOTIFY INIT ==============
+  const spotifyStatusEl   = document.getElementById('spotifyStatus');
+  const spotifyLoginBtn   = document.getElementById('spotifyLoginBtn');
+  const spotifyLogoutBtn  = document.getElementById('spotifyLogoutBtn');
+
+  function setSpotifyStatus(msg) {
+    if (spotifyStatusEl) spotifyStatusEl.textContent = msg;
+  }
+
+  spotifyLoginBtn?.addEventListener('click', () => {
+    if (window.SpotifyAPI) window.SpotifyAPI.login();
+  });
+  spotifyLogoutBtn?.addEventListener('click', () => {
+    if (window.SpotifyAPI) window.SpotifyAPI.logout();
+  });
+
+  async function initSpotify() {
+    if (spotifyInitTried) return;
+    spotifyInitTried = true;
+    if (!window.SpotifyAPI) {
+      setSpotifyStatus('Қолжетімсіз');
+      return;
+    }
+    try {
+      spotifyAuthed = await window.SpotifyAPI.isAuthenticated();
+    } catch (e) {
+      spotifyAuthed = false;
+    }
+    if (!spotifyAuthed) {
+      setSpotifyStatus('Қосылмаған');
+      spotifyLoginBtn.style.display  = 'block';
+      spotifyLogoutBtn.style.display = 'none';
+      return;
+    }
+
+    spotifyLoginBtn.style.display  = 'none';
+    spotifyLogoutBtn.style.display = 'block';
+    setSpotifyStatus('Қосылған. Плеер дайындалуда…');
+
+    try {
+      const me = await window.SpotifyAPI.getMe();
+      if (me && me.product !== 'premium') {
+        setSpotifyStatus(`${me.name || ''} — Premium қажет, YouTube/iTunes қолданылады`);
+        return;
+      }
+      const { player: p, device_id } = await window.SpotifyAPI.initPlayer('MOODWAVE');
+      spotifyPlayer    = p;
+      spotifyDeviceId  = device_id;
+      spotifyEnabled   = true;
+      setSpotifyStatus(`${me?.name || 'Connected'} — Premium ✓`);
+
+      spotifyPlayer.addListener('player_state_changed', (state) => {
+        if (!state || currentSource !== 'spotify') return;
+        setPlayingUI(!state.paused);
+        // Окончание трека: paused + position == 0 + duration > 0 + был активный URI
+        if (state.paused && state.position === 0 && state.duration > 0 && spotifyLastUri && !spotifyEndedFired) {
+          spotifyEndedFired = true;
+          playNext();
+        }
+      });
+    } catch (e) {
+      console.warn('[MOODWAVE] Spotify SDK init failed:', e);
+      const msg = String(e?.message || '');
+      if (/Premium/i.test(msg) || /account/i.test(msg)) {
+        setSpotifyStatus('Premium қажет — YouTube/iTunes қолданылады');
+      } else {
+        setSpotifyStatus('SDK іске қосылмады — YouTube/iTunes қолданылады');
+      }
+    }
+  }
+  initSpotify();
 
   // If no key on first load, hint via chat
   if (!localStorage.getItem(LS_KEY_API)) {
@@ -3282,18 +4174,53 @@ Rules:
   // ── View switching ──
   const playerView = document.getElementById('player-view');
   const newsView   = document.getElementById('news-view');
+  const createView = document.getElementById('create-view');
+  const homeView   = document.getElementById('home-view');
   const navTabs    = document.querySelectorAll('.nav-tab');
 
   function switchView(view) {
     navTabs.forEach(t => t.classList.toggle('active', t.dataset.view === view));
-    if (view === 'news') {
-      playerView.style.display = 'none';
-      newsView.style.display   = 'block';
-      if (!newsLoaded) loadNews();
-    } else {
-      playerView.style.display = 'block';
-      newsView.style.display   = 'none';
-    }
+    playerView.style.display = view === 'player' ? 'block' : 'none';
+    newsView.style.display   = view === 'news'   ? 'block' : 'none';
+    createView.style.display = view === 'create' ? 'block' : 'none';
+    homeView.style.display   = view === 'home'   ? 'block' : 'none';
+    if (view === 'news' && !newsLoaded) loadNews();
+    if (view === 'home') initHomeAnimations();
+  }
+
+  // ── Home page animations ──
+  function initHomeAnimations() {
+    // Hero reveal
+    requestAnimationFrame(() => {
+      document.getElementById('homeHero').classList.add('revealed');
+    });
+
+    // Section tab switching
+    document.querySelectorAll('.home-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.home-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.home-section').forEach(s => s.classList.remove('active'));
+        const target = document.getElementById('section-' + btn.dataset.section);
+        if (target) {
+          target.classList.add('active');
+          triggerReveal(target);
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Initial section reveal
+    triggerReveal(document.getElementById('section-history'));
+  }
+
+  function triggerReveal(section) {
+    if (!section) return;
+    const items = section.querySelectorAll('.reveal-item');
+    items.forEach((el, i) => {
+      el.style.transitionDelay = (i * 0.08) + 's';
+      requestAnimationFrame(() => { el.classList.add('revealed'); });
+    });
   }
 
   navTabs.forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.view)));
@@ -3301,6 +4228,28 @@ Rules:
 
   // ── News fetch & render ──
   let newsLoaded = false;
+
+  async function fetchNewsFromGuardian() {
+    const params = new URLSearchParams({
+      'api-key':     'test',
+      'show-fields': 'thumbnail,trailText',
+      'page-size':   '12',
+      'order-by':    'newest',
+    });
+    const res = await fetch(`https://content.guardianapis.com/music?${params}`);
+    if (!res.ok) throw new Error(`Guardian ${res.status}`);
+    const data = await res.json();
+    return (data.response?.results ?? []).map(item => ({
+      title:   item.webTitle || '',
+      summary: (item.fields?.trailText || '').replace(/<[^>]*>/g, '').slice(0, 240),
+      url:     item.webUrl || '',
+      image:   item.fields?.thumbnail || null,
+      source:  'The Guardian',
+      date:    item.webPublicationDate
+        ? new Date(item.webPublicationDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+        : '',
+    }));
+  }
 
   async function loadNews(force) {
     const featured = document.getElementById('newsFeatured');
@@ -3311,10 +4260,17 @@ Rules:
     grid.innerHTML = skeletons(6);
 
     try {
-      const url = force ? '/api/news?refresh=1' : '/api/news';
-      const res  = await fetch(url);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const { articles } = await res.json();
+      let articles;
+
+      // Try local server first; fall back to Guardian API directly
+      try {
+        const url = force ? '/api/news?refresh=1' : '/api/news';
+        const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        ({ articles } = await res.json());
+      } catch {
+        articles = await fetchNewsFromGuardian();
+      }
 
       if (!articles?.length) throw new Error('empty');
 
@@ -3340,9 +4296,9 @@ Rules:
       featured.style.display = 'none';
       grid.innerHTML = `
         <div class="news-error">
-          Не удалось загрузить новости. Убедись что сервер запущен.
+          Не удалось загрузить новости.
           <br><br>
-          <button onclick="loadNews(true)" style="color:#fff;background:none;border:1px solid rgba(255,255,255,0.25);padding:6px 14px;border-radius:5px;cursor:pointer;font-size:10px;letter-spacing:1px;font-family:inherit">
+          <button onclick="loadNews(true)" style="color:var(--text);background:none;border:1px solid var(--border-strong);padding:6px 14px;border-radius:5px;cursor:pointer;font-size:10px;letter-spacing:1px;font-family:inherit">
             Попробовать снова
           </button>
         </div>`;
