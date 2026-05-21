@@ -6256,5 +6256,399 @@ MOODWAVE — музыканы көңіл күй, ел және атмосфер�
   </div>
 </footer>
 
+<!-- ===================== SITE GUIDE BOT ===================== -->
+<style>
+/* Round FAB button — always visible */
+.guide-fab {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 9999;
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: #17100a;
+  border: 2px solid rgba(200,164,96,0.5);
+  color: #f5ede0;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.45), 0 0 0 0 rgba(200,164,96,0.4);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  animation: fabPulse 3s ease-in-out infinite;
+}
+@keyframes fabPulse {
+  0%,100% { box-shadow: 0 6px 24px rgba(0,0,0,0.45), 0 0 0 0 rgba(200,164,96,0.4); }
+  50%      { box-shadow: 0 6px 24px rgba(0,0,0,0.45), 0 0 0 10px rgba(200,164,96,0); }
+}
+.guide-fab:hover {
+  transform: scale(1.12);
+  animation: none;
+  box-shadow: 0 10px 32px rgba(0,0,0,0.6);
+}
+
+/* Chat popup */
+.guide-popup {
+  position: fixed;
+  bottom: 104px;
+  right: 32px;
+  z-index: 9998;
+  width: 340px;
+  background: #fdf8f0;
+  border: 1px solid rgba(140,105,55,0.25);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.9) translateY(16px);
+  transform-origin: bottom right;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.28s cubic-bezier(0.2,0.8,0.2,1);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.guide-popup.open {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.guide-popup-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: #17100a;
+  color: #f5ede0;
+}
+.guide-popup-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+.guide-online-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #4caf50;
+  box-shadow: 0 0 6px #4caf50;
+}
+.guide-close {
+  background: none;
+  border: none;
+  color: rgba(245,237,224,0.6);
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: color 0.15s;
+}
+.guide-close:hover { color: #f5ede0; }
+
+.guide-msgs {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 340px;
+  min-height: 180px;
+}
+.guide-msgs::-webkit-scrollbar { width: 3px; }
+.guide-msgs::-webkit-scrollbar-thumb { background: rgba(140,105,55,0.2); border-radius: 2px; }
+
+.guide-msg {
+  max-width: 88%;
+  padding: 10px 13px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.55;
+  animation: guideMsgIn 0.22s ease;
+}
+@keyframes guideMsgIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+.guide-msg.bot {
+  align-self: flex-start;
+  background: #f0e8d6;
+  color: #17100a;
+  border: 1px solid rgba(140,105,55,0.15);
+  border-bottom-left-radius: 4px;
+}
+.guide-msg.user {
+  align-self: flex-end;
+  background: #17100a;
+  color: #f5ede0;
+  border-bottom-right-radius: 4px;
+}
+.guide-typing {
+  align-self: flex-start;
+  display: flex;
+  gap: 4px;
+  padding: 12px 14px;
+  background: #f0e8d6;
+  border: 1px solid rgba(140,105,55,0.15);
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+}
+.guide-typing span {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #c8a460;
+  animation: guideTyping 1.2s ease-in-out infinite;
+}
+.guide-typing span:nth-child(2) { animation-delay: 0.2s; }
+.guide-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes guideTyping { 0%,60%,100%{transform:scale(0.7);opacity:0.4;} 30%{transform:scale(1.2);opacity:1;} }
+
+/* Quick suggestion chips */
+.guide-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.guide-chip {
+  background: rgba(200,164,96,0.15);
+  border: 1px solid rgba(140,105,55,0.25);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #46311a;
+  cursor: pointer;
+  font-family: 'Inter', system-ui, sans-serif;
+  transition: all 0.18s;
+}
+.guide-chip:hover { background: #17100a; color: #f5ede0; border-color: #17100a; }
+
+.guide-input-row {
+  display: flex;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid rgba(140,105,55,0.15);
+}
+.guide-input {
+  flex: 1;
+  background: #f5ede0;
+  border: 1px solid rgba(140,105,55,0.25);
+  border-radius: 10px;
+  padding: 9px 13px;
+  font-family: inherit;
+  font-size: 13px;
+  color: #17100a;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.guide-input:focus { border-color: #c8a460; }
+.guide-input::placeholder { color: #7a5830; }
+.guide-send {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: #17100a;
+  border: none;
+  color: #f5ede0;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.15s;
+}
+.guide-send:hover { background: #c8a460; transform: scale(1.08); }
+
+@media (max-width: 480px) {
+  .guide-popup { width: calc(100vw - 24px); right: 12px; }
+  .guide-fab { right: 16px; bottom: 20px; }
+}
+</style>
+
+<!-- FAB Button -->
+<button class="guide-fab" id="guideFab" aria-label="AI гид">🤖</button>
+
+<!-- Popup -->
+<div class="guide-popup" id="guidePopup">
+  <div class="guide-popup-head">
+    <div class="guide-popup-title">
+      <div class="guide-online-dot"></div>
+      MOODWAVE Гид
+    </div>
+    <button class="guide-close" id="guideClose">✕</button>
+  </div>
+  <div class="guide-msgs" id="guideMsgs"></div>
+  <div class="guide-input-row">
+    <input class="guide-input" id="guideInput" type="text" placeholder="Сұрақ қой немесе жай сөйлес...">
+    <button class="guide-send" id="guideSend">➤</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const SITE_KNOWLEDGE = [
+    {
+      keys: ['сәлем','привет','hello','hi','сал','хай','ку'],
+      reply: 'Сәлем! Мен MOODWAVE сайтының AI гиді 🎵 Сайтты таныстыра аламын, сұрақтарыңа жауап бере аламын немесе музыка туралы сөйлесе аламын. Не білгің келеді?',
+      chips: ['Сайт туралы айт', 'Қазақ музыкасы', 'Функциялар']
+    },
+    {
+      keys: ['сайт','moodwave','не','туралы','about','бұл не'],
+      reply: 'MOODWAVE — музыканы көңіл күй, ел және атмосфера бойынша табуға арналған сайт 🎶\n\nАвторлар: Арсланұлы Мағжан және Наурызбай Рустем\nОқу орны: Нархоз Университеті · Statistics and Data Science · АКТ пәні\n\nСайтта: Қазақ музыкасы тарихы, AI DJ, әлем музыкасы картасы, жаңалықтар және тағы басқа!',
+      chips: ['AI DJ дегеніміз не?', 'Қазақ тұлғалары', 'Авторлар']
+    },
+    {
+      keys: ['бөлім','бет','section','не бар','мазмұн','навигация','навигация'],
+      reply: 'Сайтта мынадай бөлімдер бар:\n\n🎵 Басты бет — vinyl анимациясы, кіріс\n🏔️ Қазақ музыкасы — тарих, аспаптар, тұлғалар\n🌍 Әлем картасы — АҚШ, Корея, Жапония...\n🌆 Атмосфера — Almaty, Seoul, Paris...\n🤖 AI DJ — GPT арқылы трек ұсыныстар\n🎼 Жанрлар — carousel\n📰 Жаңалықтар — Spotify арқылы',
+      chips: ['AI DJ туралы', 'Атмосфера', 'Қазақ музыкасы']
+    },
+    {
+      keys: ['ai dj','ai dj','жасанды','интеллект','gpt','openai','трек','ұсын','рекоменд'],
+      reply: 'AI DJ — сайттың негізгі функциясы! 🤖\n\nКөңіл күйіңді сипаттайсың — мысалы «кешкі жол», «мұңды жаңбыр», «жігер керек» — GPT-4o-mini модель дәл 5 трек таңдайды.\n\nЖұмыс істеу үшін OpenAI API кілтін Settings-тен қосу керек. Spotify Premium болса — тректі тікелей тыңдауға болады!',
+      chips: ['Spotify туралы', 'API кілт қайдан?', 'Мысал сұрау']
+    },
+    {
+      keys: ['spotify','спотифай','музыка ойнат','тыңда','premium'],
+      reply: 'Spotify интеграциясы бар! 🎸\n\n• Settings батырмасынан Spotify-ке кіресің\n• Premium аккаунт болса — тректер тікелей сайтта ойнайды\n• Premium жоқ болса — YouTube немесе iTunes preview арқылы тыңдалады\n\nSettings шестерня белгішесін navbar-дан таба аласың.',
+      chips: ['AI DJ туралы', 'Басқа функциялар']
+    },
+    {
+      keys: ['тұлға','тұлғалар','ұлы','кім','composer','күйші','ақын'],
+      reply: 'Қазақ музыкасының 5 ұлы тұлғасы:\n\n🎵 Құрманғазы Сағырбайұлы — «Сарыарқа», «Адай» күйлері\n🎵 Дина Нұрпейісова — домбыра дәстүрі, әйел орындаушылар мектебі\n✍️ Абай Құнанбайұлы — ақын, «Көзімнің қарасы»\n🎼 Нұрғиса Тілендиев — композитор, дирижер\n🎤 Батырхан Шүкенов — заманауи эстрада\n\nӘрқайсысының карточкасындағы «Толығырақ» батырмасы Wikipedia-ға апарады!',
+      chips: ['Құрманғазы', 'Абай', 'Домбыра туралы']
+    },
+    {
+      keys: ['құрманғазы','курмангазы','сарыарқа','адай'],
+      reply: 'Құрманғазы Сағырбайұлы (1823–1896) — қазақтың ұлы домбырашысы 🎵\n\nШедевр күйлері: «Сарыарқа», «Адай», «Балбырауын», «Дүние-дүние».\nОның шығармалары қазақ халық музыкасының алтын қорына енді.\n\nТолық мәлімет үшін «Толығырақ» батырмасын басыңыз — Wikipedia ашылады!'
+    },
+    {
+      keys: ['абай','абай құнанбайұлы','ақын','поэзия'],
+      reply: 'Абай Құнанбайұлы — қазақтың ұлы ақыны, жазушысы, композиторы ✍️\n\nАтақты әндері: «Көзімнің қарасы», «Желсіз түнде жарық ай».\nАбай еуропалық музыка дәстүрін қазақ поэзиясымен ұштастырды.\n\nТолық Wikipedia мақаласы үшін тұлғалар бөлімінен «Толығырақ» басыңыз!'
+    },
+    {
+      keys: ['домбыра','қобыз','сыбызғы','аспап','instrument'],
+      reply: 'Қазақтың ұлттық аспаптары:\n\n🎸 Домбыра — негізгі аспап, 2 ішек, күй орындалады\n🎻 Қобыз — ежелгі аспап, шаман өнерімен байланысты\n🎶 Сыбызғы — үрмелі аспап, дала желін бейнелейді\n🥁 Дауылпаз — қазақ барабаны\n\nБұл аспаптар туралы сайттың «Қазақ музыкасы» бөлімінде толық ақпарат бар!'
+    },
+    {
+      keys: ['атмосфера','almaty','seoul','paris','tokyo','istanbul','кешкі','жаз'],
+      reply: 'Атмосфера карточкаларында 5 музыкалық қала бар 🌆\n\n🏔️ Almaty Evening — Қазақстан, кешкі атмосфера\n🌃 Seoul Neon — Корея, K-Pop жарықтары\n🌅 Turkish Sunset — Түркия, шығыс үндері\n☕ Paris Jazz — Франция, джаз кафе\n🌧️ Tokyo Rain — Жапония, lo-fi жаңбыр\n\nKарточканың ▶ батырмасын басса — AI DJ сол атмосфераға сай трек іздейді!'
+    },
+    {
+      keys: ['автор','кім жасады','кто сделал','жасаған','студент'],
+      reply: 'MOODWAVE сайтын жасаған:\n\n👨‍💻 Арсланұлы Мағжан — UI дизайн, атмосфералық суреттер, контент\n👨‍💻 Наурызбай Рустем — Frontend, AI DJ, серверлік роуттар\n\n🏛️ Нархоз Университеті\n📊 Statistics and Data Science мамандығы\n📚 АКТ пәні, 2025 жыл'
+    },
+    {
+      keys: ['нархоз','университет','мамандық','факультет','оқу'],
+      reply: 'Бұл жоба Нархоз Университетінің студенттік жобасы 🎓\n\nМамандық: Statistics and Data Science\nПән: АКТ — Ақпараттық-коммуникациялық технологиялар\nЖыл: 2025\n\nАвторлар: Арсланұлы Мағжан және Наурызбай Рустем'
+    },
+    {
+      keys: ['jazz','джаз','рок','rock','поп','pop','kpop','k-pop','hip hop','хип хоп','электрон'],
+      reply: 'Музыка жанрлары туралы сайтта жанрлар карусель бөлімі бар! 🎼\n\nОнда Pop, Rock, Jazz, Hip-hop, Classical, Electronic, K-Pop, Қазақ және тағы басқа жанрлар қарастырылған.\n\nAI DJ-ге жанр атын айтсаң — сол жанрдан трек ұсынады. Мысалы: «джаз музыкасы» немесе «K-Pop»!'
+    },
+    {
+      keys: ['рахмет','спасибо','thanks','thank','сау бол'],
+      reply: 'Кез келген уақытта! 🎵 Сайтты зерттеуді жалғастыр — AI DJ-ге кейіпіңді айт, ол саған керемет музыка таңдайды!'
+    },
+  ];
+
+  function guideReply(text) {
+    const low = text.toLowerCase();
+    for (const r of SITE_KNOWLEDGE) {
+      if (r.keys.some(k => low.includes(k))) return r;
+    }
+    return {
+      reply: `«${text}» — қызықты сұрақ! 🎵 Мен сайт туралы, Қазақ музыкасы туралы немесе AI DJ функциясы туралы жауап бере аламын. Не білгің келеді?`,
+      chips: ['Сайт бөлімдері', 'AI DJ', 'Қазақ тұлғалары']
+    };
+  }
+
+  const fab       = document.getElementById('guideFab');
+  const popup     = document.getElementById('guidePopup');
+  const closeBtn  = document.getElementById('guideClose');
+  const msgs      = document.getElementById('guideMsgs');
+  const input     = document.getElementById('guideInput');
+  const sendBtn   = document.getElementById('guideSend');
+
+  function addMsg(text, who) {
+    const div = document.createElement('div');
+    div.className = 'guide-msg ' + who;
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function addBotMsg(data) {
+    const div = document.createElement('div');
+    div.className = 'guide-msg bot';
+    div.textContent = data.reply;
+    if (data.chips && data.chips.length) {
+      const chipsDiv = document.createElement('div');
+      chipsDiv.className = 'guide-chips';
+      data.chips.forEach(label => {
+        const btn = document.createElement('button');
+        btn.className = 'guide-chip';
+        btn.textContent = label;
+        btn.addEventListener('click', () => handleSend(label));
+        chipsDiv.appendChild(btn);
+      });
+      div.appendChild(chipsDiv);
+    }
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function showTyping() {
+    const t = document.createElement('div');
+    t.className = 'guide-typing';
+    t.id = 'guideTyping';
+    t.innerHTML = '<span></span><span></span><span></span>';
+    msgs.appendChild(t);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+  function removeTyping() { document.getElementById('guideTyping')?.remove(); }
+
+  async function handleSend(text) {
+    text = (text || input.value).trim();
+    if (!text) return;
+    input.value = '';
+    addMsg(text, 'user');
+    showTyping();
+    await new Promise(r => setTimeout(r, 500 + Math.random() * 400));
+    removeTyping();
+    addBotMsg(guideReply(text));
+  }
+
+  // Open / close
+  let opened = false;
+  fab.addEventListener('click', () => {
+    opened = !opened;
+    popup.classList.toggle('open', opened);
+    fab.textContent = opened ? '✕' : '🤖';
+    if (opened && msgs.children.length === 0) {
+      // Welcome message
+      setTimeout(() => {
+        addBotMsg({
+          reply: 'Сәлем! Мен MOODWAVE AI гиді 🎵 Сайтты демонстрациялап бере аламын немесе кез келген сұраққа жауап берем!',
+          chips: ['Сайт туралы айт', 'Қазақ тұлғалары', 'AI DJ қалай жұмыс істейді?']
+        });
+      }, 200);
+    }
+    if (opened) setTimeout(() => input.focus(), 300);
+  });
+  closeBtn.addEventListener('click', () => {
+    opened = false;
+    popup.classList.remove('open');
+    fab.textContent = '🤖';
+  });
+
+  sendBtn.addEventListener('click', () => handleSend());
+  input.addEventListener('keydown', e => { if (e.key === 'Enter') handleSend(); });
+})();
+</script>
+
 </body>
 </html>
