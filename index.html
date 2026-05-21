@@ -1172,6 +1172,35 @@
     transition-duration: 0.1s;
   }
 
+  /* Permanent AI launch button */
+  .ai-launch-btn {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: #000;
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 999px;
+    padding: 13px 22px;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.7), 0 0 40px rgba(255,255,255,0.25);
+    transition: all 0.3s cubic-bezier(0.2,0.8,0.2,1);
+  }
+  .ai-launch-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 14px 38px rgba(0,0,0,0.85), 0 0 60px rgba(255,255,255,0.5);
+  }
+  .ai-launch-btn:active { transform: scale(0.97); transition-duration: 0.1s; }
+
   /* Floating reopen button — visible only when chat is collapsed */
   .chat-reopen {
     position: fixed;
@@ -4378,6 +4407,12 @@
   <div class="stack-modal-card" id="stackModalCard"></div>
 </div>
 
+<!-- Permanent AI launch button — always visible -->
+<button class="ai-launch-btn" id="aiLaunchBtn" title="AI көмекшісін ашу">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M12 2a5 5 0 0 1 5 5c0 2.5-1.5 4.5-3.5 5.4V14h-3v-1.6C8.5 11.5 7 9.5 7 7a5 5 0 0 1 5-5z"/><path d="M9 21h6M12 17v4"/><circle cx="12" cy="7" r="1.5" fill="currentColor" stroke="none"/></svg>
+  <span>AI</span>
+</button>
+
 <!-- Floating reopen-chat button (visible when collapsed) -->
 <button class="chat-reopen" id="chatReopen" title="Чатты ашу">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
@@ -4671,16 +4706,46 @@
 
 <script>
   // ============== STATE ==============
-  const SYSTEM_PROMPT = `Сен MOODWAVE атты AI DJ-сің. Пайдаланушы көңіл күйін немесе атмосфераны сипаттаса, қазақ тілінде 1-2 жылы сөйлеммен жауап бер, содан кейін бірден дәл 5 трек ұсынысын plain JSON array түрінде шығар. Markdown, code fence, backtick қолданба және JSON-нан кейін ештеңе жазба.
+  const SYSTEM_PROMPT = `Сен MOODWAVE сайтының AI көмекшісісің — бір мезгілде AI DJ де, сайт бойынша гид те.
 
-Формат:
+=== MOODWAVE САЙТЫ ТУРАЛЫ ===
+MOODWAVE — музыканы көңіл күй, ел және атмосфера бойынша табуға арналған интерактивті сайт.
+Авторлар: Арсланұлы Мағжан және Наурызбай Рустем.
+Оқу орны: Нархоз Университеті, Statistics and Data Science мамандығы, АКТ пәні.
+
+=== САЙТ БӨЛІМДЕРІ ===
+1. HERO (Басты) — «MOODWAVE» — музыканы сезім арқылы тап. Vinyl анимациясы.
+2. ҚАЗАҚ МУЗЫКАСЫ — Қазақ музыкасының тарихы (Ежелгі дәуірден бүгінге дейін), ұлттық аспаптар (домбыра, қобыз, сыбызғы, дауылпаз), ұлы тұлғалар.
+3. ТҰЛҒАЛАР — Қазақ музыкасының 5 ұлы тұлғасы (Wikipedia сілтемелері бар):
+   • Құрманғазы Сағырбайұлы — күй өнерінің алыбы, «Сарыарқа», «Адай» күйлері
+   • Дина Нұрпейісова — домбыра дәстүрін жалғастырған ұлы күйші, әйел орындаушылар мектебі
+   • Абай Құнанбайұлы — ән, поэзия, философия; «Көзімнің қарасы», «Желсіз түнде жарық ай»
+   • Нұрғиса Тілендиев — композитор, дирижер, ұлттық әуен мен кәсіби сахна
+   • Батырхан Шүкенов — заманауи қазақ эстрадасы, лирикалық орындау мәнері
+4. ДҮНИЕЖҮЗІЛІК КАРТА — Қазақстан, АҚШ, Түркия, Франция, Корея, Жапония — музыкалық пиндер
+5. АТМОСФЕРА КАРТОЧКАЛАРЫ — Almaty Evening, Seoul Neon, Turkish Sunset, Paris Jazz, Tokyo Rain
+6. AI DJ — осы чат. Пайдаланушы көңіл күйін сипаттайды, AI 5 трек ұсынады (OpenAI GPT)
+7. ЖАНРЛАР КАРУСЕЛИ — Pop, Rock, Jazz, Hip-hop, Classical, Electronic, K-Pop, Қазақ т.б.
+8. ЖАҢАЛЫҚТАР — Spotify арқылы соңғы музыкалық жаңалықтар
+9. ФУТЕР — Авторлар, АКТ, Нархоз, © 2025
+
+=== ФУНКЦИОНАЛ ===
+- Spotify интеграциясы (авторизация, Premium плеер, трек алдын ала тыңдау)
+- OpenAI GPT-4o-mini арқылы AI трек ұсыныстары
+- Ambient аудио ойнатқыш (Web Audio API, файлсыз)
+- Wikipedia сілтемелері (тұлғалар бетінде Толығырақ батырмалары)
+
+=== ӨЗ ЖАУАП ЕРЕЖЕЛЕРІҢ ===
+Егер пайдаланушы САЙТ туралы сұраса (бөлімдер, авторлар, функция, тұлғалар т.б.) — қазақша нақты жауап бер, трек ұсынба.
+Егер пайдаланушы МУЗЫКА немесе КӨҢІЛ КҮЙ сипаттаса — 1-2 жылы сөйлем жаз, содан кейін дәл 5 трек ұсынысын plain JSON array түрінде шығар. Markdown, code fence, backtick қолданба.
+
+Трек ұсыныс форматы:
 [{"title":"Ән атауы","artist":"Орындаушы"},{"title":"...","artist":"..."}]
 
-Ережелер:
-- Адамдар танитын кең таралған тректерді таңда
+Трек ережелері:
+- Адамдар танитын кең таралған тректер
 - Көңіл күйге дәл келтір
-- Тым белгісіз underground тректерді таңдама
-- JSON массивті сөйлемнен кейін бірден шығар`;
+- JSON массивті сөйлемнен кейін бірден шығар, одан кейін ештеңе жазба`;
 
   const LS_KEY_API   = 'moodwave.apiKey';
   const LS_KEY_SAVED = 'moodwave.saved';
@@ -5523,6 +5588,8 @@
     chatReopen.classList.toggle('show', collapsed);
     chatToggle.title = collapsed ? 'Чатты ашу' : 'Чатты жасыру';
     localStorage.setItem(LS_KEY_COLLAPSE, collapsed ? '1' : '0');
+    const btn = document.getElementById('aiLaunchBtn');
+    if (btn) btn.style.display = collapsed ? 'flex' : 'none';
   }
 
   chatToggle.addEventListener('click', () => {
@@ -5530,10 +5597,21 @@
   });
   chatReopen.addEventListener('click', () => setChatCollapsed(false));
 
-  // Restore previous state
-  if (localStorage.getItem(LS_KEY_COLLAPSE) === '1') {
-    setChatCollapsed(true);
+  // Permanent AI button — always opens chat
+  const aiLaunchBtn = document.getElementById('aiLaunchBtn');
+  if (aiLaunchBtn) {
+    aiLaunchBtn.addEventListener('click', () => {
+      setChatCollapsed(false);
+      setTimeout(() => document.getElementById('chatInput')?.focus(), 350);
+    });
   }
+
+  // Restore previous state
+  const wasCollapsed = localStorage.getItem(LS_KEY_COLLAPSE) === '1';
+  setChatCollapsed(wasCollapsed);
+  // Initial button state (setChatCollapsed handles it, but ensure on first load)
+  const _initBtn = document.getElementById('aiLaunchBtn');
+  if (_initBtn) _initBtn.style.display = wasCollapsed ? 'flex' : 'none';
 
   // ============== INIT ==============
   renderSaved();
