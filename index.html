@@ -3640,7 +3640,7 @@
       </div>
       <div class="kz-grid figures">
         <article class="kz-card" style="--tone-a: rgba(116,82,43,0.72); --tone-b: rgba(232,203,151,0.68); --image: url('assets/kazakh-figure-1.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Құрманғазы Сағырбайұлы</h3><p>Күй өнерінің алыбы. «Сарыарқа», «Адай» сияқты күйлері халық рухын бейнелейді.</p><span class="ai-label">AI арқылы жандандыруға болады</span><div class="figure-btns"><button class="kz-btn secondary" type="button" onclick="window.open('https://kk.wikipedia.org/wiki/Құрманғазы_Сағырбайұлы','_blank')">Толығырақ</button><button class="kz-btn video-btn" type="button" onclick="openFigureVideo()">▶ Видео көру</button></div></div></article>
-        <article class="kz-card" style="--tone-a: rgba(128,90,52,0.68); --tone-b: rgba(238,214,177,0.72); --image: url('assets/kazakh-figure-2.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Дина Нұрпейісова</h3><p>Домбыра дәстүрін жалғастырған ұлы күйші. Әйел орындаушылар мектебінің биік үлгісі.</p><span class="ai-label">AI арқылы жандандыруға болады</span><div class="figure-btns"><button class="kz-btn secondary" type="button" onclick="window.open('https://kk.wikipedia.org/wiki/Дина_Нұрпейісова','_blank')">Толығырақ</button><button class="kz-btn video-btn soon" type="button" disabled>▶ Видео көру</button></div></div></article>
+        <article class="kz-card" style="--tone-a: rgba(128,90,52,0.68); --tone-b: rgba(238,214,177,0.72); --image: url('assets/kazakh-figure-2.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Дина Нұрпейісова</h3><p>Домбыра дәстүрін жалғастырған ұлы күйші. Әйел орындаушылар мектебінің биік үлгісі.</p><span class="ai-label">AI арқылы жандандыруға болады</span><div class="figure-btns"><button class="kz-btn secondary" type="button" onclick="window.open('https://kk.wikipedia.org/wiki/Дина_Нұрпейісова','_blank')">Толығырақ</button><button class="kz-btn video-btn" type="button" onclick="openDinaVideo()">▶ Видео көру</button></div></div></article>
         <article class="kz-card" style="--tone-a: rgba(92,82,66,0.72); --tone-b: rgba(238,221,184,0.76); --image: url('assets/kazakh-figure-3.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Абай Құнанбайұлы</h3><p>Ән, поэзия және философияны біріктірген тұлға. Қазақ ән мәдениетін жаңа деңгейге көтерді.</p><span class="ai-label">AI арқылы жандандыруға болады</span><div class="figure-btns"><button class="kz-btn secondary" type="button" onclick="window.open('https://kk.wikipedia.org/wiki/Абай_Құнанбайұлы','_blank')">Толығырақ</button><button class="kz-btn video-btn soon" type="button" disabled>▶ Видео көру</button></div></div></article>
         <article class="kz-card" style="--tone-a: rgba(112,92,72,0.68); --tone-b: rgba(235,208,162,0.72); --image: url('assets/kazakh-figure-4.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Нұрғиса Тілендиев</h3><p>Композитор, дирижер, ұлттық әуенді кәсіби сахнамен ұштастырған өнер қайраткері.</p><span class="ai-label">AI арқылы жандандыруға болады</span><div class="figure-btns"><button class="kz-btn secondary" type="button" onclick="window.open('https://kk.wikipedia.org/wiki/Нұрғиса_Тілендиев','_blank')">Толығырақ</button><button class="kz-btn video-btn soon" type="button" disabled>▶ Видео көру</button></div></div></article>
         <article class="kz-card" style="--tone-a: rgba(100,94,83,0.68); --tone-b: rgba(232,210,174,0.74); --image: url('assets/kazakh-figure-5.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Батырхан Шүкенов</h3><p>Заманауи қазақ эстрадасының жарқын өкілі. Лирикалық орындау мәнерімен есте қалды.</p><span class="ai-label">AI арқылы жандандыруға болады</span><div class="figure-btns"><button class="kz-btn secondary" type="button" onclick="window.open('https://kk.wikipedia.org/wiki/Батырхан_Шүкенов','_blank')">Толығырақ</button><button class="kz-btn video-btn soon" type="button" disabled>▶ Видео көру</button></div></div></article>
@@ -6227,6 +6227,7 @@ MOODWAVE — музыканы көңіл күй, ел және атмосфер�
 }
 </style>
 
+<!-- Құрманғазы modal -->
 <div class="fig-modal-overlay" id="figModalOverlay">
   <div class="fig-modal">
     <div class="fig-modal-head">
@@ -6239,27 +6240,55 @@ MOODWAVE — музыканы көңіл күй, ел және атмосфер�
   </div>
 </div>
 
+<!-- Дина Нұрпейісова modal -->
+<div class="fig-modal-overlay" id="dinaModalOverlay">
+  <div class="fig-modal">
+    <div class="fig-modal-head">
+      <div class="fig-modal-title">🎵 Дина Нұрпейісова — Видео</div>
+      <button class="fig-modal-close" id="dinaModalClose">✕</button>
+    </div>
+    <video id="dinaVideo" controls playsinline>
+      <source src="assets/dina-video.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
 <script>
 function openFigureVideo() {
-  const overlay = document.getElementById('figModalOverlay');
-  const video   = document.getElementById('figVideo');
+  openModal('figModalOverlay', 'figVideo');
+}
+function openDinaVideo() {
+  openModal('dinaModalOverlay', 'dinaVideo');
+}
+function openModal(overlayId, videoId) {
+  const overlay = document.getElementById(overlayId);
+  const video   = document.getElementById(videoId);
   overlay.classList.add('open');
   video.currentTime = 0;
   video.play().catch(() => {});
 }
-document.getElementById('figModalClose').addEventListener('click', closeFigureVideo);
-document.getElementById('figModalOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeFigureVideo();
-});
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeFigureVideo();
-});
-function closeFigureVideo() {
-  const overlay = document.getElementById('figModalOverlay');
-  const video   = document.getElementById('figVideo');
+function closeModal(overlayId, videoId) {
+  const overlay = document.getElementById(overlayId);
+  const video   = document.getElementById(videoId);
   overlay.classList.remove('open');
   video.pause();
 }
+document.getElementById('figModalClose').addEventListener('click', () => closeModal('figModalOverlay','figVideo'));
+document.getElementById('dinaModalClose').addEventListener('click', () => closeModal('dinaModalOverlay','dinaVideo'));
+['figModalOverlay','dinaModalOverlay'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) {
+      const vid = this.querySelector('video').id;
+      closeModal(id, vid);
+    }
+  });
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeModal('figModalOverlay','figVideo');
+    closeModal('dinaModalOverlay','dinaVideo');
+  }
+});
 </script>
 
 <!-- ===================== FOOTER ===================== -->
