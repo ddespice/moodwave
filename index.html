@@ -6045,5 +6045,138 @@
 })();
 </script>
 
+<!-- ===================== FOOTER ===================== -->
+<style>
+.site-footer {
+  background: rgba(240,231,216,0.95);
+  border-top: 1px solid rgba(140,105,55,0.18);
+  padding: 48px clamp(20px,5vw,64px) 24px;
+  font-family: 'Inter', sans-serif;
+}
+.site-footer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+.site-footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.site-footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: #17100a;
+  text-decoration: none;
+}
+.site-footer-logo-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #c8a460;
+  box-shadow: 0 0 8px #c8a460;
+  flex-shrink: 0;
+}
+.site-footer-info {
+  font-size: 12.5px;
+  line-height: 2;
+  color: #7a5830;
+}
+.site-footer-info strong { color: #46311a; font-weight: 600; }
+
+.site-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+.site-footer-links a {
+  font-size: 12px;
+  color: #7a5830;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  transition: color 0.18s;
+}
+.site-footer-links a:hover { color: #17100a; }
+
+.site-footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(140,105,55,0.14);
+}
+.site-footer-copy { font-size: 11px; color: #7a5830; }
+
+.back-to-top-btn {
+  background: none;
+  border: 1px solid rgba(140,105,55,0.3);
+  color: #7a5830;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.back-to-top-btn:hover {
+  background: #17100a;
+  color: #f5ede0;
+  border-color: #17100a;
+}
+
+@media (max-width: 600px) {
+  .site-footer-top { flex-direction: column; }
+  .site-footer-links { align-items: flex-start; }
+  .site-footer-bottom { flex-direction: column; align-items: flex-start; }
+}
+</style>
+
+<footer class="site-footer">
+  <div class="site-footer-top">
+    <div class="site-footer-brand">
+      <a class="site-footer-logo" href="#">
+        <div class="site-footer-logo-dot"></div>
+        MOODWAVE
+      </a>
+      <div class="site-footer-info">
+        <strong>Арсланұлы Мағжан</strong> &amp; <strong>Наурызбай Рустем</strong><br>
+        АКТ — Ақпараттық-коммуникациялық технологиялар<br>
+        Нархоз Университеті · Statistics and Data Science
+      </div>
+    </div>
+
+    <div class="site-footer-links">
+      <a href="mailto:rustemnauryzbay@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+        rustemnauryzbay@gmail.com
+      </a>
+      <a href="https://github.com/ddespice/moodwave" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.195 22 16.44 22 12.017 22 6.484 17.522 2 12 2z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+
+  <div class="site-footer-bottom">
+    <span class="site-footer-copy">© 2025 MOODWAVE. Барлық құқықтар қорғалған.</span>
+    <button class="back-to-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Жоғары</button>
+  </div>
+</footer>
+
 </body>
 </html>
