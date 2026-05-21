@@ -1593,8 +1593,505 @@
 
   /* ===================== NEWS VIEW ===================== */
   #player-view { display: none; }
+  #main-view { display: block; padding-top: 48px; min-height: 100vh; position: relative; z-index: 5; }
   #news-view { display: none; padding-top: 48px; min-height: 100vh; position: relative; z-index: 5; }
-  #kazakh-view { display: block; padding-top: 48px; min-height: 100vh; position: relative; z-index: 5; }
+  #kazakh-view { display: none; padding-top: 48px; min-height: 100vh; position: relative; z-index: 5; }
+
+  .main-shell {
+    position: relative;
+    overflow: hidden;
+  }
+  .main-shell::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse 58% 38% at 50% 8%, rgba(255,255,255,0.46), transparent 64%),
+      radial-gradient(ellipse 44% 34% at 84% 20%, rgba(122,92,56,0.1), transparent 66%);
+    pointer-events: none;
+  }
+  .main-hero {
+    min-height: calc(100vh - 48px);
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+    align-items: center;
+    gap: clamp(28px, 5vw, 72px);
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    padding: 72px 28px 62px;
+    position: relative;
+  }
+  .main-ornament-orbit {
+    position: absolute;
+    inset: 8% auto auto 50%;
+    width: min(58vw, 680px);
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    border: 1px solid rgba(122,92,56,0.08);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(250,243,232,0.24), transparent 64%);
+    pointer-events: none;
+    animation: ornamentDrift 13s ease-in-out infinite;
+  }
+  @keyframes ornamentDrift {
+    0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+    50% { transform: translateX(-50%) translateY(12px) scale(1.025); }
+  }
+  .main-copy,
+  .main-visual {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  .main-hero.revealed .main-copy,
+  .main-hero.revealed .main-visual {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .main-copy {
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .main-visual {
+    transition: opacity 1s ease 0.18s, transform 1s ease 0.18s;
+  }
+  .main-kicker {
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 2.8px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 18px;
+  }
+  .main-title {
+    font-size: clamp(48px, 7.8vw, 104px);
+    line-height: 0.98;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: var(--text);
+    max-width: 820px;
+  }
+  .main-subtitle {
+    margin-top: 20px;
+    color: var(--text-dim);
+    font-size: clamp(18px, 2.1vw, 26px);
+    line-height: 1.35;
+    font-weight: 700;
+  }
+  .main-description {
+    margin-top: 18px;
+    max-width: 680px;
+    color: var(--text-faint);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .main-actions,
+  .main-card-actions,
+  .main-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .main-actions {
+    margin-top: 28px;
+  }
+  .main-btn {
+    border: 1px solid rgba(26, 15, 5, 0.24);
+    border-radius: 6px;
+    padding: 12px 18px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+  }
+  .main-btn.primary {
+    background: var(--text);
+    color: var(--bg);
+    box-shadow: 0 14px 28px rgba(61,38,16,0.16);
+  }
+  .main-btn.secondary {
+    background: rgba(250,243,232,0.72);
+    color: var(--text);
+  }
+  .main-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 34px rgba(61,38,16,0.16);
+  }
+  .main-visual-stage {
+    position: relative;
+    min-height: 430px;
+    border: 1px solid rgba(140,110,75,0.2);
+    border-radius: 8px;
+    background:
+      linear-gradient(145deg, rgba(250,243,232,0.86), rgba(232,216,190,0.64)),
+      url('assets/bg-ornament.png');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 20px 48px rgba(61,38,16,0.12);
+    overflow: hidden;
+  }
+  .main-wave {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    height: 90px;
+    border-radius: 50%;
+    border-top: 2px solid rgba(122,92,56,0.28);
+    animation: waveFloat 5.5s ease-in-out infinite;
+  }
+  .main-wave.one { top: 28%; }
+  .main-wave.two { top: 43%; animation-delay: 1.2s; opacity: 0.7; }
+  .main-wave.three { top: 58%; animation-delay: 2.1s; opacity: 0.5; }
+  @keyframes waveFloat {
+    0%, 100% { transform: translateY(0) scaleX(1); }
+    50% { transform: translateY(-12px) scaleX(1.06); }
+  }
+  .main-note {
+    position: absolute;
+    color: rgba(122,92,56,0.34);
+    font-size: clamp(30px, 4vw, 54px);
+    animation: noteDrift 7s ease-in-out infinite;
+  }
+  .main-note.n1 { left: 16%; top: 16%; }
+  .main-note.n2 { right: 14%; top: 24%; animation-delay: 1.4s; }
+  .main-note.n3 { left: 22%; bottom: 16%; animation-delay: 2.6s; }
+  @keyframes noteDrift {
+    0%, 100% { transform: translateY(0) rotate(-4deg); opacity: 0.36; }
+    50% { transform: translateY(-18px) rotate(6deg); opacity: 0.62; }
+  }
+  .main-glass-panel {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: min(78%, 360px);
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(140,110,75,0.22);
+    border-radius: 8px;
+    background: rgba(255,250,240,0.74);
+    padding: 22px;
+    box-shadow: 0 18px 40px rgba(61,38,16,0.14);
+  }
+  .main-glass-label {
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+  }
+  .main-glass-title {
+    font-size: 26px;
+    line-height: 1.1;
+    font-weight: 900;
+    color: var(--text);
+  }
+  .main-eq {
+    display: flex;
+    align-items: end;
+    gap: 7px;
+    height: 54px;
+    margin-top: 18px;
+  }
+  .main-eq span {
+    width: 10px;
+    border-radius: 999px;
+    background: rgba(122,92,56,0.58);
+    animation: eqPulse 1.35s ease-in-out infinite;
+  }
+  .main-eq span:nth-child(1) { height: 30%; }
+  .main-eq span:nth-child(2) { height: 76%; animation-delay: 0.15s; }
+  .main-eq span:nth-child(3) { height: 44%; animation-delay: 0.3s; }
+  .main-eq span:nth-child(4) { height: 92%; animation-delay: 0.45s; }
+  .main-eq span:nth-child(5) { height: 56%; animation-delay: 0.6s; }
+  @keyframes eqPulse {
+    0%, 100% { transform: scaleY(0.72); opacity: 0.62; }
+    50% { transform: scaleY(1); opacity: 1; }
+  }
+  .main-section {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    padding: 70px 28px;
+  }
+  .main-section-head {
+    margin-bottom: 24px;
+  }
+  .main-section-kicker {
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+  }
+  .main-section-title {
+    font-size: clamp(30px, 5vw, 58px);
+    line-height: 1;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .feature-card,
+  .ai-card,
+  .kazakh-highlight,
+  .final-cta,
+  .featured-atmosphere {
+    border: 1px solid rgba(140,110,75,0.18);
+    border-radius: 8px;
+    background: rgba(250,243,232,0.72);
+    box-shadow: 0 14px 34px rgba(61,38,16,0.09);
+  }
+  .feature-card {
+    min-height: 260px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.24s ease, box-shadow 0.24s ease;
+  }
+  .feature-card:hover {
+    transform: translateY(-6px) scale(1.012);
+    box-shadow: 0 20px 44px rgba(61,38,16,0.14);
+  }
+  .feature-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(122,92,56,0.14);
+    color: var(--text);
+    font-size: 20px;
+    margin-bottom: 18px;
+  }
+  .feature-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .feature-card p {
+    color: var(--text-faint);
+    font-size: 13px;
+    line-height: 1.65;
+    flex: 1;
+  }
+  .main-card-link {
+    width: fit-content;
+    margin-top: 18px;
+    border: 1px solid rgba(140,110,75,0.24);
+    border-radius: 6px;
+    background: rgba(255,250,240,0.62);
+    color: var(--text);
+    padding: 9px 11px;
+    font-family: 'Inter', sans-serif;
+    font-size: 9px;
+    font-weight: 850;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .journey-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border: 1px solid rgba(140,110,75,0.18);
+    border-radius: 8px;
+    background: rgba(250,243,232,0.64);
+    overflow: hidden;
+  }
+  .journey-step {
+    position: relative;
+    padding: 26px 22px;
+    border-right: 1px solid rgba(140,110,75,0.16);
+  }
+  .journey-step:last-child { border-right: none; }
+  .journey-step-num {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 18px;
+  }
+  .journey-step h3 {
+    font-size: 17px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .journey-step p {
+    color: var(--text-faint);
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .featured-atmosphere {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    overflow: hidden;
+  }
+  .featured-visual {
+    min-height: 420px;
+    position: relative;
+    background:
+      linear-gradient(180deg, rgba(255,250,240,0.04), rgba(26,15,5,0.2)),
+      url('assets/kazakh-atmosphere-1.png'),
+      linear-gradient(145deg, rgba(104,73,40,0.7), rgba(235,205,158,0.62)),
+      url('assets/bg-ornament.png');
+    background-size: cover, cover, cover, cover;
+    background-position: center, center, center, center;
+  }
+  .featured-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 72px;
+    height: 72px;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(255,250,240,0.62);
+    border-radius: 50%;
+    background: rgba(255,250,240,0.72);
+    color: var(--text);
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    box-shadow: 0 16px 36px rgba(61,38,16,0.18);
+  }
+  .featured-wave {
+    position: absolute;
+    left: 12%;
+    right: 12%;
+    bottom: 22%;
+    height: 70px;
+    border-top: 2px solid rgba(255,250,240,0.52);
+    border-radius: 50%;
+    animation: waveFloat 5.2s ease-in-out infinite;
+  }
+  .featured-body {
+    padding: clamp(24px, 4vw, 44px);
+  }
+  .featured-body h3 {
+    font-size: clamp(30px, 4vw, 54px);
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .featured-body p {
+    color: var(--text-dim);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+  .tag-list.main-tags {
+    margin-bottom: 24px;
+  }
+  .ai-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 18px;
+    align-items: stretch;
+  }
+  .ai-card {
+    padding: clamp(22px, 4vw, 42px);
+  }
+  .ai-card p {
+    color: var(--text-dim);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .ai-list {
+    display: grid;
+    gap: 10px;
+  }
+  .ai-list-item {
+    border: 1px solid rgba(140,110,75,0.16);
+    border-radius: 8px;
+    background: rgba(250,243,232,0.68);
+    padding: 14px 16px;
+    color: var(--text-dim);
+    font-size: 14px;
+    box-shadow: 0 10px 24px rgba(61,38,16,0.07);
+  }
+  .kazakh-highlight,
+  .final-cta {
+    padding: clamp(28px, 5vw, 58px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+  }
+  .kazakh-highlight h2,
+  .final-cta h2 {
+    font-size: clamp(30px, 5vw, 58px);
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .kazakh-highlight p,
+  .final-cta p {
+    color: var(--text-dim);
+    font-size: 15px;
+    line-height: 1.75;
+    max-width: 760px;
+  }
+  .main-fade {
+    opacity: 0;
+    transform: translateY(34px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .main-fade.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (max-width: 980px) {
+    .main-hero,
+    .featured-atmosphere,
+    .ai-layout,
+    .kazakh-highlight,
+    .final-cta {
+      grid-template-columns: 1fr;
+    }
+    .feature-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .journey-timeline {
+      grid-template-columns: 1fr;
+    }
+    .journey-step {
+      border-right: none;
+      border-bottom: 1px solid rgba(140,110,75,0.16);
+    }
+    .journey-step:last-child { border-bottom: none; }
+  }
+  @media (max-width: 640px) {
+    .main-hero,
+    .main-section {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+    .feature-grid {
+      grid-template-columns: 1fr;
+    }
+    .main-visual-stage {
+      min-height: 360px;
+    }
+    .main-actions,
+    .main-card-actions,
+    .main-cta-actions {
+      width: 100%;
+    }
+    .main-btn {
+      width: 100%;
+    }
+  }
 
   .welcome-hero {
     min-height: calc(100vh - 48px);
@@ -2005,13 +2502,16 @@
     box-shadow: 0 18px 42px rgba(61, 38, 16, 0.14);
   }
   .atmosphere-image {
-    height: 112px;
+    aspect-ratio: 16 / 10;
+    min-height: 170px;
     border-bottom: 1px solid rgba(140,110,75,0.16);
     background:
+      linear-gradient(180deg, rgba(255,250,240,0.08), rgba(26,15,5,0.22)),
+      var(--image, url('assets/bg-ornament.png')),
       linear-gradient(135deg, var(--tone-a), var(--tone-b)),
       url('assets/bg-ornament.png');
-    background-size: cover;
-    background-position: center;
+    background-size: cover, cover, cover, cover;
+    background-position: center, var(--image-pos, center), center, center;
     position: relative;
   }
   .atmosphere-image::after {
@@ -2308,398 +2808,539 @@
 
   /* ===================== HOME VIEW ===================== */
   #home-view {
-    display: block;
+    display: none;
     padding-top: 48px;
     min-height: 100vh;
     position: relative;
     z-index: 5;
   }
+  #home-view > .home-hero:not(.kz-hero),
+  #home-view > .home-content {
+    display: none;
+  }
 
-  /* Hero */
-  .home-hero {
-    min-height: 88vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 48px 28px;
+  .kz-page {
     position: relative;
     overflow: hidden;
   }
-  .home-hero::before {
+  .kz-page::before {
     content: '';
     position: absolute;
     inset: 0;
+    z-index: -1;
     background:
-      radial-gradient(ellipse 80% 60% at 50% 60%, rgba(122,92,56,0.08) 0%, transparent 65%);
+      radial-gradient(ellipse 58% 34% at 50% 8%, rgba(255,255,255,0.48), transparent 66%),
+      radial-gradient(ellipse 40% 34% at 82% 22%, rgba(122,92,56,0.1), transparent 68%);
     pointer-events: none;
   }
-  .home-hero-kicker {
+  .kz-hero {
+    min-height: calc(100vh - 48px);
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    padding: 72px 28px 64px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
+    gap: clamp(28px, 5vw, 70px);
+    align-items: center;
+    position: relative;
+  }
+  .kz-hero-copy,
+  .kz-hero-visual {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  .kz-hero.revealed .kz-hero-copy,
+  .kz-hero.revealed .kz-hero-visual {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .kz-hero-copy { transition: opacity 0.9s ease, transform 0.9s ease; }
+  .kz-hero-visual { transition: opacity 1s ease 0.18s, transform 1s ease 0.18s; }
+  .kz-kicker,
+  .kz-section-kicker {
     font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 4px;
+    font-weight: 850;
+    letter-spacing: 2.8px;
     text-transform: uppercase;
     color: var(--text-faint);
-    margin-bottom: 28px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
   }
-  .home-hero-title {
-    font-size: clamp(48px, 10vw, 110px);
-    font-weight: 800;
-    letter-spacing: -3px;
+  .kz-title {
+    margin-top: 18px;
+    font-size: clamp(54px, 9vw, 118px);
+    line-height: 0.96;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .kz-subtitle {
+    margin-top: 20px;
+    color: var(--text-dim);
+    font-size: clamp(18px, 2vw, 26px);
+    line-height: 1.35;
+    font-weight: 750;
+  }
+  .kz-description {
+    margin-top: 18px;
+    max-width: 700px;
+    color: var(--text-faint);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+  .kz-visual-card {
+    min-height: 430px;
+    border: 1px solid rgba(140,110,75,0.2);
+    border-radius: 8px;
+    background:
+      linear-gradient(145deg, rgba(250,243,232,0.86), rgba(230,211,181,0.66)),
+      url('assets/bg-ornament.png');
+    background-size: cover;
+    background-position: center;
+    box-shadow: 0 20px 48px rgba(61,38,16,0.12);
+    position: relative;
+    overflow: hidden;
+  }
+  .kz-dombyra-line {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    width: 70%;
+    height: 2px;
+    background: rgba(122,92,56,0.42);
+    transform: translate(-50%, -50%) rotate(-18deg);
+    box-shadow: 0 16px 0 rgba(122,92,56,0.18), 0 -16px 0 rgba(122,92,56,0.18);
+    animation: stringPulse 1.7s ease-in-out infinite;
+  }
+  .kz-dombyra-body {
+    position: absolute;
+    left: 24%;
+    top: 58%;
+    width: 110px;
+    height: 150px;
+    border: 2px solid rgba(122,92,56,0.42);
+    border-radius: 54% 46% 52% 48%;
+    transform: translate(-50%, -50%) rotate(-18deg);
+    background: rgba(255,250,240,0.2);
+    box-shadow: inset 0 0 38px rgba(122,92,56,0.08);
+    animation: bodyResonance 2.6s ease-in-out infinite;
+  }
+  .kz-dombyra-soundhole {
+    position: absolute;
+    left: 24%;
+    top: 58%;
+    width: 38px;
+    height: 38px;
+    border: 2px solid rgba(122,92,56,0.2);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) rotate(-18deg);
+    background: rgba(122,92,56,0.05);
+  }
+  .kz-dombyra-neck {
+    position: absolute;
+    left: 58%;
+    top: 41%;
+    width: 50%;
+    height: 18px;
+    border-top: 2px solid rgba(122,92,56,0.24);
+    border-bottom: 2px solid rgba(122,92,56,0.18);
+    transform: translate(-50%, -50%) rotate(-18deg);
+  }
+  .kz-dombyra-string {
+    position: absolute;
+    left: 48%;
+    top: 48%;
+    width: 58%;
+    height: 1px;
+    background: rgba(122,92,56,0.46);
+    transform-origin: left center;
+    transform: translate(-50%, -50%) rotate(-18deg);
+    animation: stringVibrate 0.72s ease-in-out infinite;
+  }
+  .kz-dombyra-string.s2 {
+    top: 51.2%;
+    opacity: 0.7;
+    animation-delay: 0.12s;
+  }
+  .kz-dombyra-pick {
+    position: absolute;
+    left: 40%;
+    top: 50%;
+    width: 22px;
+    height: 32px;
+    border-radius: 55% 45% 58% 42%;
+    background: rgba(92,58,24,0.62);
+    box-shadow: 0 8px 22px rgba(61,38,16,0.16);
+    transform: translate(-50%, -50%) rotate(-24deg);
+    animation: strumPick 1.15s ease-in-out infinite;
+  }
+  .kz-sound-ring {
+    position: absolute;
+    left: 24%;
+    top: 58%;
+    width: 80px;
+    height: 80px;
+    border: 1px solid rgba(122,92,56,0.18);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: soundRing 2s ease-out infinite;
+  }
+  .kz-wave {
+    position: absolute;
+    left: 14%;
+    right: 14%;
+    height: 88px;
+    border-top: 2px solid rgba(122,92,56,0.24);
+    border-radius: 50%;
+    animation: waveFloat 5.8s ease-in-out infinite;
+  }
+  .kz-wave.one { top: 25%; }
+  .kz-wave.two { bottom: 18%; animation-delay: 1.8s; opacity: 0.7; }
+  .kz-note {
+    position: absolute;
+    color: rgba(122,92,56,0.34);
+    font-size: 44px;
+    animation: noteDrift 7s ease-in-out infinite;
+  }
+  .kz-note.n1 { right: 18%; top: 18%; }
+  .kz-note.n2 { left: 16%; bottom: 16%; animation-delay: 2s; }
+  .kz-title,
+  .kz-section-title,
+  .kz-card h3,
+  .main-title,
+  .main-section-title,
+  .atmosphere-title,
+  .atmosphere-card h3 {
+    cursor: pointer;
+  }
+  .soft-press {
+    animation: softPress 0.42s cubic-bezier(.2,.8,.2,1);
+  }
+  .text-spark {
+    animation: textSpark 0.68s ease;
+  }
+  @keyframes strumPick {
+    0%, 100% { transform: translate(-50%, -50%) rotate(-24deg); }
+    38% { transform: translate(-32%, -38%) rotate(-9deg); }
+    58% { transform: translate(-66%, -62%) rotate(-34deg); }
+  }
+  @keyframes stringVibrate {
+    0%, 100% { filter: blur(0); transform: translate(-50%, -50%) rotate(-18deg) scaleY(1); }
+    35% { filter: blur(0.35px); transform: translate(-50%, -50%) rotate(-18deg) scaleY(1.9); }
+    58% { transform: translate(-50%, -50%) rotate(-18deg) scaleY(0.62); }
+  }
+  @keyframes stringPulse {
+    0%, 100% { opacity: 0.72; }
+    50% { opacity: 1; box-shadow: 0 16px 0 rgba(122,92,56,0.28), 0 -16px 0 rgba(122,92,56,0.28); }
+  }
+  @keyframes bodyResonance {
+    0%, 100% { transform: translate(-50%, -50%) rotate(-18deg) scale(1); }
+    50% { transform: translate(-50%, -50%) rotate(-18deg) scale(1.018); }
+  }
+  @keyframes soundRing {
+    0% { opacity: 0.34; transform: translate(-50%, -50%) scale(0.72); }
+    80%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(1.65); }
+  }
+  @keyframes softPress {
+    0% { transform: scale(1); }
+    42% { transform: scale(0.96); box-shadow: 0 10px 22px rgba(61,38,16,0.14); }
+    100% { transform: scale(1); }
+  }
+  @keyframes textSpark {
+    0% { transform: translateY(0); text-shadow: none; }
+    38% { transform: translateY(-2px); text-shadow: 0 10px 24px rgba(122,92,56,0.22); color: var(--accent-2); }
+    100% { transform: translateY(0); text-shadow: none; }
+  }
+  .kz-section {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    padding: 72px 28px;
+  }
+  .kz-section-head {
+    margin-bottom: 26px;
+  }
+  .kz-section-title {
+    margin-top: 10px;
+    font-size: clamp(32px, 5vw, 62px);
+    line-height: 1;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .kz-section-desc {
+    margin-top: 14px;
+    max-width: 720px;
+    color: var(--text-faint);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+  .kz-reveal {
+    opacity: 0;
+    transform: translateY(34px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+  }
+  .kz-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .kz-timeline {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    border: 1px solid rgba(140,110,75,0.18);
+    border-radius: 8px;
+    background: rgba(250,243,232,0.64);
+    overflow: hidden;
+  }
+  .kz-timeline-item {
+    padding: 24px 18px;
+    border-right: 1px solid rgba(140,110,75,0.16);
+    position: relative;
+  }
+  .kz-timeline-item:last-child { border-right: none; }
+  .kz-timeline-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--text);
+    color: var(--bg);
+    font-size: 12px;
+    font-weight: 900;
+    margin-bottom: 16px;
+  }
+  .kz-timeline-item h3 {
+    font-size: 16px;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .kz-timeline-item p {
+    color: var(--text-faint);
+    font-size: 12px;
+    line-height: 1.62;
+  }
+  .kz-grid {
+    display: grid;
+    gap: 14px;
+  }
+  .kz-grid.instruments { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .kz-grid.figures { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .kz-grid.styles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kz-grid.atmospheres { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .kz-grid.education { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .kz-card {
+    border: 1px solid rgba(140,110,75,0.18);
+    border-radius: 8px;
+    background: rgba(250,243,232,0.72);
+    box-shadow: 0 14px 34px rgba(61,38,16,0.09);
+    transition: transform 0.24s ease, box-shadow 0.24s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .kz-card:hover {
+    transform: translateY(-6px) scale(1.012);
+    box-shadow: 0 20px 44px rgba(61,38,16,0.14);
+  }
+  .kz-card-body {
+    padding: 18px;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+  .kz-card h3 {
+    color: var(--text);
+    font-size: 19px;
+    margin-bottom: 10px;
+  }
+  .kz-card p {
+    color: var(--text-faint);
+    font-size: 12px;
+    line-height: 1.62;
+  }
+  .kz-grid.atmospheres .kz-card-body p {
+    min-height: 48px;
+  }
+  .kz-grid.atmospheres .kz-tags {
+    margin-top: auto;
+  }
+  .kz-grid.atmospheres .kz-btn {
+    align-self: flex-start;
+  }
+  .kz-icon {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 8px;
+    background: rgba(122,92,56,0.14);
+    color: var(--text);
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+  .kz-btn {
+    margin-top: 16px;
+    border: 1px solid rgba(26,15,5,0.24);
+    border-radius: 6px;
+    background: var(--text);
+    color: var(--bg);
+    padding: 10px 13px;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.18s ease, background 0.18s ease;
+  }
+  .kz-btn.secondary {
+    background: rgba(255,250,240,0.66);
+    color: var(--text);
+  }
+  .kz-btn:hover {
+    transform: translateY(-1px);
+    background: var(--accent-2);
+    color: var(--bg);
+  }
+  .portrait-area,
+  .kz-atmosphere-visual {
+    background:
+      linear-gradient(180deg, rgba(255,250,240,0.02), rgba(26,15,5,0.18)),
+      var(--image, url('assets/bg-ornament.png')),
+      linear-gradient(135deg, var(--tone-a, rgba(116,82,43,0.72)), var(--tone-b, rgba(232,203,151,0.68))),
+      url('assets/bg-ornament.png');
+    background-size: cover, cover, cover, cover;
+    background-position: center, var(--image-pos, center), center, center;
+    border-bottom: 1px solid rgba(140,110,75,0.16);
+    position: relative;
+  }
+  .portrait-area {
+    aspect-ratio: 4 / 5;
+    min-height: 260px;
+    background-position: center, center top, center, center;
+  }
+  .kz-atmosphere-visual {
+    aspect-ratio: 16 / 10;
+    min-height: 180px;
+  }
+  .portrait-area::after {
+    content: '◈';
+    position: absolute;
+    right: 14px;
+    bottom: 10px;
+    color: rgba(255,250,240,0.72);
+    font-size: 34px;
+  }
+  .ai-label {
+    display: inline-flex;
+    margin-top: 12px;
+    border: 1px solid rgba(140,110,75,0.22);
+    border-radius: 999px;
+    padding: 6px 9px;
+    background: rgba(255,250,240,0.56);
+    color: var(--text-dim);
+    font-size: 10px;
+    font-weight: 750;
+  }
+  .style-tag,
+  .kz-tags span {
+    display: inline-flex;
+    border: 1px solid rgba(140,110,75,0.2);
+    border-radius: 999px;
+    padding: 6px 9px;
+    background: rgba(245,237,222,0.72);
+    color: var(--text-dim);
+    font-size: 10px;
+    margin-top: 12px;
+  }
+  .style-play {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(26,15,5,0.22);
+    background: var(--text);
+    color: var(--bg);
+    margin-top: 14px;
+    cursor: pointer;
+  }
+  .kz-atmosphere-visual::after {
+    content: '♪';
+    position: absolute;
+    right: 14px;
+    bottom: 8px;
+    color: rgba(255,250,240,0.72);
+    font-size: 38px;
+  }
+  .kz-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .kz-cta {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: center;
+    border: 1px solid rgba(140,110,75,0.18);
+    border-radius: 8px;
+    background: rgba(250,243,232,0.74);
+    box-shadow: 0 16px 38px rgba(61,38,16,0.1);
+    padding: clamp(28px, 5vw, 58px);
+  }
+  .kz-cta h2 {
+    font-size: clamp(32px, 5vw, 62px);
     line-height: 1;
     color: var(--text);
     text-transform: uppercase;
-    text-shadow: 0 0 80px rgba(160,120,255,0.35), 0 0 160px rgba(120,80,255,0.15);
-    margin-bottom: 24px;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 1s ease 0.15s, transform 1s ease 0.15s;
-  }
-  .home-hero-sub {
-    max-width: 560px;
-    font-size: 16px;
-    line-height: 1.75;
-    color: var(--text-faint);
-    font-weight: 300;
-    margin-bottom: 52px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
-  }
-  .home-hero.revealed .home-hero-kicker,
-  .home-hero.revealed .home-hero-title,
-  .home-hero.revealed .home-hero-sub {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Section tabs */
-  .home-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    opacity: 0;
-    transform: translateY(16px);
-    transition: opacity 0.8s ease 0.45s, transform 0.8s ease 0.45s;
-  }
-  .home-hero.revealed .home-tabs { opacity: 1; transform: translateY(0); }
-  .home-tab-btn {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.22);
-    color: var(--text-dim);
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    padding: 12px 28px;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-  .home-tab-btn:hover {
-    color: var(--text);
-    border-color: var(--text-faint);
-    background: rgba(255,255,255,0.05);
-  }
-  .home-tab-btn.active {
-    background: var(--accent);
-    color: #f5ede0;
-    border-color: var(--accent);
-    box-shadow: 0 4px 20px rgba(44,26,8,0.2);
-  }
-
-  /* Scroll hint */
-  .home-scroll-hint {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 8px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .home-scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, rgba(122,92,56,0.4), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; transform: scaleY(1); }
-    50% { opacity: 1; transform: scaleY(1.2); }
-  }
-
-  /* Content section */
-  .home-content {
-    border-top: 1px solid rgba(255,255,255,0.07);
-  }
-  .home-section {
-    display: none;
-    max-width: 1040px;
-    margin: 0 auto;
-    padding: 72px 28px 100px;
-  }
-  .home-section.active { display: block; }
-
-  /* Reveal animation for items */
-  .reveal-item {
-    opacity: 0;
-    transform: translateY(36px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .reveal-item.revealed {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Section heading */
-  .home-section-head {
-    margin-bottom: 56px;
-  }
-  .home-section-kicker {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--text-faint);
     margin-bottom: 14px;
   }
-  .home-section-title {
-    font-size: clamp(32px, 5vw, 56px);
-    font-weight: 800;
-    letter-spacing: -1.5px;
-    line-height: 1.05;
-    color: var(--text);
-  }
-  .home-section-desc {
-    margin-top: 16px;
+  .kz-cta p {
+    max-width: 760px;
+    color: var(--text-dim);
     font-size: 15px;
-    line-height: 1.7;
-    color: var(--text-faint);
-    max-width: 540px;
-    font-weight: 300;
+    line-height: 1.75;
   }
-
-  /* ── TIMELINE (Тарих) ── */
-  .timeline {
+  .kz-cta-actions {
     display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: relative;
+    flex-wrap: wrap;
+    gap: 10px;
   }
-  .timeline::before {
-    content: '';
-    position: absolute;
-    left: 110px;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.15) 8%, rgba(255,255,255,0.15) 92%, transparent);
+  @media (max-width: 1080px) {
+    .kz-hero,
+    .kz-cta {
+      grid-template-columns: 1fr;
+    }
+    .kz-timeline,
+    .kz-grid.instruments,
+    .kz-grid.figures,
+    .kz-grid.styles,
+    .kz-grid.atmospheres,
+    .kz-grid.education {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
-  .timeline-item {
-    display: grid;
-    grid-template-columns: 110px 1fr;
-    gap: 0 36px;
-    padding: 32px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    position: relative;
-  }
-  .timeline-item:last-child { border-bottom: none; }
-  .timeline-year {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: var(--text-faint);
-    text-align: right;
-    padding-top: 4px;
-    padding-right: 28px;
-  }
-  .timeline-dot {
-    position: absolute;
-    left: 106px;
-    top: 38px;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #fff;
-    box-shadow: 0 0 14px rgba(200,160,255,0.8);
-  }
-  .timeline-body {}
-  .timeline-name {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text);
-    letter-spacing: 0.3px;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 1px;
-  }
-  .timeline-text {
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--text-faint);
-    font-weight: 300;
-  }
-  .timeline-tag {
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 8px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    border: 1px solid rgba(255,255,255,0.14);
-    padding: 4px 10px;
-    border-radius: 999px;
-  }
-
-  /* ── GENRE CARDS ── */
-  .genre-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  .genre-card-kz {
-    border: 1px solid rgba(140,110,75,0.28);
-    border-radius: 20px;
-    padding: 32px 28px;
-    background: rgba(230,218,198,0.9);
-    box-shadow: 0 4px 20px rgba(100,70,30,0.1), inset 0 1px 0 rgba(255,255,255,0.5);
-    transition: all 0.35s ease;
-    cursor: default;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-  .genre-card-kz:hover {
-    border-color: var(--text-faint);
-    background: rgba(255,255,255,0.055);
-    transform: translateY(-5px);
-    box-shadow: 0 16px 40px rgba(100,70,30,0.18);
-  }
-  .genre-card-num {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--text-faint);
-  }
-  .genre-card-title {
-    font-size: 20px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    color: var(--text);
-    text-transform: uppercase;
-  }
-  .genre-card-kz-sub {
-    font-size: 11px;
-    letter-spacing: 1px;
-    color: var(--text-faint);
-    text-transform: uppercase;
-    font-weight: 600;
-  }
-  .genre-card-desc {
-    font-size: 13px;
-    line-height: 1.65;
-    color: var(--text-faint);
-    font-weight: 300;
-    flex: 1;
-  }
-  .genre-card-era {
-    font-size: 8px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    border-top: 1px solid rgba(255,255,255,0.07);
-    padding-top: 14px;
-  }
-
-  /* ── INSTRUMENT CARDS ── */
-  .instrument-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-  .instrument-card {
-    border: 1px solid rgba(140,110,75,0.28);
-    border-radius: 20px;
-    padding: 36px 32px;
-    background: rgba(230,218,198,0.9);
-    box-shadow: 0 4px 20px rgba(100,70,30,0.1), inset 0 1px 0 rgba(255,255,255,0.5);
-    display: grid;
-    grid-template-columns: 64px 1fr;
-    gap: 24px;
-    align-items: start;
-    transition: all 0.35s ease;
-    cursor: default;
-  }
-  .instrument-card:hover {
-    border-color: var(--text-faint);
-    background: rgba(255,255,255,0.05);
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(100,70,30,0.18);
-  }
-  .instrument-icon {
-    width: 64px;
-    height: 64px;
-    border: 1px solid rgba(255,255,255,0.16);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 28px;
-    background: rgba(255,255,255,0.04);
-    flex-shrink: 0;
-  }
-  .instrument-body {}
-  .instrument-name {
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-    color: var(--text);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .instrument-kz {
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    margin-bottom: 12px;
-    font-weight: 600;
-  }
-  .instrument-desc {
-    font-size: 13px;
-    line-height: 1.65;
-    color: var(--text-faint);
-    font-weight: 300;
-  }
-  .instrument-fact {
-    margin-top: 14px;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    color: var(--text-faint);
-    border-left: 2px solid rgba(255,255,255,0.14);
-    padding-left: 12px;
-    font-style: italic;
-  }
-
-  @media (max-width: 768px) {
-    .timeline::before { left: 70px; }
-    .timeline-item { grid-template-columns: 70px 1fr; gap: 0 20px; }
-    .timeline-dot { left: 66px; }
-    .genre-grid { grid-template-columns: 1fr; }
-    .instrument-grid { grid-template-columns: 1fr; }
-    .home-tabs { flex-wrap: wrap; justify-content: center; }
-    .home-section { padding: 48px 16px 72px; }
+  @media (max-width: 680px) {
+    .kz-hero,
+    .kz-section {
+      padding-left: 18px;
+      padding-right: 18px;
+    }
+    .kz-timeline,
+    .kz-grid.instruments,
+    .kz-grid.figures,
+    .kz-grid.styles,
+    .kz-grid.atmospheres,
+    .kz-grid.education {
+      grid-template-columns: 1fr;
+    }
+    .kz-timeline-item {
+      border-right: none;
+      border-bottom: 1px solid rgba(140,110,75,0.16);
+    }
+    .kz-timeline-item:last-child { border-bottom: none; }
+    .kz-visual-card { min-height: 340px; }
+    .kz-cta-actions,
+    .kz-btn { width: 100%; }
   }
 
   /* ===================== CREATE VIEW ===================== */
@@ -2895,7 +3536,8 @@
     MOODWAVE
   </div>
   <div class="nav-links">
-    <button class="nav-tab active" data-view="kazakh">Басты бет</button>
+    <button class="nav-tab active" data-view="main">Басты бет</button>
+    <button class="nav-tab" data-view="kazakh">Әлем музыкасы</button>
     <button class="nav-tab" data-view="home">Қазақ музыкасы</button>
     <button class="nav-tab" data-view="player">Ойнатқыш</button>
     <button class="nav-tab" data-view="news">Жаңалықтар</button>
@@ -2906,6 +3548,129 @@
 
 <!-- ===================== HOME VIEW ===================== -->
 <div id="home-view">
+  <div class="kz-page">
+    <section class="kz-hero" id="kzMusicHero">
+      <div class="kz-hero-copy">
+        <div class="kz-kicker">Ұлттық мұра · AI мультимедиа</div>
+        <h1 class="kz-title">Қазақ музыкасы</h1>
+        <div class="kz-subtitle">Домбыра үні, күй өнері және заманауи қазақ музыкасы бір кеңістікте.</div>
+        <p class="kz-description">Бұл бет қазақ музыкасының тарихын, ұлттық аспаптарын, ұлы тұлғаларын және қазіргі музыкалық бағыттарын таныстыруға арналған.</p>
+      </div>
+      <div class="kz-hero-visual">
+        <div class="kz-visual-card">
+          <div class="kz-wave one"></div>
+          <div class="kz-wave two"></div>
+          <div class="kz-dombyra-neck"></div>
+          <div class="kz-dombyra-line"></div>
+          <div class="kz-dombyra-string s1"></div>
+          <div class="kz-dombyra-string s2"></div>
+          <div class="kz-dombyra-body"></div>
+          <div class="kz-dombyra-soundhole"></div>
+          <div class="kz-sound-ring"></div>
+          <div class="kz-dombyra-pick"></div>
+          <span class="kz-note n1">♪</span>
+          <span class="kz-note n2">♬</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="kz-section kz-reveal">
+      <div class="kz-section-head">
+        <div class="kz-section-kicker">Тарих</div>
+        <h2 class="kz-section-title">Қазақ музыкасының тарихы</h2>
+      </div>
+      <div class="kz-timeline">
+        <article class="kz-timeline-item"><div class="kz-timeline-num">1</div><h3>Көшпелі дәуір</h3><p>Қазақ музыкасы халықтың тұрмысымен, табиғатпен және ауыз әдебиетімен тығыз байланысты болды.</p></article>
+        <article class="kz-timeline-item"><div class="kz-timeline-num">2</div><h3>Күй өнерінің дамуы</h3><p>Домбыра арқылы орындалатын күйлер халықтың тарихын, сезімін және өмірін жеткізді.</p></article>
+        <article class="kz-timeline-item"><div class="kz-timeline-num">3</div><h3>Жыраулар мен сал-серілер</h3><p>Ақан сері, Біржан сал сияқты тұлғалар қазақ ән өнерінің дамуына үлкен үлес қосты.</p></article>
+        <article class="kz-timeline-item"><div class="kz-timeline-num">4</div><h3>Кеңес дәуірі</h3><p>Қазақ музыкасы кәсіби сахнаға шығып, оркестрлер мен академиялық музыка дамыды.</p></article>
+        <article class="kz-timeline-item"><div class="kz-timeline-num">5</div><h3>Тәуелсіздік кезеңі</h3><p>Ұлттық музыка жаңа бағыттармен бірігіп, эстрада, pop, rock және этно-фьюжн стильдері дамыды.</p></article>
+        <article class="kz-timeline-item"><div class="kz-timeline-num">6</div><h3>Қазіргі AI дәуірі</h3><p>Жасанды интеллект музыка жасау, визуал генерациялау және шығармашылық идеяларды дамытуда жаңа мүмкіндіктер ашады.</p></article>
+      </div>
+    </section>
+
+    <section class="kz-section kz-reveal">
+      <div class="kz-section-head">
+        <div class="kz-section-kicker">Аспаптар</div>
+        <h2 class="kz-section-title">Ұлттық музыкалық аспаптар</h2>
+      </div>
+      <div class="kz-grid instruments">
+        <article class="kz-card"><div class="kz-card-body"><div class="kz-icon">◒</div><h3>Домбыра</h3><p>Екі ішекті шертпелі аспап. Күй, ән және халықтық әңгіме дәстүрінің басты символы.</p><button class="kz-btn" type="button">Тыңдау</button></div></article>
+        <article class="kz-card"><div class="kz-card-body"><div class="kz-icon">◐</div><h3>Қобыз</h3><p>Тылсым үнді ысқылы аспап. Қорқыт мұрасымен, бақсылық дәстүрмен және терең сезіммен байланысты.</p><button class="kz-btn" type="button">Тыңдау</button></div></article>
+        <article class="kz-card"><div class="kz-card-body"><div class="kz-icon">◇</div><h3>Жетіген</h3><p>Нәзік, медитативті дыбыс шығаратын көп ішекті аспап. Әуені жұмсақ әрі кең тынысты.</p><button class="kz-btn" type="button">Тыңдау</button></div></article>
+        <article class="kz-card"><div class="kz-card-body"><div class="kz-icon">∿</div><h3>Сыбызғы</h3><p>Дала желін еске түсіретін үрмелі аспап. Табиғатпен үндескен әуендерді жеткізеді.</p><button class="kz-btn" type="button">Тыңдау</button></div></article>
+        <article class="kz-card"><div class="kz-card-body"><div class="kz-icon">●</div><h3>Дауылпаз</h3><p>Соқпалы аспап. Жорық, салтанат және қуатты ырғақ атмосферасын қалыптастырады.</p><button class="kz-btn" type="button">Тыңдау</button></div></article>
+      </div>
+    </section>
+
+    <section class="kz-section kz-reveal">
+      <div class="kz-section-head">
+        <div class="kz-section-kicker">Тұлғалар</div>
+        <h2 class="kz-section-title">Қазақ музыкасының ұлы тұлғалары</h2>
+      </div>
+      <div class="kz-grid figures">
+        <article class="kz-card" style="--tone-a: rgba(116,82,43,0.72); --tone-b: rgba(232,203,151,0.68); --image: url('assets/kazakh-figure-1.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Құрманғазы Сағырбайұлы</h3><p>Күй өнерінің алыбы. «Сарыарқа», «Адай» сияқты күйлері халық рухын бейнелейді.</p><span class="ai-label">AI арқылы жандандыруға болады</span><button class="kz-btn secondary" type="button">Толығырақ</button></div></article>
+        <article class="kz-card" style="--tone-a: rgba(128,90,52,0.68); --tone-b: rgba(238,214,177,0.72); --image: url('assets/kazakh-figure-2.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Дина Нұрпейісова</h3><p>Домбыра дәстүрін жалғастырған ұлы күйші. Әйел орындаушылар мектебінің биік үлгісі.</p><span class="ai-label">AI арқылы жандандыруға болады</span><button class="kz-btn secondary" type="button">Толығырақ</button></div></article>
+        <article class="kz-card" style="--tone-a: rgba(92,82,66,0.72); --tone-b: rgba(238,221,184,0.76); --image: url('assets/kazakh-figure-3.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Абай Құнанбайұлы</h3><p>Ән, поэзия және философияны біріктірген тұлға. Қазақ ән мәдениетін жаңа деңгейге көтерді.</p><span class="ai-label">AI арқылы жандандыруға болады</span><button class="kz-btn secondary" type="button">Толығырақ</button></div></article>
+        <article class="kz-card" style="--tone-a: rgba(112,92,72,0.68); --tone-b: rgba(235,208,162,0.72); --image: url('assets/kazakh-figure-4.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Нұрғиса Тілендиев</h3><p>Композитор, дирижер, ұлттық әуенді кәсіби сахнамен ұштастырған өнер қайраткері.</p><span class="ai-label">AI арқылы жандандыруға болады</span><button class="kz-btn secondary" type="button">Толығырақ</button></div></article>
+        <article class="kz-card" style="--tone-a: rgba(100,94,83,0.68); --tone-b: rgba(232,210,174,0.74); --image: url('assets/kazakh-figure-5.png');"><div class="portrait-area"></div><div class="kz-card-body"><h3>Батырхан Шүкенов</h3><p>Заманауи қазақ эстрадасының жарқын өкілі. Лирикалық орындау мәнерімен есте қалды.</p><span class="ai-label">AI арқылы жандандыруға болады</span><button class="kz-btn secondary" type="button">Толығырақ</button></div></article>
+      </div>
+    </section>
+
+    <section class="kz-section kz-reveal">
+      <div class="kz-section-head">
+        <div class="kz-section-kicker">Бағыттар</div>
+        <h2 class="kz-section-title">Қазақ музыкасының бағыттары</h2>
+      </div>
+      <div class="kz-grid styles">
+        <article class="kz-card"><div class="kz-card-body"><h3>Күй</h3><p>Домбыра арқылы айтылатын аспаптық әңгіме.</p><span class="style-tag">терең</span><button class="style-play" type="button">▶</button></div></article>
+        <article class="kz-card"><div class="kz-card-body"><h3>Халық әндері</h3><p>Ұрпақтан ұрпаққа жеткен лирикалық және тұрмыстық әндер.</p><span class="style-tag">жылы</span><button class="style-play" type="button">▶</button></div></article>
+        <article class="kz-card"><div class="kz-card-body"><h3>Эстрада</h3><p>Кәсіби сахна, вокал және оркестрлік өңдеумен дамыған бағыт.</p><span class="style-tag">сахналық</span><button class="style-play" type="button">▶</button></div></article>
+        <article class="kz-card"><div class="kz-card-body"><h3>Q-pop</h3><p>Жастар мәдениеті, визуал және заманауи поп дыбысы.</p><span class="style-tag">энергия</span><button class="style-play" type="button">▶</button></div></article>
+        <article class="kz-card"><div class="kz-card-body"><h3>Этно-фьюжн</h3><p>Ұлттық аспап пен электрон, рок немесе джаз элементтерінің қосындысы.</p><span class="style-tag">эксперимент</span><button class="style-play" type="button">▶</button></div></article>
+        <article class="kz-card"><div class="kz-card-body"><h3>Заманауи қазақ pop</h3><p>Қазақ тіліндегі жаңа поп сахнасы және цифрлық тыңдау мәдениеті.</p><span class="style-tag">заманауи</span><button class="style-play" type="button">▶</button></div></article>
+      </div>
+    </section>
+
+    <section class="kz-section kz-reveal">
+      <div class="kz-section-head">
+        <div class="kz-section-kicker">AI шығармашылық</div>
+        <h2 class="kz-section-title">AI қазақ атмосферасы</h2>
+        <p class="kz-section-desc">Қазақ музыкасының образдарын AI және мультимедиа арқылы жаңа форматта елестетуге болады.</p>
+      </div>
+      <div class="kz-grid atmospheres">
+        <article class="kz-card" style="--tone-a: rgba(116,82,43,0.72); --tone-b: rgba(232,203,151,0.68); --image: url('assets/kazakh-atmosphere-1.png');"><div class="kz-atmosphere-visual"></div><div class="kz-card-body"><h3>Алматы түні</h3><p>lo-fi әуені, домбыра сазы және түнгі қала атмосферасы.</p><div class="kz-tags"><span>lo-fi</span><span>домбыра</span></div><button class="kz-btn" type="button">Көру</button></div></article>
+        <article class="kz-card" style="--tone-a: rgba(102,121,130,0.6); --tone-b: rgba(227,215,192,0.78); --image: url('assets/kazakh-atmosphere-2.png');"><div class="kz-atmosphere-visual"></div><div class="kz-card-body"><h3>Сарыарқа даласы</h3><p>кең дала, қобыз үні және тыныш табиғат сезімі.</p><div class="kz-tags"><span>қобыз</span><span>дала</span></div><button class="kz-btn" type="button">Көру</button></div></article>
+        <article class="kz-card" style="--tone-a: rgba(142,78,42,0.68); --tone-b: rgba(238,206,158,0.72); --image: url('assets/kazakh-atmosphere-3.png');"><div class="kz-atmosphere-visual"></div><div class="kz-card-body"><h3>Киіз үйдегі кеш</h3><p>дәстүрлі әуен, жылы жарық және ұлттық атмосфера.</p><div class="kz-tags"><span>дәстүр</span><span>жылы</span></div><button class="kz-btn" type="button">Көру</button></div></article>
+        <article class="kz-card" style="--tone-a: rgba(128,95,133,0.56); --tone-b: rgba(236,216,190,0.76); --image: url('assets/kazakh-atmosphere-4.png');"><div class="kz-atmosphere-visual"></div><div class="kz-card-body"><h3>Заманауи Q-pop сахнасы</h3><p>жарық, ритм және заманауи қазақ музыкасының энергиясы.</p><div class="kz-tags"><span>Q-pop</span><span>ритм</span></div><button class="kz-btn" type="button">Көру</button></div></article>
+      </div>
+    </section>
+
+    <section class="kz-section kz-reveal">
+      <div class="kz-section-head">
+        <div class="kz-section-kicker">Маңызы</div>
+        <h2 class="kz-section-title">Неге қазақ музыкасы маңызды?</h2>
+      </div>
+      <div class="kz-grid education">
+        <article class="kz-card"><div class="kz-card-body"><h3>Мәдени мұра</h3><p>Қазақ музыкасы халықтың тарихын, дүниетанымын және рухани жадын сақтайды.</p></div></article>
+        <article class="kz-card"><div class="kz-card-body"><h3>Ұлттық аспаптар</h3><p>Домбыра, қобыз, жетіген сияқты аспаптар ұлттық дыбыс пен мәдени ерекшелікті танытады.</p></div></article>
+        <article class="kz-card"><div class="kz-card-body"><h3>Ұрпақ байланысы</h3><p>Музыка арқылы өткен дәуір мен қазіргі шығармашылық бір-бірімен жалғасады.</p></div></article>
+      </div>
+    </section>
+
+    <section class="kz-section kz-reveal">
+      <div class="kz-cta">
+        <div>
+          <h2>Қазақ музыкасын бірге зерттейік</h2>
+          <p>Ұлттық мұраны заманауи AI және мультимедиа технологиялары арқылы жаңаша таныңыз.</p>
+        </div>
+        <div class="kz-cta-actions">
+          <button class="kz-btn main-action" type="button" data-jump="player">AI атмосфера жасау</button>
+          <button class="kz-btn secondary main-action" type="button" data-jump="kazakh">Әлем музыкасына өту</button>
+        </div>
+      </div>
+    </section>
+  </div>
 
   <!-- Hero -->
   <div class="home-hero" id="homeHero">
@@ -3129,6 +3894,174 @@
   </div>
 </div>
 
+<!-- ===================== MAIN VIEW ===================== -->
+<div id="main-view">
+  <div class="main-shell">
+    <section class="main-hero" id="mainHero">
+      <div class="main-ornament-orbit"></div>
+      <div class="main-copy">
+        <div class="main-kicker">MOODWAVE · Музыка әлемі</div>
+        <h1 class="main-title">Музыка әлеміне қош келдіңіз!</h1>
+        <div class="main-subtitle">Музыка, мәдениет және жасанды интеллект бір кеңістікте.</div>
+        <p class="main-description">
+          Бұл платформада сіз әлем музыкасын зерттеп, қазақ музыкасының тарихымен танысып, AI DJ арқылы көңіл күйіңізге сай атмосфера құра аласыз.
+        </p>
+        <div class="main-actions">
+          <button class="main-btn primary main-action" type="button" data-jump="kazakh">Саяхатты бастау</button>
+          <button class="main-btn secondary main-action" type="button" data-jump="player">AI DJ-мен сөйлесу</button>
+        </div>
+      </div>
+      <div class="main-visual">
+        <div class="main-visual-stage">
+          <span class="main-note n1">♪</span>
+          <span class="main-note n2">♬</span>
+          <span class="main-note n3">♩</span>
+          <div class="main-wave one"></div>
+          <div class="main-wave two"></div>
+          <div class="main-wave three"></div>
+          <div class="main-glass-panel">
+            <div class="main-glass-label">AI · мәдениет · мультимедиа</div>
+            <div class="main-glass-title">Көңіл күйден музыкалық атмосфераға</div>
+            <div class="main-eq"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="main-section main-fade">
+      <div class="main-section-head">
+        <div class="main-section-kicker">Платформа</div>
+        <h2 class="main-section-title">Жоба мүмкіндіктері</h2>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">◎</div>
+          <h3>Әлем музыкасы</h3>
+          <p>Әртүрлі елдердің музыкалық мәдениетін, жанрларын және ұлттық аспаптарын интерактивті карта арқылы зерттеңіз.</p>
+          <button class="main-card-link main-action" type="button" data-jump="kazakh">Ашу</button>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">◈</div>
+          <h3>Қазақ музыкасы</h3>
+          <p>Қазақ музыкасының тарихы, ұлттық аспаптары, күйлері және танымал орындаушылары туралы біліңіз.</p>
+          <button class="main-card-link main-action" type="button" data-jump="home">Зерттеу</button>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">✦</div>
+          <h3>AI DJ</h3>
+          <p>Көңіл күйіңізді сипаттаңыз, ал жасанды интеллект сізге сәйкес музыкалық атмосфера ұсынады.</p>
+          <button class="main-card-link main-action" type="button" data-jump="player">Сөйлесу</button>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">✧</div>
+          <h3>AI Studio</h3>
+          <p>Музыкалық идеялар, атмосфера, обложка және визуал жасауға арналған шығармашылық AI аймағы.</p>
+          <button class="main-card-link main-action" type="button" data-jump="create">Жасау</button>
+        </article>
+      </div>
+    </section>
+
+    <section class="main-section main-fade">
+      <div class="main-section-head">
+        <div class="main-section-kicker">Үдеріс</div>
+        <h2 class="main-section-title">Музыкалық саяхат қалай жұмыс істейді?</h2>
+      </div>
+      <div class="journey-timeline">
+        <article class="journey-step">
+          <div class="journey-step-num">1</div>
+          <h3>Елді таңдаңыз</h3>
+          <p>Әлем картасынан музыкалық мәдениетін білгіңіз келетін елді белгілеңіз.</p>
+        </article>
+        <article class="journey-step">
+          <div class="journey-step-num">2</div>
+          <h3>Музыка мәдениетін зерттеңіз</h3>
+          <p>Жанрлар, аспаптар, тарих және орындаушылар туралы қысқаша мәлімет алыңыз.</p>
+        </article>
+        <article class="journey-step">
+          <div class="journey-step-num">3</div>
+          <h3>AI атмосфера жасаңыз</h3>
+          <p>Көңіл күйіңізді сипаттап, AI DJ арқылы музыкалық бағыт таңдаңыз.</p>
+        </article>
+        <article class="journey-step">
+          <div class="journey-step-num">4</div>
+          <h3>Тыңдаңыз және шабыт алыңыз</h3>
+          <p>Ұсынылған тректерді тыңдап, жаңа идеялар мен шығармашылық шабыт табыңыз.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="main-section main-fade">
+      <div class="main-section-head">
+        <div class="main-section-kicker">Күн таңдауы</div>
+        <h2 class="main-section-title">Бүгінгі музыкалық атмосфера</h2>
+      </div>
+      <article class="featured-atmosphere">
+        <div class="featured-visual">
+          <div class="featured-play">▶</div>
+          <div class="featured-wave"></div>
+        </div>
+        <div class="featured-body">
+          <h3>Алматы түні</h3>
+          <p>Жұмсақ lo-fi әуені, домбыра сазы және түнгі қаланың тыныш атмосферасы.</p>
+          <div class="tag-list main-tags">
+            <span>lo-fi</span>
+            <span>домбыра</span>
+            <span>calm</span>
+            <span>night</span>
+          </div>
+          <button class="main-btn primary main-action" type="button" data-jump="player">Атмосфераны көру</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="main-section main-fade">
+      <div class="main-section-head">
+        <div class="main-section-kicker">Технология</div>
+        <h2 class="main-section-title">AI және музыка</h2>
+      </div>
+      <div class="ai-layout">
+        <div class="ai-card">
+          <p>
+            Бұл жобада жасанды интеллект музыка тыңдау тәжірибесін оқу, зерттеу және шығармашылықпен байланыстырады. AI пайдаланушының көңіл күйін түсініп, соған сай атмосфера ұсынуға көмектеседі.
+          </p>
+        </div>
+        <div class="ai-list">
+          <div class="ai-list-item">Көңіл күйге сай музыка ұсыну</div>
+          <div class="ai-list-item">AI DJ арқылы сұхбаттасу</div>
+          <div class="ai-list-item">Музыкалық атмосфера жасау</div>
+          <div class="ai-list-item">Визуал және идея генерациялау</div>
+          <div class="ai-list-item">Мультимедиялық шығармашылықты дамыту</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="main-section main-fade">
+      <div class="kazakh-highlight">
+        <div>
+          <h2>Қазақ музыкасы жобаның жүрегі</h2>
+          <p>
+            Жоба әлем музыкасын таныстырса да, қазақ музыкасы ерекше орын алады. Домбыра, қобыз, күй өнері және заманауи қазақ музыкасы платформада жеке бағыт ретінде көрсетіледі.
+          </p>
+        </div>
+        <button class="main-btn primary main-action" type="button" data-jump="home">Қазақ музыкасын зерттеу</button>
+      </div>
+    </section>
+
+    <section class="main-section main-fade">
+      <div class="final-cta">
+        <div>
+          <h2>Музыка әлеміне саяхат бастаңыз</h2>
+          <p>Әлем елдерінің музыкасын зерттеп, өз атмосфераңызды AI көмегімен жасаңыз.</p>
+        </div>
+        <div class="main-cta-actions">
+          <button class="main-btn primary main-action" type="button" data-jump="kazakh">Әлем музыкасы</button>
+          <button class="main-btn secondary main-action" type="button" data-jump="player">AI DJ</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
 <!-- ===================== KAZAKH MUSIC VIEW ===================== -->
 <div id="kazakh-view">
   <section class="welcome-hero" id="welcomeHero">
@@ -3155,7 +4088,7 @@
         <button class="map-marker" type="button" data-country="usa" style="left:23.8%; top:34.5%;">АҚШ</button>
         <button class="map-marker" type="button" data-country="turkey" style="left:54.3%; top:40.4%;">Түркия</button>
         <button class="map-marker" type="button" data-country="korea" style="left:79.5%; top:39.4%;">Корея</button>
-        <button class="map-marker" type="button" data-country="japan" style="left:84.2%; top:39.2%;">Жапония</button>
+        <button class="map-marker" type="button" data-country="japan" style="left:88.2%; top:37.8%;">Жапония</button>
         <button class="map-marker" type="button" data-country="france" style="left:49.2%; top:34.8%;">Франция</button>
         <div class="map-tooltip" id="mapTooltip" aria-hidden="true">
           <div class="map-tooltip-title" id="mapTooltipTitle"></div>
@@ -3173,7 +4106,7 @@
         <h2 class="atmosphere-title">Музыкалық атмосфера</h2>
       </div>
       <div class="atmosphere-grid">
-        <article class="atmosphere-card" style="--tone-a: rgba(116, 82, 43, 0.78); --tone-b: rgba(232, 203, 151, 0.62);">
+        <article class="atmosphere-card" style="--tone-a: rgba(116, 82, 43, 0.78); --tone-b: rgba(232, 203, 151, 0.62); --image: url('assets/world-atmosphere-1.png');">
           <div class="atmosphere-image"></div>
           <div class="atmosphere-body">
             <h3>Алматы түні</h3>
@@ -3181,7 +4114,7 @@
             <button class="atmosphere-play" type="button">Ойнату</button>
           </div>
         </article>
-        <article class="atmosphere-card" style="--tone-a: rgba(102, 121, 130, 0.68); --tone-b: rgba(227, 215, 192, 0.78);">
+        <article class="atmosphere-card" style="--tone-a: rgba(102, 121, 130, 0.68); --tone-b: rgba(227, 215, 192, 0.78); --image: url('assets/world-atmosphere-2.png');">
           <div class="atmosphere-image"></div>
           <div class="atmosphere-body">
             <h3>Токио жаңбыры</h3>
@@ -3189,7 +4122,7 @@
             <button class="atmosphere-play" type="button">Ойнату</button>
           </div>
         </article>
-        <article class="atmosphere-card" style="--tone-a: rgba(142, 78, 42, 0.7); --tone-b: rgba(238, 206, 158, 0.72);">
+        <article class="atmosphere-card" style="--tone-a: rgba(142, 78, 42, 0.7); --tone-b: rgba(238, 206, 158, 0.72); --image: url('assets/world-atmosphere-3.png');">
           <div class="atmosphere-image"></div>
           <div class="atmosphere-body">
             <h3>Түрік кеші</h3>
@@ -3197,7 +4130,7 @@
             <button class="atmosphere-play" type="button">Ойнату</button>
           </div>
         </article>
-        <article class="atmosphere-card" style="--tone-a: rgba(128, 95, 133, 0.58); --tone-b: rgba(236, 216, 190, 0.76);">
+        <article class="atmosphere-card" style="--tone-a: rgba(128, 95, 133, 0.58); --tone-b: rgba(236, 216, 190, 0.76); --image: url('assets/world-atmosphere-4.png');">
           <div class="atmosphere-image"></div>
           <div class="atmosphere-body">
             <h3>Сеул неоны</h3>
@@ -3205,7 +4138,7 @@
             <button class="atmosphere-play" type="button">Ойнату</button>
           </div>
         </article>
-        <article class="atmosphere-card" style="--tone-a: rgba(92, 82, 66, 0.74); --tone-b: rgba(238, 221, 184, 0.78);">
+        <article class="atmosphere-card" style="--tone-a: rgba(92, 82, 66, 0.74); --tone-b: rgba(238, 221, 184, 0.78); --image: url('assets/world-atmosphere-5.png');">
           <div class="atmosphere-image"></div>
           <div class="atmosphere-body">
             <h3>Париж джазы</h3>
@@ -4720,6 +5653,9 @@
   const createView = document.getElementById('create-view');
   const homeView   = document.getElementById('home-view');
   const kazakhView = document.getElementById('kazakh-view');
+  const mainView   = document.getElementById('main-view');
+  const mainHero   = document.getElementById('mainHero');
+  const mainRevealItems = document.querySelectorAll('#main-view .main-fade');
   const welcomeHero = document.getElementById('welcomeHero');
   const welcomeQuote = document.getElementById('welcomeQuote');
   const startJourneyBtn = document.getElementById('startJourneyBtn');
@@ -4745,8 +5681,17 @@
     welcomeQuote.textContent = welcomeQuotes[Math.floor(Math.random() * welcomeQuotes.length)];
   }
   requestAnimationFrame(() => {
+    mainHero?.classList.add('revealed');
     welcomeHero?.classList.add('revealed');
   });
+
+  function revealMainSections() {
+    mainRevealItems.forEach((el, i) => {
+      el.style.transitionDelay = (i * 0.08) + 's';
+      requestAnimationFrame(() => el.classList.add('revealed'));
+    });
+  }
+  revealMainSections();
 
   const countryMusicData = {
     kazakhstan: {
@@ -4893,47 +5838,62 @@
     createView.style.display = view === 'create' ? 'block' : 'none';
     homeView.style.display   = view === 'home'   ? 'block' : 'none';
     kazakhView.style.display = view === 'kazakh' ? 'block' : 'none';
+    mainView.style.display   = view === 'main'   ? 'block' : 'none';
+    if (view === 'main') {
+      mainHero?.classList.add('revealed');
+      revealMainSections();
+    }
+    if (view === 'kazakh') welcomeHero?.classList.add('revealed');
     if (view === 'news' && !newsLoaded) loadNews();
     if (view === 'home') initHomeAnimations();
   }
 
   // ── Home page animations ──
   function initHomeAnimations() {
-    // Hero reveal
     requestAnimationFrame(() => {
-      document.getElementById('homeHero').classList.add('revealed');
+      document.getElementById('kzMusicHero')?.classList.add('revealed');
     });
-
-    // Section tab switching
-    document.querySelectorAll('.home-tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.home-tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.querySelectorAll('.home-section').forEach(s => s.classList.remove('active'));
-        const target = document.getElementById('section-' + btn.dataset.section);
-        if (target) {
-          target.classList.add('active');
-          triggerReveal(target);
-          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    });
-
-    // Initial section reveal
-    triggerReveal(document.getElementById('section-history'));
+    triggerReveal(document.getElementById('home-view'));
   }
 
   function triggerReveal(section) {
     if (!section) return;
-    const items = section.querySelectorAll('.reveal-item');
+    const items = section.querySelectorAll('.reveal-item, .kz-reveal');
     items.forEach((el, i) => {
       el.style.transitionDelay = (i * 0.08) + 's';
       requestAnimationFrame(() => { el.classList.add('revealed'); });
     });
   }
 
-  navTabs.forEach(btn => btn.addEventListener('click', () => switchView(btn.dataset.view)));
-  document.getElementById('navLogo').addEventListener('click', () => switchView('player'));
+  function runSoftPress(el, className = 'soft-press') {
+    if (!el) return;
+    el.classList.remove(className);
+    void el.offsetWidth;
+    el.classList.add(className);
+  }
+
+  document.addEventListener('click', (event) => {
+    const pressTarget = event.target.closest('button, .nav-logo, .country-marker, .feature-card, .kz-card, .atmosphere-card');
+    if (pressTarget) runSoftPress(pressTarget);
+
+    const textTarget = event.target.closest('.kz-title, .kz-section-title, .kz-card h3, .main-title, .main-section-title, .atmosphere-title, .atmosphere-card h3');
+    if (textTarget) runSoftPress(textTarget, 'text-spark');
+  });
+
+  navTabs.forEach(btn => btn.addEventListener('click', () => {
+    runSoftPress(btn);
+    setTimeout(() => switchView(btn.dataset.view), 120);
+  }));
+  document.querySelectorAll('.main-action').forEach(btn => {
+    btn.addEventListener('click', () => {
+      runSoftPress(btn);
+      setTimeout(() => switchView(btn.dataset.jump), 120);
+    });
+  });
+  document.getElementById('navLogo').addEventListener('click', () => {
+    runSoftPress(document.getElementById('navLogo'));
+    setTimeout(() => switchView('player'), 120);
+  });
 
   // ── News fetch & render ──
   let newsLoaded = false;
